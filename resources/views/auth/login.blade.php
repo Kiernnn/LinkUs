@@ -11,6 +11,7 @@
             <h1 class="text-center mb-2" style="color: #000000">{{ __('Welcome to Link Us!') }}</h1>
             <p class="text-center mb-4" style="color: #000000">{{ __('Please enter your email address and password') }}</p>
             <form method="POST" action="{{ route('login') }}">
+                @csrf
                 <div data-mdb-input-init class="form-outline mb-2">
                     <input type="email" id="email" placeholder="{{ __('Email or Phone') }}" required />
                     @error('email')
