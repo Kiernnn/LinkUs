@@ -35,6 +35,7 @@
                 </div> -->
                 <div class="button-container mb-0">
                     <button type="submit" class="submit">{{ __('Login') }}</button>
+                    
                 </div>
             </form>
             <div class="d-flex align-items-center justify-content-center pb-4">

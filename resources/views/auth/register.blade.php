@@ -717,8 +717,8 @@
             </svg>
         </div>
         <div class="right">
-            <h1 class="mb-3">{{ __('Registration Form') }}</h1>
-            <form method="POST" action="{{ route('registration.post') }}" method="post">
+            <h1 class="mb-3">{{ __('Register') }}</h1>
+            <form method="POST" action="{{ route('register') }}" method="post">
                 @csrf
                 <button type="button" class="mb-0"><i class="fa-brands fa-google float-start"></i>Log in with
                     Google</button>
