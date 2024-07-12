@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Route;
 // })->name('register');
 
 Route::get('/', function () {
-    return auth('welcome');
+    return view('welcome');
 });
 
 Auth::routes();
