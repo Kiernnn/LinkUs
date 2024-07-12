@@ -1,5 +1,6 @@
 @extends('layouts.master')
-@section('title', 'LinkUs')
+@section('title', 'Register')
+@section('content')
 
 @section('style')
     <link href="{{ asset('css/register.css') }}" rel="stylesheet">
@@ -7,6 +8,21 @@
 
 @section('content')
     <div class="container">
+        @if($errors->any())
+            <div class="col-12">
+              @foreach($errors->all() as $error)
+                <div class="alert alert-danger">{{$error}}</div>
+              @endforeach
+            </div>
+          @endif
+        
+          @if(session()->has('error'))
+          <div class="alert alert-danger">{{session('error')}}</div>
+          @endif
+
+          @if(session()->has('success'))
+          <div class="alert alert-success">{{session('success')}}</div>
+          @endif
         <div class="left">
             <svg class="animated" id="freepik_stories-feed" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500"
                 version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.com/svgjs">
@@ -702,7 +718,7 @@
         </div>
         <div class="right">
             <h1 class="mb-3">{{ __('Registration Form') }}</h1>
-            <form method="POST" action="{{ route('register') }}">
+            <form method="POST" action="{{ route('registration.post') }}" method="post">
                 @csrf
                 <button type="button" class="mb-0"><i class="fa-brands fa-google float-start"></i>Log in with
                     Google</button>
