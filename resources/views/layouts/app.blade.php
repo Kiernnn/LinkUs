@@ -25,7 +25,7 @@
             <div class="container">
                 <a class="navbar-brand" href="{{ route('logout') }}" onclick="event.preventDefault();
                      document.getElementById('logout-form').submit();">
-                    Hello
+                    Home
                 </a>
                 <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                     @csrf
