@@ -1,6 +1,6 @@
 @extends('layouts.master')
 @section('title', 'Register')
-@section('content')
+{{-- @section('content') --}}
 
 @section('style')
     <link href="{{ asset('css/register.css') }}" rel="stylesheet">
@@ -8,21 +8,21 @@
 
 @section('content')
     <div class="container">
-        @if($errors->any())
+        @if ($errors->any())
             <div class="col-12">
-              @foreach($errors->all() as $error)
-                <div class="alert alert-danger">{{$error}}</div>
-              @endforeach
+                @foreach ($errors->all() as $error)
+                    <div class="alert alert-danger">{{ $error }}</div>
+                @endforeach
             </div>
-          @endif
-        
-          @if(session()->has('error'))
-          <div class="alert alert-danger">{{session('error')}}</div>
-          @endif
+        @endif
 
-          @if(session()->has('success'))
-          <div class="alert alert-success">{{session('success')}}</div>
-          @endif
+        @if (session()->has('error'))
+            <div class="alert alert-danger">{{ session('error') }}</div>
+        @endif
+
+        @if (session()->has('success'))
+            <div class="alert alert-success">{{ session('success') }}</div>
+        @endif
         <div class="left">
             <svg class="animated" id="freepik_stories-feed" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500"
                 version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.com/svgjs">
@@ -718,10 +718,12 @@
         </div>
         <div class="right">
             <h1 class="mb-3">{{ __('Registration Form') }}</h1>
-            <form method="POST" action="{{ route('registration.post') }}" method="post">
+            <form method="POST" action="{{ route('register') }}" method="post">
                 @csrf
-                <button type="button" class="mb-0"><i class="fa-brands fa-google float-start"></i>Log in with
-                    Google</button>
+                <button type="button" class="mb-0">
+                    <i class="fa-brands fa-google float-start"></i>
+                    {{ __('Log in with Google') }}
+                </button>
                 <p class="text-center mb-0">{{ __('or') }}</p>
                 <div class="row">
                     <div class="col-md-6 mb-0">
@@ -780,8 +782,8 @@
                     <div class="button-container mb-0">
                         @if (Route::has('login'))
                             <div class="d-flex align-items-center justify-content-center pb-4">
-                                <p class="mb-0 mt-4 me-2">Already have an account? <a href="{{ route('login') }}"
-                                        class="text-dark">Login now!</a>
+                                <p class="mb-0 mt-4 me-2">{{ __('Already have an account?') }} <a
+                                        href="{{ route('login') }}" class="text-dark">{{ __('Login now!') }}</a>
                                 </p>
                             </div>
                         @endif
