@@ -8,7 +8,7 @@
 
 @section('content')
     <div class="container">
-        @if ($errors->any())
+        {{-- @if ($errors->any())
             <div class="col-12">
                 @foreach ($errors->all() as $error)
                     <div class="alert alert-danger">{{ $error }}</div>
@@ -22,7 +22,7 @@
 
         @if (session()->has('success'))
             <div class="alert alert-success">{{ session('success') }}</div>
-        @endif
+        @endif --}}
         <div class="left">
             <svg class="animated" id="freepik_stories-feed" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500"
                 version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.com/svgjs">
@@ -718,7 +718,7 @@
         </div>
         <div class="right">
             <h1 class="mb-3">{{ __('Registration Form') }}</h1>
-            <form method="POST" action="{{ route('register') }}" method="post">
+            <form method="POST" action="{{ route('register') }}">
                 @csrf
                 <button type="button" class="mb-0">
                     <i class="fa-brands fa-google float-start"></i>
@@ -728,17 +728,32 @@
                 <div class="row">
                     <div class="col-md-6 mb-0">
                         <div class="form-outline mb-0">
-                            <input type="text" id="firstName" placeholder="{{ __('First Name') }}" required />
+                            <input type="text" id="firstName" placeholder="{{ __('First Name') }}" name="firstName"
+                                value="{{ old('firstName') }}" required autocomplete="firstName" autofocus />
+
+                            @error('firstName')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
                         </div>
                     </div>
                     <div class="col-md-6 mb-0">
                         <div class="form-outline mb-0">
-                            <input type="text" id="lastName" placeholder="{{ __('Last Name') }}" required />
+                            <input type="text" id="lastName" placeholder="{{ __('Last Name') }}" name="lastName"
+                                value="{{ old('lastName') }}" required autocomplete="lastName" />
+
+                            @error('lastName')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
                         </div>
                     </div>
                     <div class="col-md-6 mb-0">
                         <div class="form-outline mb-0">
-                            <input type="text" id="userName" placeholder="{{ __('User Name') }}" required />
+                            <input type="text" id="userName" placeholder="{{ __('User Name') }}" name="userName"
+                                value="{{ old('userName') }}" required autocomplete="userName" />
 
                             @error('userName')
                                 <span class="invalid-feedback" role="alert">
@@ -750,21 +765,38 @@
                     <div class="col-md-6 mb-0">
                         <div class="form-outline mb-0">
                             <input type="date" id="birthDate" class="birthdate" placeholder="{{ __('Birth Date') }}"
-                                required />
+                                value="{{ old('birthDate') }}" required />
+
+                            @error('birthDate')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
                         </div>
                     </div>
                     <!-- Gender Section -->
                     <div class="gender-selection mt-0">
                         <label for="gender">{{ __('Gender') }}</label>
-                        <input type="radio" id="male" name="gender" value="male" required>
+                        <input type="radio" id="male" name="gender" value="male"
+                            {{ old('gender') == 'male' ? 'checked' : '' }}>
                         <label for="male">{{ __('Male') }}</label>
-                        <input type="radio" id="female" name="gender" value="female" required>
+                        <input type="radio" id="female" name="gender" value="female"
+                            {{ old('gender') == 'female' ? 'checked' : '' }}>
                         <label for="female">{{ __('Female') }}</label>
-                        <input type="radio" id="other" name="gender" value="other" required>
+                        <input type="radio" id="other" name="gender" value="other"
+                            {{ old('gender') == 'other' ? 'checked' : '' }}>
                         <label for="other">{{ __('Other') }}</label>
+
+                        @error('gender')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
                     </div>
                     <div class="form-outline mb-0">
-                        <input type="email" id="email" placeholder="{{ __('Email or Phone') }}" required />
+                        <input type="email" id="email" placeholder="{{ __('Email or Phone') }}" name="email"
+                            value="{{ old('email') }}" required autocomplete="email" />
+
                         @error('email')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
@@ -772,7 +804,9 @@
                         @enderror
                     </div>
                     <div class="form-outline mb-0">
-                        <input type="password" id="password" placeholder="{{ __('Password') }}" required />
+                        <input type="password" id="password" placeholder="{{ __('Password') }}" name="password"
+                            required autocomplete="new-password" />
+
                         @error('password')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
