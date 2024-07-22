@@ -45,12 +45,66 @@ body {
     width: 100%;
     max-width: 400px;
 }
+.oauthButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    padding: auto 15px 15px auto;
+    width: 100%;
+    height: 50px;
+    border-radius: 5px;
+    border: 2px solid #323232;
+    background-color: #fff;
+    box-shadow: 4px 4px #323232;
+    font-size: 16px;
+    font-weight: 600;
+    color: #323232;
+    cursor: pointer;
+    transition: all 250ms;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+  }
+
+  .oauthButton::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 0;
+    background-color: #000;
+    z-index: -1;
+    -webkit-box-shadow: 4px 8px 19px -3px rgba(0, 0, 0, 0.27);
+    box-shadow: 4px 8px 19px -3px rgba(0, 0, 0, 0.27);
+    transition: all 250ms;
+  }
+
+  .oauthButton:hover {
+    color: #fff;
+  }
+
+  .oauthButton:hover::before {
+    width: 100%;
+  }
+  .icon {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
 .right form input {
     width: 100%;
-    padding: 15px;
+    padding: 0.875rem;
     margin-bottom: 20px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
+    font-size: 1rem;
+    border: 1px solid #000;
+    border-radius: 0.5rem;
+    box-shadow: 2.5px 3px 0 #000;
+    outline: none;
+    transition: ease 0.25s;
+}
+.right form input:focus {
+    box-shadow: 4px 6px 0 #000;
 }
 
 .gender-selection {
@@ -59,8 +113,11 @@ body {
     margin: 10px;
     margin-right: 10px;
     margin-bottom: 20px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
+    border: 1px solid #000;
+    border-radius: 0.5rem;
+    box-shadow: 2.5px 3px 0 #000;
+    outline: none;
+    transition: ease 0.25s;
 }
 
 .gender-selection label {
@@ -100,56 +157,31 @@ input[type="radio"]:checked + label {
     color: #000;
     font-weight: bold;
 }
-.right form button {
-    width: 100%;
-    padding: 15px;
-    background-color: #fff;
-    color: #000;
-    border: 2px solid #000;
-    border-radius: 5px;
-    cursor: pointer;
-}
-.right i {
-    font-size: 23px;
-    text-align: center;
-}
 .right .register {
-    color: #fff;
-    background-color: #000;
     display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    width: 100px;
+    width: 80px;
     height: 40px;
+    color: #fff;
+    background: #000;
+    text-transform: uppercase;
+    font-size: 15px;
+    align-items: center;
+    justify-content: center;
     padding: 15px;
-    border: 2px solid #fff;
-    border-radius: 5px;
+    border: 1px solid #7e7e7e;
+    border-radius: 0.5rem;
+    box-shadow: 2.5px 3px 0 #7e7e7e;
     cursor: pointer;
+    margin: 35px 0;
+}
+.register:active {
+    box-shadow: 4px 6px 0 #7e7e7e;
+    transform: translate(3px, 3px);
 }
 .button-container {
     display: flex;
     justify-content: flex-end;
     align-items: center;
-}
-/* .right .register {
-    width: 50%;
-    padding: 15px;
-    background-color: #000;
-    color: #fff;
-    border: 2px solid #fff;
-    border-radius: 5px;
-    cursor: pointer;
- } */
-.right form button:hover{
-    color: #fff;
-    background-color: #000;
-    border: 2px solid #fff;
-}
-.right .register:hover {
-    color: #000;
-    background-color: #fff;
-    border: 2px solid #000;
 }
 
 /* For devices with a width of 600px or less */
