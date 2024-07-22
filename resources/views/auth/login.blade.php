@@ -15,7 +15,7 @@
                 <div data-mdb-input-init class="form-outline mb-3">
                     <input type="email" id="email" placeholder="{{ __('Email or Phone') }}" name="email" required />
                     @error('email')
-                        <span class="invalid-feedback" role="alert">
+                        <span class="invalid-feedback" role="alert" style="background-color:red;">
                             <strong>{{ $message }}</strong>
                         </span>
                     @enderror
@@ -23,16 +23,12 @@
                 <div data-mdb-input-init class="form-outline mb-0">
                     <input type="password" id="password" placeholder="{{ __('Password') }}" name="password" required />
                     @error('password')
-                        <span class="invalid-feedback" role="alert">
+                        <span class="invalid-feedback" role="alert" style="background-color:red;">
                             <strong>{{ $message }}</strong>
                         </span>
                     @enderror
                 </div>
-                <!-- <div class="text-center pt-1 mb-0 pb-1">
-                                                                                                            @if (Route::has('password.request'))
-    <a class="text-danger" href="{{ route('password.request') }}">{{ __('Forgot Your Password?') }}</a>
-    @endif
-                                                                                                        </div> -->
+                                                                                    
                 <div class="button-container mb-0">
                     <button type="submit" class="submit">{{ __('Login') }}</button>
                 </div>

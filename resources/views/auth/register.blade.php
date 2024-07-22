@@ -728,7 +728,7 @@
                     <div class="col-md-6 mb-0">
                         <div class="form-outline mb-0">
                             <input type="text" id="firstName" placeholder="{{ __('First Name') }}" name="firstName"
-                                value="{{ old('firstName') }}" required/>
+                                value="{{ old('firstName') }}"/>
 
                             @error('firstName')
                                 <span class="invalid-feedback" role="alert">
@@ -740,7 +740,7 @@
                     <div class="col-md-6 mb-0">
                         <div class="form-outline mb-0">
                             <input type="text" id="lastName" placeholder="{{ __('Last Name') }}" name="lastName"
-                                value="{{ old('lastName') }}" required/>
+                                value="{{ old('lastName') }}"/>
 
                             @error('lastName')
                                 <span class="invalid-feedback" role="alert">
@@ -752,7 +752,7 @@
                     <div class="col-md-6 mb-0">
                         <div class="form-outline mb-0">
                             <input type="text" id="userName" placeholder="{{ __('User Name') }}" name="userName"
-                                value="{{ old('userName') }}" required/>
+                                value="{{ old('userName') }}"/>
 
                             @error('userName')
                                 <span class="invalid-feedback" role="alert">
@@ -764,7 +764,7 @@
                     <div class="col-md-6 mb-0">
                         <div class="form-outline mb-0">
                             <input type="date" id="birthDate" class="birthdate" placeholder="{{ __('Birth Date') }}"
-                                value="{{ old('birthDate') }}" required />
+                                value="{{ old('birthDate') }}" />
 
                             @error('birthDate')
                                 <span class="invalid-feedback" role="alert">
