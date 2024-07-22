@@ -728,7 +728,7 @@
                     <div class="col-md-6 mb-0">
                         <div class="form-outline mb-0">
                             <input type="text" id="firstName" placeholder="{{ __('First Name') }}" name="firstName"
-                                value="{{ old('firstName') }}" required autocomplete="firstName" autofocus />
+                                value="{{ old('firstName') }}" required/>
 
                             @error('firstName')
                                 <span class="invalid-feedback" role="alert">
@@ -740,7 +740,7 @@
                     <div class="col-md-6 mb-0">
                         <div class="form-outline mb-0">
                             <input type="text" id="lastName" placeholder="{{ __('Last Name') }}" name="lastName"
-                                value="{{ old('lastName') }}" required autocomplete="lastName" />
+                                value="{{ old('lastName') }}" required/>
 
                             @error('lastName')
                                 <span class="invalid-feedback" role="alert">
@@ -752,7 +752,7 @@
                     <div class="col-md-6 mb-0">
                         <div class="form-outline mb-0">
                             <input type="text" id="userName" placeholder="{{ __('User Name') }}" name="userName"
-                                value="{{ old('userName') }}" required autocomplete="userName" />
+                                value="{{ old('userName') }}" required/>
 
                             @error('userName')
                                 <span class="invalid-feedback" role="alert">
@@ -794,7 +794,7 @@
                     </div>
                     <div class="form-outline mb-0">
                         <input type="email" id="email" placeholder="{{ __('Email or Phone') }}" name="email"
-                            value="{{ old('email') }}" required autocomplete="email" />
+                            value="{{ old('email') }}" required/>
 
                         @error('email')
                             <span class="invalid-feedback" role="alert">
@@ -804,7 +804,7 @@
                     </div>
                     <div class="form-outline mb-0">
                         <input type="password" id="password" placeholder="{{ __('Password') }}" name="password"
-                            required autocomplete="new-password" />
+                            required/>
 
                         @error('password')
                             <span class="invalid-feedback" role="alert">
