@@ -702,7 +702,7 @@
             </svg>
         </div>
         <div class="right">
-            <h1 class="mb-3">{{ __('Registration form') }}</h1>
+            <h1 class="mb-3">{{ __('Registration Form') }}</h1>
             <form method="POST" action="{{ route('register') }}" method="post">
                 @csrf
                 <button class="oauthButton">
@@ -726,9 +726,10 @@
                 <p class="text-center mb-0">{{ __('or') }}</p>
                 <div class="row">
                     <div class="col-md-6 mb-0">
-                        <div class="form-outline mb-0">
-                            <input type="text" id="firstName" placeholder="{{ __('First Name') }}" name="firstName"
-                                value="{{ old('firstName') }}"/>
+                        <div class="form-outline mb-2">
+                            <input type="text" id="firstName" placeholder="{{ __('First Name') }}"
+                                class="form-control @error('firstName') is-invalid @enderror" name="firstName"
+                                value="{{ old('firstName') }}" {{-- required autocomplete="firstName" autofocus --}} />
 
                             @error('firstName')
                                 <span class="invalid-feedback" role="alert">
@@ -738,9 +739,10 @@
                         </div>
                     </div>
                     <div class="col-md-6 mb-0">
-                        <div class="form-outline mb-0">
-                            <input type="text" id="lastName" placeholder="{{ __('Last Name') }}" name="lastName"
-                                value="{{ old('lastName') }}"/>
+                        <div class="form-outline mb-2">
+                            <input type="text" id="lastName" placeholder="{{ __('Last Name') }}"
+                                class="form-control @error('lastName') is-invalid @enderror" name="lastName"
+                                value="{{ old('lastName') }}" {{-- required autocomplete="lastName" --}} />
 
                             @error('lastName')
                                 <span class="invalid-feedback" role="alert">
@@ -750,9 +752,10 @@
                         </div>
                     </div>
                     <div class="col-md-6 mb-0">
-                        <div class="form-outline mb-0">
-                            <input type="text" id="userName" placeholder="{{ __('User Name') }}" name="userName"
-                                value="{{ old('userName') }}"/>
+                        <div class="form-outline mb-2">
+                            <input type="text" id="userName" placeholder="{{ __('User Name') }}"
+                                class="form-control @error('userName') is-invalid @enderror" name="userName"
+                                value="{{ old('userName') }}" {{-- required autocomplete="userName" --}} />
 
                             @error('userName')
                                 <span class="invalid-feedback" role="alert">
@@ -762,8 +765,9 @@
                         </div>
                     </div>
                     <div class="col-md-6 mb-0">
-                        <div class="form-outline mb-0">
-                            <input type="date" id="birthDate" class="birthdate" placeholder="{{ __('Birth Date') }}"
+                        <div class="form-outline mb-2">
+                            <input type="date" id="birthDate" placeholder="{{ __('Birth Date') }}"
+                                class="form-control @error('birthDate') is-invalid @enderror" name="birthDate"
                                 value="{{ old('birthDate') }}" />
 
                             @error('birthDate')
@@ -776,13 +780,15 @@
                     <!-- Gender Section -->
                     <div class="gender-selection mt-0">
                         <label for="gender">{{ __('Gender') }}</label>
-                        <input type="radio" id="male" name="gender" value="male"
-                            {{ old('gender') == 'male' ? 'checked' : '' }}>
+                        <input class="form-check-input @error('gender') is-invalid @enderror" type="radio"
+                            name="gender" id="male" value="male" {{ old('gender') == 'male' ? 'checked' : '' }}>
                         <label for="male">{{ __('Male') }}</label>
-                        <input type="radio" id="female" name="gender" value="female"
+                        <input class="form-check-input @error('gender') is-invalid @enderror" type="radio"
+                            name="gender" id="female" value="female"
                             {{ old('gender') == 'female' ? 'checked' : '' }}>
                         <label for="female">{{ __('Female') }}</label>
-                        <input type="radio" id="other" name="gender" value="other"
+                        <input class="form-check-input @error('gender') is-invalid @enderror" type="radio"
+                            name="gender" id="other" value="other"
                             {{ old('gender') == 'other' ? 'checked' : '' }}>
                         <label for="other">{{ __('Other') }}</label>
 
@@ -792,9 +798,10 @@
                             </span>
                         @enderror
                     </div>
-                    <div class="form-outline mb-0">
-                        <input type="email" id="email" placeholder="{{ __('Email or Phone') }}" name="email"
-                            value="{{ old('email') }}" required/>
+                    <div class="form-outline mb-2">
+                        <input type="email" id="email" placeholder="{{ __('Email or Phone') }}"
+                            class="form-control @error('email') is-invalid @enderror" name="email"
+                            value="{{ old('email') }}" required autocomplete="email" />
 
                         @error('email')
                             <span class="invalid-feedback" role="alert">
@@ -803,8 +810,9 @@
                         @enderror
                     </div>
                     <div class="form-outline mb-0">
-                        <input type="password" id="password" placeholder="{{ __('Password') }}" name="password"
-                            required/>
+                        <input type="password" id="password" placeholder="{{ __('Password') }}"
+                            class="form-control @error('password') is-invalid @enderror" name="password" required
+                            autocomplete="new-password" />
 
                         @error('password')
                             <span class="invalid-feedback" role="alert">

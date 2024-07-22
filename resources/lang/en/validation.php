@@ -142,8 +142,38 @@ return [
     */
 
     'custom' => [
-        'attribute-name' => [
-            'rule-name' => 'custom-message',
+        'email' => [
+            'required' => 'The email field is required.',
+            'email' => 'Please enter a valid email address.',
+            'unique' => 'This email address is already registered.',
+        ],
+        'password' => [
+            'required' => 'The password field is required.',
+            'min' => 'The password must be at least :min characters.',
+        ],
+        'firstName' => [
+            'required' => 'The first name field is required.',
+            'string' => 'The first name must be a character.',
+            'max' => 'The first name may not be greater than :max characters.',
+        ],
+        'lastName' => [
+            'required' => 'The last name field is required.',
+            'string' => 'The last name must be a character.',
+            'max' => 'The last name may not be greater than :max characters.',
+        ],
+        'userName' => [
+            'required' => 'The username field is required.',
+            'string' => 'The username must be a character.',
+            'unique' => 'This username has already been taken.',
+            'max' => 'The username may not be greater than :max characters.',
+        ],
+        'birthDate' => [
+            'required' => 'The birth date field is required.',
+            'date' => 'The birth date is not a valid date.',
+        ],
+        'gender' => [
+            'required' => 'The gender field is required.',
+            'in' => 'The selected gender is invalid.',
         ],
     ],
 

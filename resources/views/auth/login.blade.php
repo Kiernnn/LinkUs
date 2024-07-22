@@ -13,22 +13,26 @@
             <form method="POST" action="{{ route('login') }}">
                 @csrf
                 <div data-mdb-input-init class="form-outline mb-3">
-                    <input type="email" id="email" placeholder="{{ __('Email or Phone') }}" name="email" required />
+                    <input type="email" id="email" placeholder="{{ __('Email or Phone') }}"
+                        class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}"
+                        required autocomplete="email" autofocus />
                     @error('email')
-                        <span class="invalid-feedback" role="alert" style="background-color:red;">
+                        <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
                         </span>
                     @enderror
                 </div>
                 <div data-mdb-input-init class="form-outline mb-0">
-                    <input type="password" id="password" placeholder="{{ __('Password') }}" name="password" required />
+                    <input type="password" id="password" placeholder="{{ __('Password') }}"
+                        class="form-control @error('password') is-invalid @enderror" name="password" required
+                        autocomplete="current-password" />
                     @error('password')
-                        <span class="invalid-feedback" role="alert" style="background-color:red;">
+                        <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
                         </span>
                     @enderror
                 </div>
-                                                                                    
+
                 <div class="button-container mb-0">
                     <button type="submit" class="submit">{{ __('Login') }}</button>
                 </div>
