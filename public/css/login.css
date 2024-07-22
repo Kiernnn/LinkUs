@@ -42,7 +42,7 @@ body {
 .left form input:focus {
     box-shadow: 4px 6px 0 #000;
 }
-.button {
+.submit {
     width: 100%;
     height: 50px;
     color: #fff;
@@ -56,7 +56,7 @@ body {
     margin: 35px 0;
 }
 
-.button:active, .register:active {
+.submit:active, .register:active {
     box-shadow: 4px 6px 0 #7e7e7e;
     transform: translate(3px, 3px);
 }

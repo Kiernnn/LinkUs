@@ -702,7 +702,7 @@
             </svg>
         </div>
         <div class="right">
-            <h1 class="mb-3">{{ __('Register') }}</h1>
+            <h1 class="mb-3">{{ __('Registration form') }}</h1>
             <form method="POST" action="{{ route('register') }}" method="post">
                 @csrf
                 <button class="oauthButton">
