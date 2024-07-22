@@ -12,7 +12,7 @@
             <p class="text-center mb-4" style="color: #000000">{{ __('Please enter your email address and password') }}</p>
             <form method="POST" action="{{ route('login') }}">
                 @csrf
-                <div data-mdb-input-init class="form-outline mb-2">
+                <div data-mdb-input-init class="form-outline mb-3">
                     <input type="email" id="email" placeholder="{{ __('Email or Phone') }}" name="email" required />
                     @error('email')
                         <span class="invalid-feedback" role="alert">
@@ -29,20 +29,19 @@
                     @enderror
                 </div>
                 <!-- <div class="text-center pt-1 mb-0 pb-1">
-                        @if (Route::has('password.request'))
+                                                                                                            @if (Route::has('password.request'))
     <a class="text-danger" href="{{ route('password.request') }}">{{ __('Forgot Your Password?') }}</a>
     @endif
-                    </div> -->
+                                                                                                        </div> -->
                 <div class="button-container mb-0">
-                    <button type="submit" class="submit">{{ __('Login') }}</button>
-
+                    <button type="submit" class="button">{{ __('Login') }}</button>
                 </div>
             </form>
             <div class="d-flex align-items-center justify-content-center pb-4">
-                <p class="mb-0 mt-4 me-2" style="color: #000000">{{ __('Dont have an account?') }}</p>
+                <p class="mb-0 mt-0 me-2" style="color: #000000">{{ __('Dont have an account?') }}</p>
                 @if (Route::has('register'))
                     <a class="nav-link" href="{{ route('register') }}">
-                        <button type="submit" class="register mt-4">{{ __('Register') }}</button>
+                        <button type="submit" class="register mb-0 mt-0 me-2">{{ __('Register') }}</button>
                     </a>
                 @endif
             </div>
