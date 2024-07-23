@@ -25,7 +25,7 @@
                 <div data-mdb-input-init class="form-outline mb-0">
                     <input type="password" id="password" placeholder="{{ __('Password') }}"
                         class="form-control @error('password') is-invalid @enderror" name="password" required
-                        autocomplete="current-password" />
+                        autocomplete="current-password" autofocus />
                     @error('password')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
