@@ -5,9 +5,11 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Auth;
 
 class RegisterController extends Controller
 {
@@ -24,58 +26,45 @@ class RegisterController extends Controller
 
     use RegistersUsers;
 
-    /**
-     * Where to redirect users after registration.
-     *
-     * @var string
-     */
-    protected $redirectTo = RouteServiceProvider::HOME;
-
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
+    public function showRegistrationForm()
     {
-        $this->middleware('guest');
+        return view('auth.register');
     }
 
-    /**
-     * Get a validator for an incoming registration request.
-     *
-     * @param  array  $data
-     * @return \Illuminate\Contracts\Validation\Validator
-     */
-    protected function validator(array $data)
+    public function register(Request $request)
     {
-        return Validator::make($data, [
-            'firstName' => ['required', 'string', 'max:255'],
-            'lastName' => ['required', 'string', 'max:255'],
-            'userName' => ['required', 'string', 'max:255', 'unique:users'],
-            'birthDate' => ['required', 'date'],
-            'gender' => ['required', 'in:male,female,other'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
+        // Validation
+        $this->validate($request, [
+            'firstName' => 'required|string|max:255',
+            'lastName' => 'required|string|max:255',
+            'userName' => 'required|string|max:255',
+            'birthDate' => 'required|date',
+            'gender' => 'required|string',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:8',
         ]);
+
+        // Check if email exists
+        if (User::where('email', $request->email)->exists()) {
+            return redirect()->back()->with('error', 'Email already exists');
+        }
+
+        // Create new user
+        $user = User::create([
+                    'firstName' => $request->firstName,
+                    'lastName' => $request->lastName,
+                    'userName' => $request->userName,
+                    'birthDate' => $request->birthDate,
+                    'gender' => $request->gender,
+                    'email' => $request->email,
+                    'password' => Hash::make($request->password),
+                ]);
+
+        // Redirect to login page with success message
+        if($user){
+            Auth::login($user);
+            return redirect()->route('home');
+        }       
     }
 
-    /**
-     * Create a new user instance after a valid registration.
-     *
-     * @param  array  $data
-     * @return \App\Models\User
-     */
-    protected function create(array $data)
-    {
-        return User::create([
-            'firstName' => $data['firstName'],
-            'lastName' => $data['lastName'],
-            'userName' => $data['userName'],
-            'birthDate' => $data['birthDate'],
-            'gender' => $data['gender'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-        ]);
-    }
 }

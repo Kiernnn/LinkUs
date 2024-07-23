@@ -702,7 +702,15 @@
             </svg>
         </div>
         <div class="right">
-            <h1 class="mb-3">{{ __('Registration Form') }}</h1>
+            <h1 class="mb-3">{{ __('Register') }}</h1>
+            <div>
+                @if(Session::has('success'))
+                <div class="alert alert-success">
+                    {{ Session::get('success')}}
+                </div>
+                @endif
+            </div>
+            
             <form method="POST" action="{{ route('register') }}" method="post">
                 @csrf
                 <button class="oauthButton">
@@ -801,7 +809,7 @@
                     <div class="form-outline mb-2">
                         <input type="email" id="email" placeholder="{{ __('Email or Phone') }}"
                             class="form-control @error('email') is-invalid @enderror" name="email"
-                            value="{{ old('email') }}" required autocomplete="email" />
+                            value="{{ old('email') }}" required/>
 
                         @error('email')
                             <span class="invalid-feedback" role="alert">
@@ -811,8 +819,7 @@
                     </div>
                     <div class="form-outline mb-0">
                         <input type="password" id="password" placeholder="{{ __('Password') }}"
-                            class="form-control @error('password') is-invalid @enderror" name="password" required
-                            autocomplete="new-password" />
+                            class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new_password"/>
 
                         @error('password')
                             <span class="invalid-feedback" role="alert">
