@@ -8,8 +8,13 @@
 @section('content')
     <div class="container">
         <div class="left">
-            <h1 class="text-center mb-2" style="color: #000000">{{ __('Welcome to Link Us!') }}</h1>
-            <p class="text-center mb-4" style="color: #000000">{{ __('Please enter your email address and password') }}</p>
+            <div class="title">
+                <h1 class="text-center mb-1" style="color: #000000">
+                    {{ __('Welcome to') }}
+                    <img class="logo text-center mb-1" src="images/linkus.png" alt="">
+                </h1>
+            </div>
+            <p class="para mb-2" style="color: #000000">{{ __('Please enter your email address and password') }}</p>
             <form method="POST" action="{{ route('login') }}">
                 @csrf
                 <div data-mdb-input-init class="form-outline mb-3">
