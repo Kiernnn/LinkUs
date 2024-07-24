@@ -35,8 +35,6 @@ body {
     width: 100%;
     height: auto;
 }
-.left .title {
-}
 .left .logo {
     display: flex;
     width: 120px;
