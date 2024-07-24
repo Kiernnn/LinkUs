@@ -11,7 +11,7 @@
             <div class="title">
                 <h1 class="text-center mb-1" style="color: #000000">
                     {{ __('Welcome to') }}
-                    <img class="logo text-center mb-1" src="images/linkus.png" alt="">
+                    <img class="logo text-center mb-1" src="images/logo.png" alt="">
                 </h1>
             </div>
             <p class="para mb-2" style="color: #000000">{{ __('Please enter your email address and password') }}</p>

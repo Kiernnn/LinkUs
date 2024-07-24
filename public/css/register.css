@@ -22,7 +22,6 @@ body {
 }
 .left {
     flex: 1;
-    /* background: url(img/Following-amico.png); */
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
@@ -36,6 +35,17 @@ body {
     width: 100%;
     height: auto;
 }
+.left .title {
+}
+.left .logo {
+    display: flex;
+    width: 120px;
+    height: auto;
+    margin-right: 300px;
+    margin-top: -130px;
+    align-items: flex-start;
+    justify-content: center;
+}
 .right {
     flex: 1;
     padding: 40px;
@@ -43,6 +53,16 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+.right h1 {
+    display: flex;
+    max-width: auto;
+    height: 100px;
+    display: flex;
+    font-size: 40px;
+    font-weight: 600;
+    align-items: center;
+    justify-content: center;
 }
 .right form {
     width: 100%;

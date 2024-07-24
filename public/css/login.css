@@ -44,8 +44,9 @@ body {
 .left .logo {
     display: inline-block;
     vertical-align: middle;
-    width: 170px;
-    height: 170px;
+    width: 120px;
+    height: auto;
+    margin-left: 10px;
     align-items: center;
     justify-self: center;
     text-align: center;
@@ -119,7 +120,6 @@ body {
 }
 .right {
     flex: 1;
-    /* background: url(img/Blog\ post-amico.png); */
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;

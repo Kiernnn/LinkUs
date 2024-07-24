@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('title', 'Register')
+@section('title', 'LinkUs')
 {{-- @section('content') --}}
 
 @section('style')
@@ -9,6 +9,10 @@
 @section('content')
     <div class="container">
         <div class="left">
+            <div class="title">
+                <img class="logo text-center mb-1" src="images/logo.png" alt="">
+                </h1>
+            </div>
             <svg class="animated" id="freepik_stories-feed" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500"
                 version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.com/svgjs">
                 <style>

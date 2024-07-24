@@ -9,7 +9,7 @@
     <title>@yield('title')</title>
 
     <!-- Logo icon -->
-    <link rel="icon" sizes="16x16" href="{{ asset('images/logo.png') }}" type="image/png" />
+    <link rel="icon" href="{{ asset('images/icon.png') }}" type="image/png" />
 
     <!-- Styles -->
     <link href="{{ asset('css/all.min.css') }}" rel="stylesheet">
