@@ -35,15 +35,6 @@ body {
     width: 100%;
     height: auto;
 }
-.left .logo {
-    display: flex;
-    width: 120px;
-    height: auto;
-    margin-right: 300px;
-    margin-top: -130px;
-    align-items: flex-start;
-    justify-content: center;
-}
 .right {
     flex: 1;
     padding: 40px;

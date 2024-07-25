@@ -44,9 +44,9 @@ body {
 .left .logo {
     display: inline-block;
     vertical-align: middle;
-    width: 120px;
+    width: 40px;
     height: auto;
-    margin-left: 10px;
+    margin-left: 15px;
     align-items: center;
     justify-self: center;
     text-align: center;
