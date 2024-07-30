@@ -24,7 +24,7 @@
         <div class="sidebar">
             <div class="logo_content">
                 <div class="logo">
-                    <img class="icon" src="images/icon.png" alt="">
+                    <img class="icon" src="{{ asset('images/icon.png') }}" alt="">
                 </div>
             </div>
             <ul class="nav_list list-unstyled">
@@ -52,7 +52,7 @@
                     </a>
                 </li>
                 <li class="content">
-                    <a href="{{ route('create.index') }}" class="d-flex align-items-center">
+                    <a href="{{ route('posts.create') }}" class="d-flex align-items-center">
                         <svg xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 448 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
                             <path

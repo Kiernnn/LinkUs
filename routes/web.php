@@ -2,17 +2,31 @@
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\HomeController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\PostController;
 use App\Http\Controllers\FriendsController;
-use App\Http\Controllers\CreateController;
 use App\Http\Controllers\ProfileController;
 
-Auth::routes();
 
-Route::get('/', [HomeController::class, 'index'])->name('home');
+Auth::routes();
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+
+//posts
+Route::get('/', [PostController::class, 'index'])->name('home');
+
+Route::group(['prefix'=> 'posts'], function () {
+   Route::controller(PostController::class)->group(function () {
+      Route::get('create', 'create')->name('posts.create');
+      Route::post('store', 'store')->name('posts.store');
+   });
+   
+});
+
+
+
 Route::get('/friends', [FriendsController::class, 'index'])->name('friends.index');
-Route::get('/create', [CreateController::class, 'index'])->name('create.index');
+
 Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
 
-Route::post('/logout', [\App\Http\Controllers\Auth\LoginController::class, 'logout'])->name('logout');
+
 

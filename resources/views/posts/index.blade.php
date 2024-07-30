@@ -2,10 +2,12 @@
 @section('title', 'LinkUs')
 
 @section('style')
-    <link href="{{ asset('css/home.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/search.css') }}" rel="stylesheet">
 @endsection
 
 @section('content')
+
+    <!-- start search tab -->
     <div class="home-content p-4">
         <div class="container">
             <input type="text" name="text" class="input" placeholder=" Search">
@@ -18,4 +20,6 @@
             </button>
         </div>
     </div>
+    <!-- end search tab -->
+
 @endsection
