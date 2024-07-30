@@ -46,7 +46,7 @@ class PostController extends Controller
 
     public function show(Post $post)
     {
-        if ($post->user_id !== Auth::id()) {
+        if ($post->user_id !== auth()->user()->id) {
             abort(403);
         }
         return view('posts.show', compact('post'));
@@ -54,7 +54,7 @@ class PostController extends Controller
 
     public function edit(Post $post)
     {
-        if ($post->user_id !== Auth::id()) {
+        if ($post->user_id !== auth()->user()->id) {
             abort(403);
         }
         return view('posts.edit', compact('post'));
@@ -62,7 +62,7 @@ class PostController extends Controller
 
     public function update(Request $request, Post $post)
     {
-        if ($post->user_id !== Auth::id()) {
+        if ($post->user_id !== auth()->user()->id) {
             abort(403);
         }
 
@@ -91,7 +91,8 @@ class PostController extends Controller
 
     public function destroy(Post $post)
     {
-        if ($post->user_id !== Auth::id()) {
+        dd($post);
+        if ($post->user_id !== auth()->user()->id) {
             abort(403);
         }
 

@@ -1,5 +1,5 @@
 @extends('layouts.sidebar')
-@section('title', 'LinkUs')
+@section('title', 'Home')
 
 @section('style')
     <link href="{{ asset('css/search.css') }}" rel="stylesheet">

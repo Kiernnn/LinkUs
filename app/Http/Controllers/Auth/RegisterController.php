@@ -63,7 +63,7 @@ class RegisterController extends Controller
         // Redirect to login page with success message
         if($user){
             Auth::login($user);
-            return redirect()->route('home');
+            return redirect()->route('posts.index');
         }       
     }
 
