@@ -13,12 +13,12 @@
   }
 
   .input {
-    width: 300px;
+    width: 570px;
     height: 100%;
     outline: none;
     font-size: 14px;
     font-weight: 500;
-    background-color: #3a3b3c;
+    background-color: #292929;
     caret-color: #f7f7f8;
     color: #fff;
     padding: 7px 10px;
