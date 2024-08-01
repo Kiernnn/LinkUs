@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('title', 'LinkUs')
+@section('title', 'Register')
 {{-- @section('content') --}}
 
 @section('style')
@@ -832,7 +832,8 @@
                         @if (Route::has('login'))
                             <div class="d-flex align-items-center justify-content-center pb-4">
                                 <p class="mb-0 mt-4 me-2">{{ __('Already have an account?') }} <a
-                                        href="{{ route('login') }}" class="text-dark">{{ __('Login now!') }}</a>
+                                        href="{{ route('login') }}" class="text-dark"
+                                        style="font-weight: bold">{{ __('Login now!') }}</a>
                                 </p>
                                 <button type="submit" class="register mb-0 mt-4 me-2">{{ __('Register') }}</button>
                             </div>

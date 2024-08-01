@@ -82,7 +82,7 @@ body {
 }
 
 .sidebar ul .content a svg path {
-    fill: #7e7e7e;
+    fill: #000;
 }
 
 .sidebar ul .content a:hover svg path,
