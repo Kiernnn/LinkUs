@@ -10,8 +10,8 @@
         <h5>New Post</h5>
         <div class="post-form-container">
             <div class="profile-section">
-                <img src="profile-pic.jpg" alt="Profile Picture" class="profile-pic">
-                <div class="profile-name">gojo_satoru</div>
+                <img src="{{ asset('images/user_default.png') }}" alt="Profile Picture" class="profile-pic">
+                <div class="profile-name">{{ auth()->user()->userName }}</div>
             </div>
             <form action="{{ route('posts.store') }}" method="POST" class="post-form" enctype="multipart/form-data">
                 @csrf
@@ -32,7 +32,7 @@
                 <div class="form-actions">
                     <div class="privacy-options">
                         <select name="privacy">
-                            <option value="public">Public</option>
+                            <option value="public" selected>Public</option>
                             <option value="friends">Friends</option>
                             <option value="only-me">Only Me</option>
                         </select>

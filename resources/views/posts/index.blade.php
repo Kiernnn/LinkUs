@@ -23,6 +23,7 @@
 
         <!-- start post containers -->
         <div class="post-wrapper">
+            @foreach ($posts as $post)
             <div class="post-container">
                 <div class="post-header">
                     <img src="https://via.placeholder.com/40" alt="user profile picture">
@@ -64,33 +65,8 @@
                     </div>
                 </div>
             </div>
-            <div class="post-container">
-                <div class="post-header">
-                    <img src="https://via.placeholder.com/40" alt="youtube logo">
-                    <div class="username">sukuna</div>
-                </div>
-                <div class="post-content">
-                    <p>Best hot dog toppings...go</p>
-                </div>
-                <div class="footer-info">
-                    <button>Like</button>
-                    <button>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                            style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;">
-                            <path
-                                d="M20 2H4c-1.103 0-2 .897-2 2v18l5.333-4H20c1.103 0 2-.897 2-2V4c0-1.103-.897-2-2-2zm0 14H6.667L4 18V4h16v12z">
-                            </path>
-                        </svg>
-                    </button>
-                    <button>Share</button>
-                </div>
-                <div class="post-footer">
-                    <img src="https://via.placeholder.com/40" alt="user profile picture">
-                    <div class="comment-box">
-                        <input type="text" placeholder="Add a comment...">
-                    </div>
-                </div>
-            </div>
+            @endforeach
+            
         </div>
         <!-- end post containers -->
     </div>

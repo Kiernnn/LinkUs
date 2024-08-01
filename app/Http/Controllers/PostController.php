@@ -9,7 +9,8 @@ class PostController extends Controller
 {
     public function index()
     {
-        $posts = Post::all();
+        $posts = Post::where('user_id', '!=', auth()->user()->id)->get();
+        // dd($posts);
         return view('posts.index', compact('posts'));
     }
 
@@ -21,7 +22,7 @@ class PostController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'status' => 'required|in:public,friends,me',
+            'privacy' => 'required|in:public,friends,me',
             'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
         if($request->content == null && !$request->photo){
@@ -36,12 +37,12 @@ class PostController extends Controller
         
         $post = Post::create([
                 'user_id' => auth()->user()->id,
-                'status' => $request->status,
+                'status' => $request->privacy,
                 'caption' => $request->content ?? null,
                 'image' => $filename ?? null,
         ]);
 
-        return redirect()->route('home')->with('success', 'Post created successfully.');
+        return redirect()->route('posts.index')->with('success', 'Post created successfully.');
     }
 
     public function show(Post $post)
