@@ -7,7 +7,7 @@
 
 @section('content')
     <div class="create-content p-4">
-        <h5>{{ __('New Post') }}</h5>
+        <h5 class="roboto-bold">{{ __(' Create New Post') }}</h5>
         <div class="post-form-container">
             <div class="profile-section">
                 <img src="{{ asset('images/user_default.png') }}" alt="Profile Picture" class="profile-pic">
