@@ -1,7 +1,6 @@
-
 .create-content {
     display: flex;
-    flex-direction: column; /* Change to column layout */
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     margin-top: 100px;
@@ -10,7 +9,7 @@
 
 h5 {
     color: #fff;
-    margin-bottom: 20px; /* Add some space below the heading */
+    margin-bottom: 20px;
 }
 
 .post-form-container {
@@ -41,21 +40,27 @@ h5 {
     font-weight: bold;
 }
 
-textarea {
+.form-control {
     width: 100%;
     height: 80px;
     border: none;
     border-radius: 5px;
-    background-color: #292929;
     color: #fff;
+    background-color: #292929;
     padding: 10px;
     margin-bottom: 10px;
     resize: none;
 }
 
-textarea:focus {
+.form-control:focus {
+    color: #fff;
+    background-color: #292929;
     outline: none;
     border: none;
+}
+
+.form-control::placeholder {
+    color: #fff;
 }
 
 .form-actions {
@@ -91,7 +96,7 @@ textarea:focus {
     width: auto;
 }
 
-select {
+.form-select {
     width: 150px;
     padding: 8px;
     border: 1px solid #3e3e3e;
@@ -118,6 +123,7 @@ select {
 }
 
 .post-btn:hover {
+    color: #fff;
     border: 1px solid #fff;
 }
 
@@ -130,4 +136,69 @@ select {
 .alert-danger {
     background-color: #dc3545;
     color: #fff;
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 1024px) {
+    .create-content {
+        margin-left: 30px;
+    }
+
+    .post-form-container {
+        width: 500px; /* Adjust width for tablets */
+    }
+}
+
+@media (max-width: 768px) {
+    .create-content {
+        margin-left: 15px;
+        margin-top: 50px;
+    }
+
+    .post-form-container {
+        width: 90%; /* Adjust width for smaller screens */
+    }
+
+    .form-control {
+        height: 60px; /* Reduce textarea height */
+    }
+
+    .form-select {
+        width: 120px; /* Adjust dropdown width */
+    }
+
+    .post-btn {
+        font-size: 14px; /* Reduce button font size */
+        padding: 10px 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .create-content {
+        margin-left: 10px;
+        margin-top: 30px;
+    }
+
+    .post-form-container {
+        width: 100%; /* Full width for mobile */
+        padding: 15px;
+    }
+
+    .form-control {
+        height: 50px; /* Further reduce textarea height */
+    }
+
+    .profile-pic {
+        width: 30px;
+        height: 30px;
+    }
+
+    .profile-name {
+        font-size: 14px; /* Reduce font size */
+    }
+
+    .post-btn {
+        font-size: 12px; /* Further reduce button font size */
+        padding: 8px 16px;
+    }
 }

@@ -22,6 +22,7 @@ body {
     background: #0a0a0a;
     color: #fff;
     padding: 6px 14px;
+    transition: width 0.3s ease;
 }
 
 .sidebar .logo_content .logo {
@@ -85,7 +86,8 @@ body {
     fill: #7e7e7e;
 }
 
-.sidebar ul .content a svg path:focus {
+.sidebar ul .content a:hover svg path,
+.sidebar ul .content a:focus svg path {
     fill: #fff;
 }
 
@@ -139,29 +141,6 @@ body {
 
 .Btn:active {
     transform: translate(2px, 2px);
-}
-
-.tooltiptext {
-    visibility: hidden;
-    width: 120px;
-    background-color: #555;
-    color: #fff;
-    text-align: center;
-    border-radius: 5px;
-    padding: 5px 0;
-    position: absolute;
-    z-index: 1;
-    bottom: 100%; /* Position above the item */
-    left: 50%;
-    margin-left: -60px;
-    opacity: 0;
-    transition: opacity 0.3s;
-}
-
-.sidebar ul .content a:hover .tooltiptext,
-.sidebar ul .content a:focus .tooltiptext {
-    visibility: visible;
-    opacity: 1;
 }
 
 @media (max-width: 768px) {
