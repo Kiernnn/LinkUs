@@ -1,6 +1,5 @@
 body {
     margin: 0;
-    font-family: "DM Sans", sans-serif;
     font-optical-sizing: auto;
     font-weight: 500;
     font-style: normal;
@@ -81,8 +80,8 @@ body {
     height: 50px;
     color: #fff;
     background: #000;
-    text-transform: uppercase;
     padding: 10px 20px;
+    font-weight: bold;
     border: 1px solid #7e7e7e;
     border-radius: 0.5rem;
     box-shadow: 2.5px 3px 0 #7e7e7e;
@@ -101,8 +100,8 @@ body {
     height: 40px;
     color: #fff;
     background: #000;
-    text-transform: uppercase;
     font-size: 13px;
+    font-weight: bold;
     align-items: center;
     justify-content: center;
     padding: 10px 20px;

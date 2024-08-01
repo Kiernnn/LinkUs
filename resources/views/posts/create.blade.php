@@ -28,6 +28,10 @@
                     </label>
                     <input type="file" id="file-input" name="file" class="file-input d-none">
                 </div>
+                <div class="image-preview mt-2">
+                    <img class="preview-img" id="preview-img" src="{{ asset('images/user_default.png') }}"
+                        alt="Image Preview">
+                </div>
                 <div class="form-actions d-flex justify-content-between align-items-center mt-2">
                     <div class="privacy-options">
                         <select name="privacy" class="form-select">
