@@ -15,7 +15,7 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 Route::group(['middleware' => ['auth']], function () {
 
-   Route::get('/', [PostController::class, 'index'])->name('posts.index');
+   Route::get('/', [PostController::class, 'index'])->name('posts.index'); //default route
 
    //posts
    Route::group(['prefix'=> 'posts'], function () {

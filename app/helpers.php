@@ -1,8 +1,8 @@
 <?php
 if (! function_exists('uploadFile')) {
-    function uploadFile($file, $directory = 'posts', $filename = null, $disk = 'public')
+    function uploadFile($file, $directory, $disk = 'public')
     {
-        $filename = $filename ?: time() . '.' . $file->getClientOriginalExtension();;
+        $filename = time() . '.' . $file->getClientOriginalExtension();
         if (!file_exists(public_path($directory))) {
             mkdir(public_path($directory), 0755, true);
         }
