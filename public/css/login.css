@@ -1,6 +1,5 @@
 body {
     margin: 0;
-    font-family: "DM Sans", sans-serif;
     font-optical-sizing: auto;
     font-weight: 500;
     font-style: normal;
@@ -13,8 +12,8 @@ body {
 .container {
     display: flex;
     width: 80%;
-    max-width: 1000px;
-    max-height: 600px;
+    max-width: 1200px;
+    max-height: 1200px;
     background-color: white;
     border-radius: 20px;
     overflow: hidden;
@@ -81,8 +80,8 @@ body {
     height: 50px;
     color: #fff;
     background: #000;
-    text-transform: uppercase;
     padding: 10px 20px;
+    font-weight: bold;
     border: 1px solid #7e7e7e;
     border-radius: 0.5rem;
     box-shadow: 2.5px 3px 0 #7e7e7e;
@@ -101,8 +100,8 @@ body {
     height: 40px;
     color: #fff;
     background: #000;
-    text-transform: uppercase;
     font-size: 13px;
+    font-weight: bold;
     align-items: center;
     justify-content: center;
     padding: 10px 20px;
@@ -138,10 +137,11 @@ body {
 @media (max-width: 600px) {
     .container {
         width: 100%;
+        flex-direction: column;
     }
 
     .right {
-        width: 100%; /* Stack columns vertically */
+        display: none;
     }
     .left {
         width: 100%;
@@ -152,13 +152,14 @@ body {
 @media (min-width: 601px) and (max-width: 1024px) {
     .container {
         width: 80%;
+        flex-direction: column;
     }
 
     .right {
-        width: 50%; /* Two columns side by side */
+        display: none   ;
     }
     .left {
-        width: 50%;
+        width: 100%;
     }
 }
 
@@ -166,12 +167,14 @@ body {
 @media (min-width: 1025px) {
     .container {
         width: 70%;
+        flex-direction: row;
     }
 
     .right {
-        width: 33.33%; /* Three columns side by side */
+        width: 50%; /* Two columns side by side */
+        padding: 50px;
     }
     .left {
-        width: 33.33%;
+        width: 50%;
     }
 }

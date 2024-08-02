@@ -2,7 +2,6 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: "DM Sans", sans-serif;
 }
 
 body {
@@ -83,7 +82,7 @@ body {
 }
 
 .sidebar ul .content a svg path {
-    fill: #7e7e7e;
+    fill: #000;
 }
 
 .sidebar ul .content a:hover svg path,

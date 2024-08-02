@@ -3,7 +3,6 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    margin-top: 100px;
     margin-left: 60px;
 }
 
@@ -92,6 +91,13 @@ h5 {
     display: none;
 }
 
+.preview-img {
+    display: flex;
+    max-width: 300px;
+    max-height: 300px;
+    border-radius: 8px;
+}
+
 .privacy-options {
     width: auto;
 }
@@ -118,7 +124,7 @@ h5 {
     padding: 14px 24px;
     text-decoration: none;
     font-size: 16px;
-    margin: 12px 14px;
+    margin: 14px 0;
     cursor: pointer;
 }
 
@@ -147,6 +153,11 @@ h5 {
     .post-form-container {
         width: 500px; /* Adjust width for tablets */
     }
+
+    .preview-img {
+        max-width: 250px;
+        max-height: 250px; /* Adjust preview image size for tablets */
+    }
 }
 
 @media (max-width: 768px) {
@@ -170,6 +181,11 @@ h5 {
     .post-btn {
         font-size: 14px; /* Reduce button font size */
         padding: 10px 20px;
+    }
+
+    .preview-img {
+        max-width: 200px;
+        max-height: 200px; /* Adjust preview image size for smaller screens */
     }
 }
 
@@ -200,5 +216,10 @@ h5 {
     .post-btn {
         font-size: 12px; /* Further reduce button font size */
         padding: 8px 16px;
+    }
+
+    .preview-img {
+        max-width: 150px;
+        max-height: 150px; /* Adjust preview image size for mobile */
     }
 }

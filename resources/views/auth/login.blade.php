@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('title', 'LinkUs')
+@section('title', 'Login')
 
 @section('style')
     <link href="{{ asset('css/login.css') }}" rel="stylesheet">
@@ -42,7 +42,7 @@
                 </div>
             </form>
             <div class="d-flex align-items-center justify-content-center pb-4">
-                <p class="mb-0 mt-0 me-2" style="color: #000000">{{ __('Dont have an account?') }}</p>
+                <p class="mb-0 mt-0 me-2" style="color: #000000">{{ __("Don't have an account?") }}</p>
                 @if (Route::has('register'))
                     <a class="nav-link" href="{{ route('register') }}">
                         <button type="submit" class="register mb-0 mt-0 me-2">{{ __('Register') }}</button>
