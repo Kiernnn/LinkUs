@@ -99,7 +99,7 @@
             bottom: 0;
             left: 0;
             width: 100%;
-            background-color: #f8f9fa;
+            background-color: #0A0A0A;
             box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.1);
             z-index: 1030;
         }
@@ -135,7 +135,7 @@
 <body>
     <div class="container-fluid">
         <div class="row">
-            <nav class="sidebar col-lg-3 col-md-4 d-none d-md-block bg-light sidebar-sticky">
+            <nav class="sidebar col-lg-3 col-md-4 d-none d-md-block sidebar-sticky" style="background-color: #0A0A0A;">
                 <div class="logo_content">
                     <div class="logo">
                         <img class="icon" src="{{ asset('images/icon.png') }}" alt="Logo">
