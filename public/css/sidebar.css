@@ -82,12 +82,21 @@ body {
 }
 
 .sidebar ul .content a svg path {
-    fill: #000;
+    fill: #ffffff;
 }
 
 .sidebar ul .content a:hover svg path,
 .sidebar ul .content a:focus svg path {
-    fill: #fff;
+    fill: #ffffff;
+}
+
+.sidebar ul .content a.active {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    background: #292929;
 }
 
 .sidebar .logout {

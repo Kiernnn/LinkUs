@@ -111,8 +111,19 @@
             color: #6c757d;
         }
 
-        .bottom-nav .nav-link.active {
-            color: #007bff;
+        .bottom-nav .nav-link svg {
+            fill: #ffffff;
+        }
+
+        .bottom-nav .nav-link.active svg {
+            fill: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 30px;
+            background: #292929;
+            border-radius: 12px;
         }
 
         @media (max-width: 767.98px) {
@@ -128,6 +139,7 @@
 
             .main-content {
                 margin-bottom: 56px;
+                color: red;
                 /* Space for bottom nav */
             }
         }
@@ -146,7 +158,7 @@
                 </div>
                 <ul class="nav_list list-unstyled">
                     <li class="content">
-                        <a href="{{ route('posts.index') }}" class="d-flex align-items-center">
+                        <a href="{{ route('posts.index') }}" class="d-flex align-items-center nav-link{{ Request::routeIs('posts.index') ? ' active' : '' }}">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                                 <path
                                     d="M3 13h1v7c0 1.103.897 2 2 2h12c1.103 0 2-.897 2-2v-7h1a1 1 0 0 0 .707-1.707l-9-9a.999.999 0 0 0-1.414 0l-9 9A1 1 0 0 0 3 13zm7 7v-5h4v5h-4zm2-15.586 6 6V15l.001 5H16v-5c0-1.103-.897-2-2-2h-4c-1.103 0-2 .897-2 2v5H6v-9.586l6-6z">
@@ -155,7 +167,7 @@
                         </a>
                     </li>
                     <li class="content">
-                        <a href="{{ route('friends.index') }}" class="d-flex align-items-center">
+                        <a href="{{ route('friends.index') }}" class="d-flex align-items-center nav-link{{ Request::routeIs('friends.index') ? ' active' : '' }}">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                                 <path
                                     d="M16.604 11.048a5.67 5.67 0 0 0 .751-3.44c-.179-1.784-1.175-3.361-2.803-4.44l-1.105 1.666c1.119.742 1.8 1.799 1.918 2.974a3.693 3.693 0 0 1-1.072 2.986l-1.192 1.192 1.618.475C18.951 13.701 19 17.957 19 18h2c0-1.789-.956-5.285-4.396-6.952z">
@@ -167,7 +179,7 @@
                         </a>
                     </li>
                     <li class="content">
-                        <a href="{{ route('posts.create') }}" class="d-flex align-items-center">
+                        <a href="{{ route('posts.create') }}" class="d-flex align-items-center nav-link{{ Request::routeIs('posts.create') ? ' active' : '' }}">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
                                 <path
                                     d="M64 80c-8.8 0-16 7.2-16 16l0 320c0 8.8 7.2 16 16 16l320 0c8.8 0 16-7.2 16-16l0-320c0-8.8-7.2-16-16-16L64 80zM0 96C0 60.7 28.7 32 64 32l320 0c35.3 0 64 28.7 64 64l0 320c0 35.3-28.7 64-64 64L64 480c-35.3 0-64-28.7-64-64L0 96zM200 344l0-64-64 0c-13.3 0-24-10.7-24-24s10.7-24 24-24l64 0 0-64c0-13.3 10.7-24 24-24s24 10.7 24 24l0 64 64 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-64 0 0 64c0 13.3-10.7 24-24 24s-24-10.7-24-24z">
@@ -189,7 +201,7 @@
                             @csrf
                         </form>
                         <button class="Btn d-flex align-items-center"
-                            onclick="event.preventDefault(); alert('Logout button clicked'); document.getElementById('logout-form').submit();">
+                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                             <div class="sign">
                                 <svg class="sign-svg" viewBox="0 0 512 512">
                                     <path class="sign-path"
@@ -208,7 +220,7 @@
     </div>
 
     <!-- Bottom navigation bar for mobile devices -->
-    <nav class="bottom-nav">
+    <nav class="bottom-nav ml-4">
         <a href="{{ route('posts.index') }}" class="nav-link{{ Request::routeIs('posts.index') ? ' active' : '' }}">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                 <path
@@ -220,15 +232,12 @@
             class="nav-link{{ Request::routeIs('friends.index') ? ' active' : '' }}">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                 <path
-                    d="M16.604 11.048a5.67 5.67 0 0 0 .751-3.44c-.179-1.784-1.175-3.361-2.803-4.44l-1.105 1.666c1.119.742 1.8 1.799 1.918 2.974a3.693 3.693 0 0 1-1.072 2.986l-1.192 1.192 1.618.475C18.951 13.701 19 17.957 19 18h2c0-1.789-.956-5.285-4.396-6.952z">
-                </path>
-                <path
                     d="M9.5 12c2.206 0 4-1.794 4-4s-1.794-4-4-4-4 1.794-4 4 1.794 4 4 4zm0-6c1.103 0 2 .897 2 2s-.897 2-2 2-2-.897-2-2 .897-2 2-2zm1.5 7H8c-3.309 0-6 2.691-6 6v1h2v-1c0-2.206 1.794-4 4-4h3c2.206 0 4 1.794 4 4v1h2v-1c0-3.309-2.691-6-6-6z">
                 </path>
             </svg>
         </a>
         <a href="{{ route('posts.create') }}" class="nav-link{{ Request::routeIs('posts.create') ? ' active' : '' }}">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"  viewBox="0 0 448 512">
                 <path
                     d="M64 80c-8.8 0-16 7.2-16 16l0 320c0 8.8 7.2 16 16 16l320 0c8.8 0 16-7.2 16-16l0-320c0-8.8-7.2-16-16-16L64 80zM0 96C0 60.7 28.7 32 64 32l320 0c35.3 0 64 28.7 64 64l0 320c0 35.3-28.7 64-64 64L64 480c-35.3 0-64-28.7-64-64L0 96zM200 344l0-64-64 0c-13.3 0-24-10.7-24-24s10.7-24 24-24l64 0 0-64c0-13.3 10.7-24 24-24s24 10.7 24 24l0 64 64 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-64 0 0 64c0 13.3-10.7 24-24 24s-24-10.7-24-24z">
                 </path>
