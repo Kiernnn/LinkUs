@@ -4,6 +4,7 @@
 @section('style')
     <link href="{{ asset('css/search.css') }}" rel="stylesheet">
     <link href="{{ asset('css/post_index.css') }}" rel="stylesheet">
+    <script src="{{ asset('js/post_index.js')}}"></script>
 @endsection
 
 @section('content')
@@ -25,15 +26,30 @@
         <div class="post-wrapper">
             @foreach ($posts as $post)
             <div class="post-container">
+                <div class="post-actions">
+                    <div class="actions">
+                    <a href="{{ route('posts.edit', $post->id) }}" class="btn btn-secondary">Edit</a>
+                        <form action="{{ route('posts.delete', $post->id) }}" method="POST" class="btn">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                    </div>
+                </div>
+                
                 <div class="post-header">
-                    <img src="https://via.placeholder.com/40" alt="user profile picture">
-                    <div class="username">megumi</div>
+                <img src="{{ asset('images/user_default.png') }}" alt="Profile Picture" class="profile-pic">
+                <div class="profile-name" style="color:white;">{{ auth()->user()->userName }}</div>
                 </div>
-                <div class="post-content">
-                    <img src="https://via.placeholder.com/300x300" alt="single image">
+                <div class="post-subtitle mb-2 small" style="color:white;">
+                    {{ $post->created_at->diffForHumans() }}
                 </div>
+                <p class="content ml-10px" style="color:white;">{{ $post->content }}</p>
+                @if($post->photo)
+                    <img src="{{ asset('storage/' . $post->photo) }}" alt="Post photo" style="max-width:100%;">
+                @endif
                 <div class="footer-info">
-                    <button>
+                <button>
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
                             style="fill: #fff;transform: ;msFilter:;"
                             viewBox="0 0 512 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
@@ -59,7 +75,8 @@
                     </button>
                 </div>
                 <div class="post-footer">
-                    <img src="https://via.placeholder.com/40" alt="user profile picture">
+                <img src="{{ asset('images/user_default.png') }}" alt="Profile Picture" class="profile-pic">
+                <div class="profile-name" style="color:white;">{{ auth()->user()->userName }}</div>
                     <div class="comment-box">
                         <input type="text" placeholder="Add a comment...">
                     </div>

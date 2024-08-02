@@ -22,6 +22,8 @@ Route::group(['middleware' => ['auth']], function () {
       Route::controller(PostController::class)->group(function () {
          Route::get('create', 'create')->name('posts.create');
          Route::post('store', 'store')->name('posts.store');
+         Route::get('edit', 'edit')->name('posts.edit');
+         Route::delete('delete','delete')->name('posts.delete');
       });
    });
 });
