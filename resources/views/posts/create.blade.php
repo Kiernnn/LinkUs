@@ -26,7 +26,7 @@
                             <path d="M19 14h-2v3h-3v2h3v3h2v-3h3v-2h-3z"></path>
                         </svg>
                     </label>
-                    <input type="file" id="file-input" name="file" class="file-input d-none">
+                    <input type="file" id="file-input" name="image" class="file-input d-none">
                 </div>
                 <div class="image-preview mt-2">
                     <img class="preview-img" id="preview-img" src="{{ asset('images/user_default.png') }}"

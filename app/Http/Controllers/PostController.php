@@ -13,8 +13,8 @@ class PostController extends Controller
     {
         $posts = Post::all();
         
-        $page = $request->input('page', 1);
-        $posts = Post::paginate(10, ['*'], 'page', $page);
+        // $page = $request->input('page', 1);
+        // $posts = Post::paginate(10, ['*'], 'page', $page);
 
         if ($request->ajax()) {
             return response()->json(['posts' => $posts]);
@@ -22,33 +22,36 @@ class PostController extends Controller
 
         return view('posts.index', compact('posts'));
     }
-
+    
     public function create()
     {
+        
         return view('posts.create');
     }
 
     public function store(Request $request)
     {
+        // dd($request->all());
          $validator = Validator::make($request->all(), [
                                 'privacy' => 'required|in:public,friends,me',
-                                'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', //2M
+                                'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', //2M
+                                'content' => 'nullable',
                             ]);
 
         if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator->errors()->all());
+            return redirect()->back()->withErrors($validator->errors());
         }
 
-        if ($request->content == null && !$request->file) {
+        if ($request->content == null && !$request->hasFile('image')) {
             return redirect()->back()->with('error', 'Post cannot be created without content or photo.');
         }
 
         try {
             $image = null;
 
-            if ($request->hasFile('file')) {
-                $file = $request->file('file');
-                $image = uploadFile($file, 'posts');
+            if ($request->hasFile('image')) {
+                $file = $request->file('image');
+                $image = $file->store('posts'); // Store the image
             }
 
             $post = Post::create([
@@ -61,10 +64,17 @@ class PostController extends Controller
             return redirect()->route('posts.index')->with('success', 'Post created successfully.');
         } catch (\Exception $e) {
             // dd($e);
-            return redirect()->back()->with('error', 'An error occurred while creating the post');
+            return redirect()->back()->with('error', 'An error occurred while creating the post.');
         }
     }
 
+    // Comment 
+    public function detail($id)
+    {
+        $data = Post::find($id);
+
+        return view('posts.detail', ['post'=> $data]);
+    }
 
     public function show(Post $post)
     {

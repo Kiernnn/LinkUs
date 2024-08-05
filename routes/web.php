@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\FriendsController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\CommentController;
 
 
 Auth::routes();
@@ -23,7 +24,15 @@ Route::group(['middleware' => ['auth']], function () {
          Route::get('create', 'create')->name('posts.create');
          Route::post('store', 'store')->name('posts.store');
          Route::get('edit', 'edit')->name('posts.edit');
-         Route::delete('delete','delete')->name('posts.delete');
+         Route::delete('{post}','delete')->name('posts.delete');
+         Route::get('detail','detail')->name('posts.detail');
+      });
+   });
+
+   Route::group(['prefix'=> 'comments'], function () {
+      Route::controller(CommentController::class)->group(function () {
+         Route::post('add', 'create')->name('comments.detail');
+         Route::get('delete/{id}', 'delete')->name('comments.delete');
       });
    });
 });
