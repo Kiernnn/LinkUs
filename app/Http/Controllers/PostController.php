@@ -9,10 +9,16 @@ use Validator;
 
 class PostController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $posts = Post::where('user_id', '!=', auth()->user()->id)
-                        ->get();
+        $posts = Post::all();
+        
+        $page = $request->input('page', 1);
+        $posts = Post::paginate(10, ['*'], 'page', $page);
+
+        if ($request->ajax()) {
+            return response()->json(['posts' => $posts]);
+        }
 
         return view('posts.index', compact('posts'));
     }
@@ -48,13 +54,13 @@ class PostController extends Controller
             $post = Post::create([
                 'user_id' => auth()->user()->id,
                 'status' => $request->privacy,
-                'caption' => $request->content ?? null,
+                'content' => $request->content ?? null,
                 'image' => $image ?? null,
             ]);
 
             return redirect()->route('posts.index')->with('success', 'Post created successfully.');
         } catch (\Exception $e) {
-            dd($e);
+            // dd($e);
             return redirect()->back()->with('error', 'An error occurred while creating the post');
         }
     }
@@ -84,14 +90,12 @@ class PostController extends Controller
 
         $request->validate([
             'status' => 'required|in:public,friends,me',
-            'caption' => 'nullable|string|max:255',
             'content' => 'required|string',
             'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
         $post->update([
             'status' => $request->status,
-            'caption' => $request->caption,
             'content' => $request->content,
         ]);
 
@@ -105,15 +109,15 @@ class PostController extends Controller
         return redirect()->route('posts.index')->with('success', 'Post updated successfully.');
     }
 
-    public function destroy(Post $post)
+    public function delete(Post $post)
     {
-        dd($post);
+        // dd($post);
         if ($post->user_id !== auth()->user()->id) {
-            abort(403);
+            abort(403, 'You are not authorized to delete this post.');
         }
 
         $post->delete();
 
-        return redirect()->route('posts.create')->with('success', 'Post deleted successfully.');
+        return redirect()->route('posts.index')->with('success', 'Post deleted successfully.');
     }
 }
