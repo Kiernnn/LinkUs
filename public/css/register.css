@@ -66,11 +66,11 @@ body {
     height: 50px;
     border: 1px solid #000;
     border-radius: 0.5rem;
-    box-shadow: 2.5px 3px 0 #323232;
+    box-shadow: 2.5px 3px 0 #292929;
     background-color: #fff;
     font-size: 16px;
     font-weight: 600;
-    color: #323232;
+    color: #292929;
     cursor: pointer;
     transition: all 250ms;
     position: relative;
@@ -179,14 +179,14 @@ input[type="radio"]:checked + label {
     align-items: center;
     justify-content: center;
     padding: 15px;
-    border: 1px solid #7e7e7e;
+    border: 1px solid #292929;
     border-radius: 0.5rem;
-    box-shadow: 2.5px 3px 0 #7e7e7e;
+    box-shadow: 2.5px 3px 0 #292929;
     cursor: pointer;
     margin: 35px 0;
 }
 .register:active {
-    box-shadow: 4px 6px 0 #7e7e7e;
+    box-shadow: 4px 6px 0 #292929;
     transform: translate(3px, 3px);
 }
 .button-container {
