@@ -81,13 +81,9 @@ body {
     text-align: center;
 }
 
-.sidebar ul .content a svg path {
-    fill: #ffffff;
-}
-
 .sidebar ul .content a:hover svg path,
 .sidebar ul .content a:focus svg path {
-    fill: #ffffff;
+    fill: #fff;
 }
 
 .sidebar ul .content a.active {
