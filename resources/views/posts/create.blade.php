@@ -5,6 +5,10 @@
     <link href="{{ asset('css/post_create.css') }}" rel="stylesheet">
 @endsection
 
+@section('script')
+    <script src="{{ asset('js/post_create.js') }}"></script>
+@endsection
+
 @section('content')
     <div class="create-content p-4">
         <h5 class="new-post">{{ __(' Create New Post') }}</h5>
@@ -25,12 +29,9 @@
                             <path d="m8 11-3 4h11l-4-6-3 4z"></path>
                             <path d="M19 14h-2v3h-3v2h3v3h2v-3h3v-2h-3z"></path>
                         </svg>
+                        <img class="preview-img" id="preview" src="#">
                     </label>
                     <input type="file" id="file-input" name="image" class="file-input d-none">
-                </div>
-                <div class="image-preview mt-2">
-                    <img class="preview-img" id="preview-img" src="{{ asset('images/user_default.png') }}"
-                        alt="Image Preview">
                 </div>
                 <div class="form-actions d-flex justify-content-between align-items-center mt-2">
                     <div class="privacy-options">
