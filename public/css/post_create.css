@@ -85,18 +85,14 @@
     margin-right: 5px;
 }
 
-.attachment-btn:hover {
-    background-color: #292929;
-}
-
 .file-input {
     display: none;
 }
 
 .preview-img {
-    display: flex;
     max-width: 300px;
     max-height: 300px;
+    object-fit: cover;
     border-radius: 15px;
 }
 
