@@ -55,11 +55,27 @@
                     <div class="post-footer">
                         <img src="{{ asset('images/user_default.png') }}" alt="Profile Picture" class="profile-pic">
                         <div class="profile-name" style="color:white;">{{ auth()->user()->userName }}</div>
-                        <div class="comment-box">
-                            <input type="text" placeholder="Add a comment...">
-                            <button>Comment</button>
-                        </div>
+
+                        <form action="{{ route('comments.store', $post->id) }}" method="POST">
+                            @csrf
+                            <div class="comment-box">
+                                <input type="text" name="content" placeholder="Add a comment...">
+                                <button>Comment</button>
+                            </div>
+                        </form>
                     </div>
+
+                    <!-- Display Validation Errors -->
+                    @if ($errors->any())
+                        <div class="alert alert-danger" style="width:200px; height:40px; padding:5px 5px 5px 5px; text-decoration:none; margin-left:100px;">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <span>{{ "Write something!" }}</span>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+
                 </div>
                 @endforeach
             </div>

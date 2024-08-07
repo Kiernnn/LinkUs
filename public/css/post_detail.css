@@ -10,6 +10,10 @@
    /* text-align: center; */
 }
 
+.scrollable-container::-webkit-scrollbar {
+   display: none; /* For Chrome, Safari, and Opera */
+}
+
 .detail-content {
    margin-top: 0;
    display: flex; /* Changed from 'top' to 'flex' */

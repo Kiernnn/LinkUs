@@ -29,7 +29,7 @@
                             <path d="m8 11-3 4h11l-4-6-3 4z"></path>
                             <path d="M19 14h-2v3h-3v2h3v3h2v-3h3v-2h-3z"></path>
                         </svg>
-                        <img class="preview-img" id="preview" src="#">
+                        <img class="preview-img" id="preview" src="#" alt="">
                     </label>
                     <input type="file" id="file-input" name="image" class="file-input">
                 </div>

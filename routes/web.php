@@ -8,7 +8,6 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\FriendsController;
 use App\Http\Controllers\ProfileController;
 
-
 Auth::routes();
 
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');

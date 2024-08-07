@@ -49,7 +49,7 @@
                 
                 <!-- Existing comments -->
                 @forelse ($post->comments as $comment)
-                    <div class="comment">
+                    <div class="comment" style="display:block; margin-left:10px;">
                         <p style="color:white;"><strong style="color:white;">{{ $comment->user->name }}</strong>: {{ $comment->content }}</p>
                         @can('delete', $comment)
                             <form action="{{ route('comments.destroy', $comment->id) }}" method="POST">
@@ -67,14 +67,27 @@
                 <div class="post-footer">
                     <img src="{{ asset('images/user_default.png') }}" alt="Profile Picture" class="profile-pic">
                     <div class="profile-name" style="color:white;">{{ auth()->user()->userName }}</div>
+
                     <form action="{{ route('comments.store', $post->id) }}" method="POST">
                         @csrf
                         <div class="comment-box">
-                            <input type="text" placeholder="Add a comment...">
+                            <input type="text" name="content" placeholder="Add a comment...">
                             <button>Comment</button>
                         </div>
                     </form>
                 </div>
+
+                <!-- Display Validation Errors -->
+                @if ($errors->any())
+                    <div class="alert alert-danger" style="width:200px; height:40px; padding:5px 5px 5px 5px; text-decoration:none; margin-left:100px;">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <span>{{ "Write something!" }}</span>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+
             </div>
         </div>
     </div>

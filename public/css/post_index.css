@@ -15,6 +15,10 @@
     margin-bottom: 20px;
 }
 
+.scrollable-container::-webkit-scrollbar {
+    display: none; 
+}
+
 .post-wrapper {
     margin-top: 10px;
     margin-bottom: 20px;
@@ -23,8 +27,8 @@
     align-items: center;
     width: 100%;
     max-height: 800vh; 
-    overflow-y: scroll;
-    
+    overflow-y: scroll ;
+    scrollbar-width: none;
     /* padding: 10px; */
 }
 
@@ -37,45 +41,12 @@
     margin-bottom: 20px;
 }
 
-/* dots -> Edit, delete section */
-/* .post-actions {
-    position: relative;
-  }
-  
-  .dots {
-    color: white;
-    cursor: pointer;
-  }
-
-  .edit{
-    color: yellow;
-  }
-
-  .delete{
-    color: red;
-  }
-  
-  .actions {
-    display: none;
-    position: absolute;
-    top: 0;
-    right: 0;
-    background-color: #292929;
-    padding: 10px;
-    border-radius: 5px;
-  }
-
-  .actions.show {
-    display: block;
-  }
-
-   */
-
 .post-header, .post-footer {
     display: flex;
     align-items: center;
     padding: 10px;
 }
+
 .post-header img, .post-footer img {
     display: flex;
     border-radius: 50%;
@@ -109,17 +80,20 @@
     margin-right: 200px;
     border-radius: 10px;
 }
+
 .post-content p {
     color: #fff;
     font-size: 14px;
     text-align: center;
 }
+
 .footer-info {
     display: flex;
     margin-left: 40px;
     justify-content: flex-start;
     padding: 10px;
 }
+
 .footer-info button {
     background-color: #292929;
     color: #fff;
@@ -129,14 +103,17 @@
     border-radius: 5px;
     cursor: pointer;
 }
+
 .footer-info button:hover {
     background-color: #3e3e3e;
 }
+
 .post-footer .comment-box {
     display: flex;
     margin-left: 10px;
     flex-grow: 1;
 }
+
 .post-footer .comment-box input {
     width: 100%;
     padding: 5px;
