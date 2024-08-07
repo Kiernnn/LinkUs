@@ -1,33 +1,81 @@
-@extends("layouts.sidebar")
+@extends('layouts.sidebar')
 @section('title', 'Full Post')
 
-@section('content')
-<div class="container">
-   <div class="card mb-2">
-      <div class="card-body">
-         <div class="card-subtitle mb-2 small">
-            {{ $post->created_at->differForHumans() }},
-            <h5 class="card-title">{{ $post->content }}</h5>
+@section('style')
+    <link href="{{ asset('css/post_detail.css') }}" rel="stylesheet">
+@endsection
 
-         </div>
-      </div>
-   </div>
-      <ul class="list-group">
-         <li class="list-group-item active">
-            <b>Comments ({{ count($post->comments) }})</b>
-         </li>
-         @foreach ( $post->comments as $comment)
-            <li class="list-group-item">
-               {{ $comment->content }}
-            </li>
-         @endforeach
-      </ul>
+@section("content")
+    <div class="scrollable-container p-4">
+        
+        <!-- back button -->
+        <a href="{{ route('posts.index') }}" class="btn btn-primary" >Back</a>
 
-      <form action="{{ url('/comments/add') }}" method="post" >
-         @csrf
-         <input type="hidden" name="post_id" value="{{ $post->id }}">
-         <textarea name="content" class="form-control mb-2" placeholder="New Comment"></textarea>
-         <input type="submit" value="And Comment" class="btn-btn-secondary">
-      </form>
-</div>
+        <!-- Display post detail -->
+        <div class="detail-content">
+            
+            <div class="post-container">
+
+                <!-- Edit Buttons -->
+                <a href="{{ route('posts.edit', $post->id) }}" class="btn btn-primary">Edit</a>
+                
+                <!-- Delete Form -->
+                <form action="{{ route('posts.destroy', $post->id) }}" method="POST" style="display:inline; margin-right: 0;">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+
+                <div class="post-header">
+                    <img src="{{ asset('images/user_default.png') }}" alt="Profile Picture" class="profile-pic">
+                    <div class="profile-name" style="color:white;">{{ auth()->user()->userName }}</div>
+                </div>
+                <div class="post-subtitle mb-2 small" style="color:white;">
+                    {{ $post->created_at->diffForHumans() }}
+                </div>
+                <div class="post-content">
+                    <p class="content" style="color:white;">{{ $post->content }}</p><br><br>
+                    @if($post->image)
+                    <img src="{{ asset('storage/' . $post->image) }}" alt="Post image" style="max-width:100%; color:white;">
+                    @endif
+                </div>
+
+                <!-- Comment Section -->
+                <div class="footer-info">
+                    <button>Like</button>
+                    <button class="card-link" style="text-decoration:none;">Comment</button>
+                </div>
+                <hr style="color:white;">
+                
+                <!-- Existing comments -->
+                @forelse ($post->comments as $comment)
+                    <div class="comment">
+                        <p style="color:white;"><strong style="color:white;">{{ $comment->user->name }}</strong>: {{ $comment->content }}</p>
+                        @can('delete', $comment)
+                            <form action="{{ route('comments.destroy', $comment->id) }}" method="POST">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit">Delete</button>
+                            </form>
+                        @endcan
+                    </div>
+                @empty
+                    <p style="color:white;">No comments yet.</p>
+                @endforelse
+
+                <!-- New comment -->
+                <div class="post-footer">
+                    <img src="{{ asset('images/user_default.png') }}" alt="Profile Picture" class="profile-pic">
+                    <div class="profile-name" style="color:white;">{{ auth()->user()->userName }}</div>
+                    <form action="{{ route('comments.store', $post->id) }}" method="POST">
+                        @csrf
+                        <div class="comment-box">
+                            <input type="text" placeholder="Add a comment...">
+                            <button>Comment</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection

@@ -3,11 +3,10 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
-use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\FriendsController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\CommentController;
 
 
 Auth::routes();
@@ -23,17 +22,16 @@ Route::group(['middleware' => ['auth']], function () {
       Route::controller(PostController::class)->group(function () {
          Route::get('create', 'create')->name('posts.create');
          Route::post('store', 'store')->name('posts.store');
-         Route::get('edit', 'edit')->name('posts.edit');
-         Route::delete('{post}','delete')->name('posts.delete');
-         Route::get('detail','detail')->name('posts.detail');
+         Route::get('{post}/edit', 'edit')->name('posts.edit');
+         Route::put('posts/{post}', 'update')->name('posts.update');
+         Route::delete('{post}','destroy')->name('posts.destroy');
+         Route::get('{post}','detail')->name('posts.detail');
       });
-   });
 
-   Route::group(['prefix'=> 'comments'], function () {
+      //Comments
       Route::controller(CommentController::class)->group(function () {
-         Route::post('add', 'create')->name('comments.detail');
-         Route::get('delete/{id}', 'delete')->name('comments.delete');
-      });
+         Route::post('{post}/comments', 'store')->name('comments.store');
+         Route::delete('comments/{comment}', 'destroy')->name('comments.destroy');
    });
 });
 
@@ -42,5 +40,5 @@ Route::get('/friends', [FriendsController::class, 'index'])->name('friends.index
 
 Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
 
-
+});
 
