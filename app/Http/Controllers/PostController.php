@@ -6,25 +6,20 @@ use App\Models\Post;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Validator;
+use App\helpers;
+use Validator;
 
 class PostController extends Controller
 {
     public function index(Request $request)
     {
         $posts = Post::orderBy("created_at","desc")->get();
-        $postCount = $posts -> count();
-        if ($request->ajax()) {
-            return response()->json(['posts' => $posts]);
-        }
-
-
-        return view('posts.index', compact('posts', 'postCount'));
+    
+        return view('posts.index', compact('posts'));
     }
     
     public function create()
-    {
-        
+    {       
         return view('posts.create');
     }
 
@@ -48,19 +43,21 @@ class PostController extends Controller
             $imagePath = null;
 
             if ($request->hasFile('image')) {
-                $imagePath = $request->file('image')->store('posts','public');
+                // $imagePath = $request->file('image')->store('posts','public');
+                $file = $request->file('image');
+                $image = uploadFile($file, 'posts');
             }
 
             $post = Post::create([
                 'user_id' => auth()->user()->id,
                 'status' => $request->privacy,
                 'content' => $request->content ?? null,
-                'image' => $imagePath,
+                'image' => $image ?? null,
             ]);
 
             return redirect()->route('posts.index')->with('success', 'Post created successfully.');
         } catch (\Exception $e) {
-            // dd($e);
+            dd($e);
             return redirect()->back()->with('error', 'An error occurred while creating the post.');
         }
     }
