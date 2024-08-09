@@ -7,6 +7,8 @@
 
 @section('content')
     <div class="container">
+
+        <!-- Login Section Start -->
         <div class="left">
             <div class="title">
                 <h1 class="text-center mb-1" style="color: #000000">
@@ -16,6 +18,8 @@
             </div>
             <form method="POST" action="{{ route('login') }}">
                 @csrf
+
+                <!-- Email Section -->
                 <div data-mdb-input-init class="form-outline mb-4">
                     <input type="email" id="email" placeholder="{{ __('Email or Phone') }}"
                         class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}"
@@ -26,6 +30,8 @@
                         </span>
                     @enderror
                 </div>
+
+                <!-- Password Section Start -->
                 <div data-mdb-input-init class="form-outline mb-0">
                     <input type="password" id="password" placeholder="{{ __('Password') }}"
                         class="form-control @error('password') is-invalid @enderror" name="password" required
@@ -36,11 +42,17 @@
                         </span>
                     @enderror
                 </div>
+                <!-- Password Section End -->
 
+                <!-- Login button Section Start -->
                 <div class="button-container mb-0">
                     <button type="submit" class="submit">{{ __('Login') }}</button>
                 </div>
+                <!-- Login button Section End -->
+
             </form>
+
+            <!-- Register Section Start -->
             <div class="d-flex align-items-center justify-content-center pb-4">
                 <p class="mb-0 mt-0 me-2" style="color: #000000">{{ __("Don't have an account?") }}</p>
                 @if (Route::has('register'))
@@ -49,7 +61,12 @@
                     </a>
                 @endif
             </div>
+            <!-- Register Section End -->
+
         </div>
+        <!-- Login Section End -->
+
+        <!-- Img SVG Section Start -->
         <div class="right">
             <svg class="animated" id="freepik_stories-add-friends" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500"
                 version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.com/svgjs">
@@ -1583,5 +1600,7 @@
                 </defs>
             </svg>
         </div>
+        <!-- Img SVG Section End -->
+
     </div>
 @endsection

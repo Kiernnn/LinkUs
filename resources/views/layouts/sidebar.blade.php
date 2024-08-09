@@ -151,7 +151,7 @@
 <body>
     <div class="container-fluid">
         <div class="row">
-            <nav class="sidebar col-lg-3 col-md-4 d-none d-md-block sidebar-sticky" style="background-color: #0A0A0A;">
+            <nav class="sidebar col-lg-3 col-md-4 d-none d-md-block sidebar-sticky">
                 <div class="logo_content">
                     <div class="logo">
                         <img class="icon" src="{{ asset('images/icon.png') }}" alt="Logo">

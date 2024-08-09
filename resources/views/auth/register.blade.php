@@ -8,6 +8,8 @@
 
 @section('content')
     <div class="container">
+
+        <!-- Img SVG Section Start -->
         <div class="left">
             <svg class="animated" id="freepik_stories-feed" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500"
                 version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.com/svgjs">
@@ -701,6 +703,9 @@
                 </defs>
             </svg>
         </div>
+        <!-- Img SVG Section End -->
+
+        <!-- Register Section Start -->
         <div class="right">
             <h1 class="mb-3">{{ __('Registration Form') }}</h1>
             <div>
@@ -713,6 +718,8 @@
 
             <form method="POST" action="{{ route('register') }}" method="post">
                 @csrf
+
+                <!-- Google btn Section Start -->
                 <button class="oauthButton">
                     <svg class="icon" viewBox="0 0 24 24">
                         <path
@@ -731,8 +738,13 @@
                     </svg>
                     {{ __('Continue with Google') }}
                 </button>
+                <!-- Google btn Section End -->
+
                 <p class="text-center mb-0">{{ __('or') }}</p>
+
                 <div class="row">
+
+                    <!-- FirstName Section Start -->
                     <div class="col-md-6 mb-0">
                         <div class="form-outline mb-2">
                             <input type="text" id="firstName" placeholder="{{ __('First Name') }}"
@@ -746,6 +758,9 @@
                             @enderror
                         </div>
                     </div>
+                    <!-- FirstName Section End -->
+
+                    <!-- LastName Section Start -->
                     <div class="col-md-6 mb-0">
                         <div class="form-outline mb-2">
                             <input type="text" id="lastName" placeholder="{{ __('Last Name') }}"
@@ -759,6 +774,9 @@
                             @enderror
                         </div>
                     </div>
+                    <!-- LastName Section End -->
+
+                    <!-- UserName Section Start -->
                     <div class="col-md-6 mb-0">
                         <div class="form-outline mb-2">
                             <input type="text" id="userName" placeholder="{{ __('User Name') }}"
@@ -772,6 +790,9 @@
                             @enderror
                         </div>
                     </div>
+                    <!-- UserName Section End -->
+
+                    <!-- BirthDate Section Start -->
                     <div class="col-md-6 mb-0">
                         <div class="form-outline mb-2">
                             <input type="date" id="birthDate" placeholder="{{ __('Birth Date') }}"
@@ -785,7 +806,9 @@
                             @enderror
                         </div>
                     </div>
-                    <!-- Gender Section -->
+                    <!-- BirthDate Section End -->
+
+                    <!-- Gender Section Start -->
                     <div class="gender-selection mt-0">
                         <label for="gender">{{ __('Gender') }}</label>
                         <input class="form-check-input @error('gender') is-invalid @enderror" type="radio"
@@ -806,6 +829,9 @@
                             </span>
                         @enderror
                     </div>
+                    <!-- Gender Section End -->
+
+                    <!-- Email Section Start -->
                     <div class="form-outline mb-2">
                         <input type="email" id="email" placeholder="{{ __('Email or Phone') }}"
                             class="form-control @error('email') is-invalid @enderror" name="email"
@@ -817,6 +843,9 @@
                             </span>
                         @enderror
                     </div>
+                    <!-- Email Section End -->
+
+                    <!-- Password Section Start -->
                     <div class="form-outline mb-0">
                         <input type="password" id="password" placeholder="{{ __('Password') }}"
                             class="form-control @error('password') is-invalid @enderror" name="password" required
@@ -828,6 +857,9 @@
                             </span>
                         @enderror
                     </div>
+                    <!-- Password Section End -->
+
+                    <!-- Login/Register Section Start -->
                     <div class="button-container mb-0">
                         @if (Route::has('login'))
                             <div class="d-flex align-items-center justify-content-center pb-4">
@@ -839,8 +871,11 @@
                             </div>
                         @endif
                     </div>
+                    <!-- Login/Register Section End -->
                 </div>
             </form>
         </div>
+        <!-- Register Section End -->
+
     </div>
 @endsection
