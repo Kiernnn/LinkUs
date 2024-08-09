@@ -13,12 +13,13 @@ class PostController extends Controller
     public function index(Request $request)
     {
         $posts = Post::orderBy("created_at","desc")->get();
-
+        $postCount = $posts -> count();
         if ($request->ajax()) {
             return response()->json(['posts' => $posts]);
         }
 
-        return view('posts.index', compact('posts'));
+
+        return view('posts.index', compact('posts', 'postCount'));
     }
     
     public function create()
@@ -123,7 +124,7 @@ class PostController extends Controller
     {
         // dd($post);
         if ($post->user_id !== auth()->user()->id) {
-            abort(403, 'You are not authorized to delete this post.');
+            abort(404, 'You are not authorized to delete this post.');
         }
 
         $post->delete();

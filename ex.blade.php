@@ -23,41 +23,41 @@
             <!-- end search tab -->
 
             <!-- start post containers -->
-            <div class="post-wrapper">
-                @foreach ( $posts as $post)
+            @forelse ($posts as $post)
                 <div class="post-container">
                     <div class="post-header">
                         <img src="{{ asset('images/user_default.png') }}" alt="Profile Picture" class="profile-pic">
-                        <div class="profile-name" style="color:white;">
-                        {{ $post->user->userName}}
-                        </div>
+                        <div class="profile-name" style="color:white;">{{ $post->user->userName }}</div>
                     </div>
-                    <!-- <small style="color:white">Posted on {{ $post->created_at->format('F j, Y') }}</small> -->
+
+                    <!-- Created Time -->
                     <div class="post-subtitle mb-2 small" style="color:white;">
                         {{ $post->created_at->diffForHumans() }}
                     </div>
                     <div class="post-content">
                         <p class="content ml-10px" style="color:white;">{{ $post->content }}</p>
-                        
                     </div>
-                        <div class="post-image">
-                            @if($post->image)
+                    <div class="post-image">
+                        @if($post->image)
                             <img src="{{ asset('storage/' . $post->image) }}" alt="Post image" style="width: 300px; height: 300px; color:white;">
-                            @endif
-                        </div>
+                        @endif
+                    </div>
+
+                    <!-- Like, comment section -->
                     <div class="footer-info">
                         <button>Like</button>
                         <button>
-                        <a href="{{ route('posts.detail', $post->id) }}" class="card-link" style="text-decoration:none; color:white;">
-                            Comment
+                            <a href="{{ route('posts.detail', $post->id) }}" class="card-link" style="text-decoration:none; color:white;">
+                                Comment
                             </a>
                         </button>
                         <button>Share</button>
                     </div>
+                    
+                    <!-- New Comment -->
                     <div class="post-footer">
                         <img src="{{ asset('images/user_default.png') }}" alt="Profile Picture" class="profile-pic">
                         <div class="profile-name" style="color:white;">{{ auth()->user()->userName }}</div>
-
                         <form action="{{ route('comments.store', $post->id) }}" method="POST">
                             @csrf
                             <div class="comment-box">
@@ -77,10 +77,16 @@
                             </ul>
                         </div>
                     @endif
-
                 </div>
-                @endforeach
-            </div>
+            @empty
+                <!-- No posts message -->
+                <p>Add friends to see more posts.</p>
+            @endforelse
+
+            <!-- Show message if there are less than or equal to 3 posts -->
+            @if ($posts->count() <= 3 && $posts->count() > 0)
+                <p>Add friends to see more posts.</p>
+            @endif
             <!-- end post containers -->
         </div>
     </div>

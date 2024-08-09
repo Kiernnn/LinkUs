@@ -1,11 +1,11 @@
 @extends('layouts.sidebar')
-@section('title', 'Home')
+@section('title', 'Full Post')
 
 
 @section('content')
     <div class="container">
         <!-- back button -->
-        <a href="{{ route('posts.index') }}" class="btn btn-primary" >Back</a>
+        <a href="{{ route('posts.detail', $post->id) }}" class="btn btn-primary" >Back</a>
         <h1>Edit Post</h1>
 
         <form action="{{ route('posts.update', $post ) }}" method="POST" enctype="multipart/form-data">

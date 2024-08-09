@@ -22,22 +22,24 @@ Route::group(['middleware' => ['auth']], function () {
          Route::get('create', 'create')->name('posts.create');
          Route::post('store', 'store')->name('posts.store');
          Route::get('{post}/edit', 'edit')->name('posts.edit');
-         Route::put('posts/{post}', 'update')->name('posts.update');
+         Route::put('{post}', 'update')->name('posts.update');
          Route::delete('{post}','destroy')->name('posts.destroy');
-         Route::get('{post}','detail')->name('posts.detail');
+         Route::get('posts/{post}','detail')->name('posts.detail');
       });
 
       //Comments
       Route::controller(CommentController::class)->group(function () {
          Route::post('{post}/comments', 'store')->name('comments.store');
+         Route::get('comments/{comment}/edit', 'edit')->name('comments.edit');
          Route::delete('comments/{comment}', 'destroy')->name('comments.destroy');
+         Route::put('comments/{comment}', 'update')->name('comments.update');
+      });
    });
-});
 
 
-Route::get('/friends', [FriendsController::class, 'index'])->name('friends.index');
+   Route::get('/friends', [FriendsController::class, 'index'])->name('friends.index');
 
-Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
+   Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
 
 });
 
