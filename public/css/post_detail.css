@@ -1,13 +1,11 @@
-/* Ensures that the container can scroll vertically */
 .scrollable-container {
-   height: 100vh; /* Fills the viewport height */
-   overflow-y: auto; /* Enables vertical scrolling */
-   overflow-x: hidden; /* Prevents horizontal scrolling */
+   height: 100vh;
+   overflow-y: auto;
+   overflow-x: hidden;
 }
 
 .scrollable-container a{
    margin-left: 50px;
-   /* text-align: center; */
 }
 
 .scrollable-container #back{
@@ -15,118 +13,102 @@
 }
 
 .scrollable-container::-webkit-scrollbar {
-   display: none; /* For Chrome, Safari, and Opera */
+   display: none;
 }
 
 .detail-content {
-   margin-top: 0;
-   display: flex; /* Changed from 'top' to 'flex' */
-   flex-direction: column;
-   align-items: center;
-   margin-left: 60px;
-   height: auto; /* Allow height to adjust based on content */
-   overflow-y: auto; /* Enables vertical scrolling */
+    margin-top: 10px;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-height: 800vh;
+    overflow-y: scroll ;
+    scrollbar-width: none;
 }
 
-/* Ensure the container height doesn’t exceed the viewport */
-.container {
-   position: static;
-   width: 100%;
-   max-width: 800px;
-   margin-bottom: 20px;
-}
-
-/* Ensure the wrapper grows with content and allows scrolling */
-.post-wrapper {
-   margin-top: 10px;
-   width: 100%;
-   display: flex;
-   flex-direction: column;
-   align-items: center;
-   /* Removed fixed height to allow it to expand */
-   height: auto;
-   /* Optional: Add padding if needed */
-   padding: 10px;
-}
-
-/* Comment section should be flexible */
-.comment {
-   margin-top: 10px;
-   display: flex;
-   flex-direction: column;
-   align-items: center;
-   width: 100%;
-}
-
-/* Adjust post container */
 .post-container {
-   width: 100%; /* Use full width of parent */
-   max-width: 600px; /* Max width */
-   background-color: #292929;
-   border-radius: 10px;
-   overflow: hidden;
-   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-   margin-bottom: 20px;
-   /* Optional: Add padding if needed */
-   padding: 10px;
+    background-color: #141414;
+    border: 1px solid #333;
+    border-radius: 20px;
+    padding: 20px;
+    width: 600px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    margin-bottom: 10px;
 }
 
-.post-header, .post-footer {
-   display: flex;
-   align-items: center;
-   padding: 10px;
+.post-header, .comment-header {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-direction: row;
+    margin-bottom: -10px;
 }
 
-.post-header img, .post-footer img {
-   display: flex;
-   border-radius: 50%;
-   width: 40px;
-   height: 40px;
+.post-header .profile-pic,
+.comment-header .profile-pic {
+    color: #fff;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
 }
 
-.post-header .username {
-   margin-left: 10px;
-   font-size: 16px;
-   color: #b3b3b3;
+.post-header .profile-name,
+.comment-header .profile-name {
+    color: #fff;
+    font-weight: bold;
 }
 
-.post-content {
-   display: flex;
-   justify-content: center;
-   padding: 10px;
+.post-header .post-subtitle {
+    color: #fff;
+    margin-left: 10px;
+    margin-top: 11px;
+    font-size: 10px;
 }
 
-.post-content img {
-   width: 100%; /* Responsive image width */
-   max-width: 300px;
-   height: auto; /* Maintain aspect ratio */
-   border-radius: 10px;
+.post-content, .comment-content {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-direction: column;
+    color: #fff;
+    padding: 10px;
+    margin-left: 40px;
+    margin-bottom: -20px;
 }
 
-.post-content p {
-   color: #fff;
-   font-size: 14px;
-   text-align: center;
+.post-content .content,
+.comment-content .content  {
+    font-size: 16px;
+}
+
+.post-image {
+    max-width: 300px;
+    max-height: 300px;
+    object-fit: cover;
+    border-radius: 20px;
 }
 
 .footer-info {
-   display: flex;
-   justify-content: flex-start;
-   padding: 10px;
+    padding: 10px;
+    margin-top: 0;
+    margin-bottom: 0;
+    margin-left: 30px;
 }
 
 .footer-info button {
-   background-color: #292929;
-   color: #fff;
-   border: none;
-   padding: 5px 10px;
-   margin-right: 10px;
-   border-radius: 5px;
-   cursor: pointer;
+    background: none;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
 }
 
 .footer-info button:hover {
-   background-color: #3e3e3e;
+   background-color: #1a1a1a;
 }
 
 .post-footer .comment-box {
@@ -140,7 +122,7 @@
    padding: 5px;
    border-radius: 5px;
    border: none;
-   background-color: #292929;
+   background-color: #141414;
    color: #fff;
 }
 

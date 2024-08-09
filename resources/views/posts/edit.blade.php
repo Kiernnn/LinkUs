@@ -5,10 +5,10 @@
 @section('content')
     <div class="container">
         <!-- back button -->
-        <a href="{{ route('posts.detail', $post->id) }}" class="btn btn-primary" >Back</a>
+        <a href="{{ route('posts.detail', $post->id) }}" class="btn btn-primary">Back</a>
         <h1>Edit Post</h1>
 
-        <form action="{{ route('posts.update', $post ) }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('posts.update', $post) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
 
@@ -29,7 +29,7 @@
             <div class="form-group">
                 <label for="image">Photo</label>
                 <input type="file" name="image" id="image" class="form-control-file">
-                @if($post->image)
+                @if ($post->image)
                     <img src="{{ asset('storage/' . $post->image) }}" alt="Post image" style="max-width: 100px;">
                 @endif
             </div>
