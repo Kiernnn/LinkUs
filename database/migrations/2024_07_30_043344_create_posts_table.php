@@ -19,6 +19,7 @@ class CreatePostsTable extends Migration
             $table->enum('status', ['public','friends', 'me']);
             $table->text('content')->nullable();
             $table->string('image')->nullable();
+            $table->string('love');
             $table->timestamps();
         });
     }

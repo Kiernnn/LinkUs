@@ -22,6 +22,7 @@ Route::group(['middleware' => ['auth']], function () {
          Route::get('create', 'create')->name('posts.create');
          Route::post('store', 'store')->name('posts.store');
          Route::get('{post}/edit', 'edit')->name('posts.edit');
+         Route::post('{post}/love', 'love')->name('posts.love');
          Route::put('{post}', 'update')->name('posts.update');
          Route::delete('{post}','destroy')->name('posts.destroy');
          Route::get('posts/{post}','detail')->name('posts.detail');
@@ -35,7 +36,6 @@ Route::group(['middleware' => ['auth']], function () {
          Route::put('comments/{comment}', 'update')->name('comments.update');
       });
    });
-
 
    Route::get('/friends', [FriendsController::class, 'index'])->name('friends.index');
 

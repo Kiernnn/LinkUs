@@ -1,12 +1,8 @@
 @extends('layouts.sidebar')
-@section('title', 'Create New Post')
+@section('title', 'Create Post')
 
 @section('style')
     <link href="{{ asset('css/post_create.css') }}" rel="stylesheet">
-@endsection
-
-@section('script')
-    <script src="{{ asset('js/post_create.js') }}"></script>
 @endsection
 
 @section('content')
@@ -22,7 +18,7 @@
                 <textarea name="content" placeholder="What's on your mind?" class="form-control"></textarea>
                 <div class="form-actions d-flex justify-content-between align-items-center mt-2">
                     <label for="file-input" class="attachment-btn btn">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        <svg id="upload_svg" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                             style="fill: #fff;transform: ;msFilter:;">
                             <path d="M4 5h13v7h2V5c0-1.103-.897-2-2-2H4c-1.103 0-2 .897-2 2v12c0 1.103.897 2 2 2h8v-2H4V5z">
                             </path>
@@ -52,4 +48,23 @@
         </div>
     </div>
 
+@endsection
+
+@section('script')
+<script>
+    document.getElementById("file-input").addEventListener("change", function (event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                document.getElementById("preview").setAttribute("src", e.target.result);
+            };
+            reader.readAsDataURL(file);
+            document.getElementById('upload_svg').style.display = 'none';
+        } else {
+            document.getElementById("preview").setAttribute("src", "#");
+        }
+    });
+
+</script>
 @endsection
