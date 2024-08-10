@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Carbon;
 use Auth;
 
 class RegisterController extends Controller
@@ -38,7 +39,14 @@ class RegisterController extends Controller
             'firstName' => 'required|string|max:255',
             'lastName' => 'required|string|max:255',
             'userName' => 'required|string|max:255',
-            'birthDate' => 'required|date',
+            'birthDate' => ['required', 'date', function($attribute, $value, $fail){
+                $birthDate = Carbon::parse($value);
+                $age = $birthDate->age;
+
+                if($age < 16){
+                    $fail('You must be at least 16 years old to create an account.');
+                }
+            }],
             'gender' => 'required|string',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8',

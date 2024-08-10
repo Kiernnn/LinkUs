@@ -21,7 +21,7 @@
                     style="display:inline; margin-right: 0;">
                     @csrf
                     @method('DELETE')
-                    <button type="submit" class="btn btn-danger">Delete</button>
+                        <button type="submit" class="btn btn-danger">Delete</button>
                 </form>
                 <div class="post-header">
                     <img src="{{ asset('images/user_default.png') }}" alt="Profile Picture" class="profile-pic">
@@ -57,6 +57,7 @@
                 <hr style="color:white;">
 
                 <!-- Existing comments -->
+                <div class="comment-sec" style="background:rgb(108, 108, 108); border-radius:15px;">
                 @forelse ($post->comments as $comment)
                     <div class="comment-header" style="display:block;">
                         <img src="{{ asset('images/user_default.png') }}" alt="Profile Picture" class="profile-pic">
@@ -80,7 +81,7 @@
                 <div class="post-footer">
                     <form action="{{ route('comments.store', $post->id) }}" method="POST">
                         @csrf
-                        <div class="comment-box">
+                        <div class="comment-box">   
                             <input type="text" name="content" placeholder="Add a comment...">
                             <button>Comment</button>
                         </div>

@@ -796,7 +796,7 @@
                     <div class="col-md-6 mb-0">
                         <div class="form-outline mb-2">
                             <input type="date" id="birthDate" placeholder="{{ __('Birth Date') }}"
-                                class="form-control @error('birthDate') is-invalid @enderror" name="birthDate"
+                                class="form-control @error('birthDate') is-invalid @enderror" name="birthDate" id="birthDate"
                                 value="{{ old('birthDate') }}" />
 
                             @error('birthDate')

@@ -1,5 +1,5 @@
 @extends('layouts.sidebar')
-@section('title', 'Home')
+@section('title', 'Full Post')
 
 
 @section('content')

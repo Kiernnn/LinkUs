@@ -8,6 +8,12 @@ use Illuminate\Http\Request;
 
 class CommentController extends Controller
 {
+
+    // public function __construct()
+    // {
+    //     $this->middleware('auth')->except('show');
+    // }
+
     public function store(Request $request, Post $post)
     {
         $request->validate([
@@ -23,15 +29,6 @@ class CommentController extends Controller
         return redirect()->route('posts.detail', $post->id)->with('success', 'Comment added successfully.');
     }
 
-    public function destroy(Comment $comment)
-    {
-        $this->authorize('delete', $comment); // Optional: Add Authorization
-
-        $comment->delete();
-
-        return redirect()->back()->with('success', 'Comment deleted successfully.');
-    }
-
     public function show($id)
     {
         $data = Post::findOrFail($id);
@@ -39,9 +36,29 @@ class CommentController extends Controller
         return view('posts.detail', ['post'=> $data]);
     }
 
-    public function __construct()
+    public function edit(Comment $comment)
     {
-        $this->middleware('auth')->except('show');
+        return view ('posts.cmDetail', compact('comment'));
+    }
+
+    public function update(Request $request, Comment $comment)
+    {
+        $request->validate([
+            'content'=> 'required|string|max:255',
+        ]);
+
+        $comment->update($request->only('content'));
+
+        return redirect()->route('posts.detail', $comment->id)->with('success','Comment Edit successfully.');
+    }
+
+    public function destroy(Comment $comment)
+    {
+        $this->authorize('delete', $comment); // Optional: Add Authorization
+
+        $comment->delete();
+
+        return redirect()->back()->with('success', 'Comment deleted successfully.');
     }
 
 }

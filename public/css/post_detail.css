@@ -8,6 +8,10 @@
    margin-left: 50px;
 }
 
+.scrollable-container #back{
+   position: fixed;
+}
+
 .scrollable-container::-webkit-scrollbar {
    display: none;
 }
