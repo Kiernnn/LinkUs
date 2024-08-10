@@ -15,9 +15,9 @@
             <div class="form-group">
                 <label for="status">Status</label>
                 <select name="status" id="status" class="form-control" required>
-                    <option value="public" {{ $post->status == 'public' ? 'selected' : '' }}>Public</option>
-                    <option value="friends" {{ $post->status == 'friends' ? 'selected' : '' }}>Friends</option>
-                    <option value="me" {{ $post->status == 'me' ? 'selected' : '' }}>Me</option>
+                    <option value="public" {{ $post->status == 'public' ? 'selected' : '' }}>{{ __('Public') }}</option>
+                    <option value="friends" {{ $post->status == 'friends' ? 'selected' : '' }}>{{ __('Friends') }}</option>
+                    <option value="me" {{ $post->status == 'me' ? 'selected' : '' }}>{{ __('Only Me') }}</option>
                 </select>
             </div>
 

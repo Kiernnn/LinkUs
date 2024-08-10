@@ -33,6 +33,7 @@
     border-top-left-radius: 7px;
     border-bottom-left-radius: 7px;
     margin-right: 1px;
+    margin-bottom: 30px;
     transition: all .2s ease;
 }
 
@@ -53,6 +54,7 @@
     border-bottom-right-radius: 7px;
     height: 100%;
     width: 30px;
+    margin-bottom: 30px;
     display: flex;
     justify-content: center;
     align-items: center;
