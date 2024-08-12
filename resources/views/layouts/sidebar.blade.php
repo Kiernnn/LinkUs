@@ -149,6 +149,8 @@
 </head>
 
 <body>
+
+    <!-- Navbar Section Start -->
     <div class="container-fluid">
         <div class="row">
             <nav class="sidebar col-lg-3 col-md-4 d-none d-md-block sidebar-sticky">
@@ -158,6 +160,7 @@
                     </div>
                 </div>
                 <ul class="nav_list list-unstyled">
+                    <!-- Home Page Start -->
                     <li class="content">
                         <a href="{{ route('posts.index') }}"
                             class="d-flex align-items-center nav-link{{ Request::routeIs('posts.index') ? ' active' : '' }}">
@@ -170,6 +173,9 @@
                             </svg>
                         </a>
                     </li>
+                    <!-- Home Page End -->
+
+                    <!-- Friends Page Start -->
                     <li class="content">
                         <a href="{{ route('friends.index') }}"
                             class="d-flex align-items-center nav-link{{ Request::routeIs('friends.index') ? ' active' : '' }}">
@@ -180,6 +186,9 @@
                             </svg>
                         </a>
                     </li>
+                    <!-- Friends Page End -->
+
+                    <!-- Post Create Page Start -->
                     <li class="content">
                         <a href="{{ route('posts.create') }}"
                             class="d-flex align-items-center nav-link{{ Request::routeIs('posts.create') ? ' active' : '' }}">
@@ -192,6 +201,9 @@
                             </svg>
                         </a>
                     </li>
+                    <!-- Post Create Page End -->
+
+                    <!-- Profile Page Start -->
                     <li class="content">
                         <a href="{{ route('profile.index') }}"
                             class="d-flex align-items-center nav-link{{ Request::routeIs('profile.index') ? ' active' : '' }}">
@@ -202,6 +214,9 @@
                             </svg>
                         </a>
                     </li>
+                    <!-- Profile Page End -->
+
+                    <!-- Logout Section Start -->
                     <li class="logout">
                         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                             @csrf
@@ -217,6 +232,7 @@
                             </div>
                         </button>
                     </li>
+                    <!-- Logout Section End -->
                 </ul>
             </nav>
             <main class="col-lg-9 col-md-8 col-sm-12 p-4 flex-grow-1 main-content">
@@ -224,6 +240,7 @@
             </main>
         </div>
     </div>
+    <!-- Navbar Section End -->
 
     <!-- Bottom navigation bar for mobile devices -->
     <nav class="bottom-nav ml-4">
