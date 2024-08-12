@@ -94,11 +94,9 @@
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    margin-bottom: -10px;
 }
 
 .profile-pic {
-    color: #fff;
     border-radius: 50%;
     width: 40px;
     height: 40px;
@@ -108,13 +106,28 @@
 .profile-name {
     color: #fff;
     font-weight: bold;
+    margin-right: 10px;
 }
 
 .post-subtitle {
     color: #fff;
-    margin-left: 10px;
-    margin-top: 11px;
     font-size: 10px;
+    white-space: nowrap;
+    margin-right: auto;
+    margin-top: 10px;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+
+
+
+.dropdown-item {
+    font-size: 13px;
 }
 
 .post-content {
