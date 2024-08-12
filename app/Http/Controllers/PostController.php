@@ -6,7 +6,7 @@ use App\Models\Post;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use App\helpers;
+use Helpers;
 use Validator;
 
 class PostController extends Controller
@@ -40,12 +40,12 @@ class PostController extends Controller
         }
 
         try {
-            $imagePath = null;
+            $image = null;
 
             if ($request->hasFile('image')) {
                 // $imagePath = $request->file('image')->store('posts','public');
                 $file = $request->file('image');
-                $image = uploadFile($file, 'posts');
+                $image = file($file, 'posts');
             }
 
             $post = Post::create([
