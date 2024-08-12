@@ -6,7 +6,7 @@ use App\Models\Post;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use Helpers;
+use App\helpers;
 use Validator;
 
 class PostController extends Controller
@@ -44,7 +44,7 @@ class PostController extends Controller
 
             if ($request->hasFile('image')) {
                 $file = $request->file('image');
-                $image = file($file, 'posts');
+                $image = uploadFile($file, 'posts');
             }
 
             $post = Post::create([
