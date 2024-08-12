@@ -40,7 +40,7 @@ class PostController extends Controller
         }
 
         try {
-            $imagePath = null;
+            $image = null;
 
             if ($request->hasFile('image')) {
                 $file = $request->file('image');

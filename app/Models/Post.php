@@ -16,7 +16,6 @@ class Post extends Model
         'status',
         'content',
         'image',
-        'love',
     ];
 
     public function user()
