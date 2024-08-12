@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use App\Enums\PostStatus;
 
 class CreatePostsTable extends Migration
 {
@@ -16,7 +17,7 @@ class CreatePostsTable extends Migration
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->enum('status', ['public','friends', 'me']);
+            $table->enum('status', [PostStatus::PUBLIC, PostStatus::FRIENDS, PostStatus::ME]);
             $table->text('content')->nullable();
             $table->string('image')->nullable();
             $table->string('love');

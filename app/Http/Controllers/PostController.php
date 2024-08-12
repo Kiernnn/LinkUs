@@ -43,7 +43,6 @@ class PostController extends Controller
             $image = null;
 
             if ($request->hasFile('image')) {
-                // $imagePath = $request->file('image')->store('posts','public');
                 $file = $request->file('image');
                 $image = file($file, 'posts');
             }
@@ -57,24 +56,17 @@ class PostController extends Controller
 
             return redirect()->route('posts.index')->with('success', 'Post created successfully.');
         } catch (\Exception $e) {
-            dd($e);
             return redirect()->back()->with('error', 'An error occurred while creating the post.');
         }
     }
 
     public function show(Post $post)
     {
-        if ($post->user_id !== auth()->user()->id) {
-            abort(404);
-        }
         return view('posts.detail', compact('post'));
     }
 
     public function edit(Post $post)
     {
-        if ($post->user_id !== auth()->user()->id) {
-            abort(404, 'You are not authorized to delete this post.');
-        }
         return view('posts.edit', compact('post'));
     }
 

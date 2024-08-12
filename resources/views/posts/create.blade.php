@@ -32,9 +32,9 @@
                 <div class="form-actions d-flex justify-content-between align-items-center mt-2">
                     <div class="privacy-options">
                         <select name="privacy" class="form-select">
-                            <option value="public" selected>{{ __('Public') }}</option>
-                            <option value="friends">{{ __('Friends') }}</option>
-                            <option value="only-me">{{ __('Only Me') }}</option>
+                            @foreach(\App\Enums\PostStatus::cases() as $status)
+                                <option value="{{ $status->value }}" {{ $status === \App\Enums\PostStatus::PUBLIC ? 'selected' : '' }}>{{ $status->name }}</option>
+                            @endforeach
                         </select>
                     </div>
                     <button class="post-btn btn" type="submit">{{ __('Post') }}</button>
