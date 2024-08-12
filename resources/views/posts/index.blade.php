@@ -25,6 +25,7 @@
             <div class="post-wrapper">
                 @foreach ($posts as $post)
                     <div class="post-container">
+                        <a type="button" href="{{ route('posts.edit', $post->id) }}">Edit</a>
                         <div class="post-header">
                             <img src="{{ asset('images/user_default.png') }}" alt="Profile Picture" class="profile-pic">
                             <div class="profile-name">{{ $post->user->userName }}</div>
