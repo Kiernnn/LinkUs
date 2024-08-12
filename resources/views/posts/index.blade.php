@@ -84,7 +84,7 @@
                             <div class="post-content">
                                 <p class="content ml-10px">{{ $post->content }}</p>
                                 @if ($post->image)
-                                    <img src="{{ asset('storage/' . $post->image) }}" class="post-image" alt="Post image">
+                                    <img src="{{ asset('posts/' . $post->image) }}" class="post-image" alt="Post image">
                                 @endif
                                 <div class="post-footer">
                                     <form action="{{ route('posts.love', $post->id) }}" method="POST"
