@@ -1,6 +1,5 @@
 <?php
 
-namespace App\Helpers;
 
 if (! function_exists('uploadFile')) {
     function uploadFile($file, $directory, $disk = 'public')
