@@ -21,32 +21,6 @@
             </div>
             < <!-- Search Tab End -->
 
-<<<<<<< HEAD
-            <!-- start post containers -->
-            <div class="post-wrapper">
-                @foreach ($posts as $post)
-                    <div class="post-container">
-                        <a type="button" href="{{ route('posts.edit', $post->id) }}">Edit</a>
-                        <div class="post-header">
-                            <img src="{{ asset('images/user_default.png') }}" alt="Profile Picture" class="profile-pic">
-                            <div class="profile-name">{{ $post->user->userName }}</div>
-                            <div class="post-subtitle mb-2 small">
-                                {{ $post->created_at->diffForHumans() }}
-                            </div>
-                        </div>
-                        <!-- <small style="color:white">Posted on {{ $post->created_at->format('F j, Y') }}</small> -->
-                        <div class="post-content">
-                            <p class="content ml-10px">{{ $post->content }}</p>
-                            @if ($post->image)
-                                <img src="{{ asset('posts/' . $post->image) }}" class="post-image" alt="Post image">
-                            @endif
-                            <div class="post-footer">
-                                <form action="{{ route( 'posts.love', $post->id ) }}" method="POST" style="display:inline;">
-                                    @csrf
-                                    <button type="submit" class="love-button">
-                                        <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960"
-                                            width="20px" fill="#fff">
-=======
                 <!-- Post container Start -->
                 <div class="post-wrapper">
                     @foreach ($posts as $post)
@@ -65,7 +39,6 @@
                                     <a href="#" class="nav-link" data-bs-toggle="dropdown">
                                         <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960"
                                             width="24px" fill="#ffffff">
->>>>>>> 3f6c5461aa88448fbcd2f69714e2fe52d3a0cc0a
                                             <path
                                                 d="M480-160q-33 0-56.5-23.5T400-240q0-33 23.5-56.5T480-320q33 0 56.5 23.5T560-240q0 33-23.5 56.5T480-160Zm0-240q-33 0-56.5-23.5T400-480q0-33 23.5-56.5T480-560q33 0 56.5 23.5T560-480q0 33-23.5 56.5T480-400Zm0-240q-33 0-56.5-23.5T400-720q0-33 23.5-56.5T480-800q33 0 56.5 23.5T560-720q0 33-23.5 56.5T480-640Z" />
                                         </svg>
