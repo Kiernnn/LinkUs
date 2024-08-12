@@ -25,7 +25,7 @@ class PostController extends Controller
 
     public function store(Request $request)
     {
-         $validator = Validator::make($request->all(), [
+        $validator = Validator::make($request->all(), [
                                 'privacy' => 'required|in:public,friends,me',
                                 'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', //2M
                                 'content' => 'nullable',
@@ -72,30 +72,40 @@ class PostController extends Controller
 
     public function update(Request $request, Post $post)
     {
-        if ($post->user_id !== auth()->user()->id) {
-            abort(404);
+        
+        $validator = Validator::make($request->all(), [
+            'privacy' => 'required|in:public,friends,me',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', //2M
+            'content' => 'nullable',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator->errors());
         }
 
-        $request->validate([
-            'status' => 'required|in:public,friends,me',
-            'content' => 'required|string',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-        ]);
-
-        $post->update([
-            'status' => $request->status,
-            'content' => $request->content,
-        ]);
-
-        if ($request->hasFile('image')) {
-            if($post->image) {
-                Storage::disk('public')->delete($post->image);
+        try {
+            $post->update([
+                'privacy' => $request->privacy,
+                'content' => $request->content,
+            ]);
+    
+            if ($request->hasFile('image')) {
+                $file = $request->file('image');
+                if($post->image) {            
+                    deleteFile($post->image, 'posts');
+                }
+                $image = uploadFile($file, 'posts');
+    
+                $post->image = $image ?? NULL;
+                $post->save();
             }
-            $post->image = $request->file('image')->store('images', 'public');
-            $post->save();
+    
+            return redirect()->route('posts.index')->with('success', 'Post updated successfully.');
+        } catch (\Exception $e) {
+            dd($e);
+            return redirect()->back()->with('error', 'An error occurred while creating the post.');
         }
-
-        return redirect()->route('posts.index')->with('success', 'Post updated successfully.');
+        
     }
 
      // Comment 

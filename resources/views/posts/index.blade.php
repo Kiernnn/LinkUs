@@ -36,7 +36,7 @@
 
                                 <!-- Dropdown Section Start -->
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link" data-bs-toggle="dropdown">
+                                    <a href="" class="nav-link" data-bs-toggle="dropdown">
                                         <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960"
                                             width="24px" fill="#ffffff">
                                             <path
@@ -44,7 +44,7 @@
                                         </svg>
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-end text-bg-dark">
-                                        <a href="#" class="dropdown-item text-bg-dark">
+                                        <a href="{{ route('posts.edit', $post->id) }}" class="dropdown-item text-bg-dark">
 
                                             <svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 -960 960 960"
                                                 width="18px" fill="#fff">
@@ -77,8 +77,6 @@
 
                             </div>
                             <!-- Profile Section End -->
-
-                            <!-- <small style="color:white">Posted on {{ $post->created_at->format('F j, Y') }}</small> -->
 
                             <!-- Post Content Section Start -->
                             <div class="post-content">

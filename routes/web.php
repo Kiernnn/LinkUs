@@ -23,7 +23,7 @@ Route::group(['middleware' => ['auth']], function () {
          Route::post('store', 'store')->name('posts.store');
          Route::get('edit/{post}', 'edit')->name('posts.edit');
          Route::post('{post}/love', 'love')->name('posts.love');
-         Route::put('{post}', 'update')->name('posts.update');
+         Route::put('update/{post}', 'update')->name('posts.update');
          Route::delete('{post}','destroy')->name('posts.destroy');
          Route::get('{post}','detail')->name('posts.detail');
       });

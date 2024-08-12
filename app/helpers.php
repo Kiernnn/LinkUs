@@ -15,6 +15,21 @@ if (! function_exists('uploadFile')) {
     }
 }
 
+if (! function_exists('deleteFile')) {
+    function deleteFile($file, $directory, $disk = 'public')
+    {
+        $filePath = public_path($directory . '/' . $file);
+
+        if (file_exists($filePath)) {
+            unlink($filePath);
+            return true;
+        }
+
+        return false;
+    }
+}
+
+
 if (!function_exists('timeDiffInHours')) {
     function timeDiffInHours($time)
     {
