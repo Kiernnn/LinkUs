@@ -83,8 +83,15 @@
                                     <img src="{{ asset('posts/' . $post->image) }}" class="post-image" alt="Post image">
                                 @endif
                                 <div class="post-footer">
+<<<<<<< HEAD
                                     <form style="display:inline;">
                                         <button class="love-button">
+=======
+                                    <form action="{{ route('posts.love', $post->id) }}" method="POST"
+                                        style="display:inline;">
+                                        @csrf
+                                        <button type="submit" class="love-button">
+>>>>>>> ed30af3091e2c22f989fc419b1d6f56ce9483b97
                                             <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960"
                                                 width="20px" fill="#fff">
                                                 <path

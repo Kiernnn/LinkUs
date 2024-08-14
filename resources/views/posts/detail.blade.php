@@ -9,11 +9,27 @@
     <div class="scrollable-container p-4">
 
         <!-- back button -->
+<<<<<<< HEAD
         <a href="{{ route('posts.index') }}" style="background:black; color:white; text-decoration:none; border:solid white;border-radius:10px; padding:10px 10px 10px 10px; margin-bottom:10px;">Back</a>
+=======
+        <a href="{{ route('posts.index') }}" class="btn btn-primary">Back</a>
+>>>>>>> ed30af3091e2c22f989fc419b1d6f56ce9483b97
 
         <!-- Display post detail -->
         <div class="detail-content">
             <div class="post-container">
+<<<<<<< HEAD
+=======
+                <!-- Edit Buttons -->
+                <a href="{{ route('posts.edit', $post->id) }}" class="btn btn-primary">Edit</a>
+                <!-- Delete Form -->
+                <form action="{{ route('posts.destroy', $post->id) }}" method="POST"
+                    style="display:inline; margin-right: 0;">
+                    @csrf
+                    @method('DELETE')
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+>>>>>>> ed30af3091e2c22f989fc419b1d6f56ce9483b97
                 <div class="post-header">
                     <img src="{{ asset('images/user_default.png') }}" alt="Profile Picture" class="profile-pic">
                     <div class="profile-name">{{ $post->user->userName }}</div>
@@ -24,7 +40,11 @@
                 <div class="post-content">
                     <p class="content">{{ $post->content }}</p><br><br>
                     @if ($post->image)
+<<<<<<< HEAD
                         <img src="{{ asset('posts/' . $post->image) }}" class="post-image" alt="Post image">
+=======
+                        <img src="{{ asset('storage/' . $post->image) }}" class="post-image" alt="Post image">
+>>>>>>> ed30af3091e2c22f989fc419b1d6f56ce9483b97
                     @endif
                 </div>
 

@@ -2,6 +2,7 @@
     position: relative;
 }
 
+<<<<<<< HEAD
 .buttons{
     display:flex;
 }
@@ -14,6 +15,8 @@
     border: 1px solid #fff;
 }
 
+=======
+>>>>>>> ed30af3091e2c22f989fc419b1d6f56ce9483b97
 #add-image-icon {
     cursor: pointer;
     /* display: none;  */

@@ -6,6 +6,7 @@
 @endsection
 
 @section('content')
+<<<<<<< HEAD
 <div class="container" style="margin-top:100px; margin-left:500px;" >
     <div class="row">
         <div class="col-md-4">
@@ -28,4 +29,9 @@
         </div>
     </div>
 </div>
+=======
+    <div class="profile-content p-4">
+        <h1>Profile Page</h1>
+    </div>
+>>>>>>> ed30af3091e2c22f989fc419b1d6f56ce9483b97
 @endsection

@@ -39,12 +39,16 @@ Route::group(['middleware' => ['auth']], function () {
 
    Route::get('/friends', [FriendsController::class, 'index'])->name('friends.index');
 
+<<<<<<< HEAD
    // Profile
    Route::get('/profile', [profileController::class, 'index'])->name('profile.index');
 
    Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::put('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
+=======
+   Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
+>>>>>>> ed30af3091e2c22f989fc419b1d6f56ce9483b97
 
 });
 

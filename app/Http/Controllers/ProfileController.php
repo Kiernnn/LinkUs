@@ -5,14 +5,18 @@ namespace App\Http\Controllers;
 use App\Models\profile;
 use App\Http\Controllers\controller;
 use Illuminate\Http\Request;
+<<<<<<< HEAD
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use App\helpers;
 use Validator;
+=======
+>>>>>>> ed30af3091e2c22f989fc419b1d6f56ce9483b97
 
 
 class ProfileController extends Controller
 {
+<<<<<<< HEAD
     public function index()
     {
         $user = Auth::user();
@@ -23,10 +27,17 @@ class ProfileController extends Controller
         }
 
         return view('profile.index', compact('user', 'profile'));
+=======
+    public function index(profile $profile)
+    {
+        
+        return view('profile.index', compact('profile'));
+>>>>>>> ed30af3091e2c22f989fc419b1d6f56ce9483b97
     }
 
     public function edit()
     {
+<<<<<<< HEAD
         $user = auth()->user();
         $profile = $user->profile ?: new Profile(['user_id' => $user->id]);
 
@@ -64,6 +75,9 @@ class ProfileController extends Controller
             dd($e);
             return redirect()->back()->with('error', 'Profile update failed');
         }
+=======
+        return view('profile.edit');
+>>>>>>> ed30af3091e2c22f989fc419b1d6f56ce9483b97
     }
 
 }
