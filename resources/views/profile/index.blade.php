@@ -6,32 +6,27 @@
 @endsection
 
 @section('content')
-<<<<<<< HEAD
-<div class="container" style="margin-top:100px; margin-left:500px;" >
+<div class="container" style="margin-top:100px; margin-left:500px; overflow:hidden; overflow-y:scroll; height:100vh;">
     <div class="row">
         <div class="col-md-4">
             <div class="card">
-                <div class="card-header text-center" style="font-size:30px;">{{ __('Profile') }}</div>
+            <div class="card-header text-center" >
+                <h3 class="header text-center" style="font-size:30px;">{{ __('Profile') }}</h3>
+                <a href="{{ route('profile.edit', ['profile' => $profile->id]) }}" class="btn btn-primary">Edit</a>
+            </div>
                 <div class="card-body" style="background:grey; display:flex; justify-content:space-between; padding -bottom:20px;">
                     <div class="text-center" style="display:block;">
                         <h3 class="text-center">{{ $user->userName }}</h3>
-                        <h5 class="text-center" style="border: solid white; border-radius:10px; width:auto; padding:5px 5px 5px 5px; ">{{$user->email}}</h5>
-                        <p class="text-center">{{ $profile->about }}</p>
+                        <p class="text-center" style="border:5px red;">{{ $profile->about }}</p>
                     </div>
                     <div class="text-center">
-                    <img src="{{ asset('images/user_default.png') }}" alt="Profile Picture" class="profile-pic" style="border-radius:50%; width:100px; height:100px;">
+                        @if ($profile->image)
+                            <img src="{{ asset('profiles/' . $profile->image) }}" class="profile-image" alt="Profile image" style="width:150px; height:150px; border-radius:15px;">
+                        @endif
                     </div>
-                </div>
-                <div class="card-footer text-center">
-                    <a href="{{ route('profile.edit', ['profile' => $profile->id]) }}" class="btn btn-primary">Edit</a>
                 </div>
              </div>
         </div>
     </div>
 </div>
-=======
-    <div class="profile-content p-4">
-        <h1>Profile Page</h1>
-    </div>
->>>>>>> ed30af3091e2c22f989fc419b1d6f56ce9483b97
 @endsection

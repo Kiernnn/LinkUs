@@ -15,7 +15,7 @@
         {
             Schema::create('profiles', function (Blueprint $table) {
                 $table->id();
-                $table->foreignId('user_id')->constrained()->onDelete('cascade');
+                $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
                 $table->string('image')->nullable();
                 $table->text('about')->nullable();
                 $table->timestamps();
