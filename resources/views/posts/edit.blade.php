@@ -77,17 +77,13 @@
                             @endforeach
                         </select>
                     </div>
-<<<<<<< HEAD
-                    <div class="buttons">
+                    <div class="buttons" style="display:flex;">
                         <!-- Cancel button -->
                         <a href="{{ route('posts.index') }}" class="post-btn btn" style="margin-right: 10px;">Cancel</a>
 
                         <!-- Update button -->
                         <button class="post-btn btn" type="submit">{{ __('Update') }}</button>
                     </div>
-=======
-                    <button class="post-btn btn" type="submit">{{ __('Update') }}</button>
->>>>>>> ed30af3091e2c22f989fc419b1d6f56ce9483b97
                 </div>
             </form>
             @if (session('error'))

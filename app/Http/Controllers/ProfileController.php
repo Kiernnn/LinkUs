@@ -37,8 +37,8 @@ class ProfileController extends Controller
 
         return view('profile.edit', compact('user', 'profile'));
     }
-
-    public function update(Request $request, Profile $profile)
+          
+    public function update(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'image' => 'nullable|image|max:2048',
@@ -50,8 +50,13 @@ class ProfileController extends Controller
             return redirect()->back()->withErrors($validator->errors());
         }
 
+        $user = auth()->user();
+        $profile = $user->profile;
+
         try{
-            $profile->about = $request->input('about'); 
+            $profile->update([
+                'about' => $request->about,
+            ]);
 
             if($request->hasFile('image')) {
                 $file = $request->file('image');

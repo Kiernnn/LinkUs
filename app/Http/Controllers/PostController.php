@@ -67,6 +67,10 @@ class PostController extends Controller
 
     public function edit(Post $post)
     {
+        if(auth()->user()-> id !== $post->user_id) {
+            return view('posts.index', compact('post'));
+        }
+
         return view('posts.edit', compact('post'));
     }
 
