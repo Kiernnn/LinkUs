@@ -12,6 +12,7 @@ class Profile extends Model
     protected $guarded = [];
     protected $table = 'profiles';
     protected $fillable = [
+        'user_id',
         'image',
         'about',
     ];
