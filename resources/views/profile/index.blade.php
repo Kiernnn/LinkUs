@@ -3,30 +3,34 @@
 
 @section('style')
     <link href="{{ asset('css/profile.css') }}" rel="stylesheet">
+
 @endsection
 
 @section('content')
-<div class="container" style="margin-top:100px; margin-left:500px; overflow:hidden; overflow-y:scroll; height:100vh;">
-    <div class="row">
-        <div class="col-md-4">
-            <div class="card">
-            <div class="card-header text-center" >
-                <h3 class="header text-center" style="font-size:30px;">{{ __('Profile') }}</h3>
-                <a href="{{ route('profile.edit', ['profile' => $profile->id]) }}" class="btn btn-primary">Edit</a>
-            </div>
-                <div class="card-body" style="background:grey; display:flex; justify-content:space-between; padding -bottom:20px;">
-                    <div class="text-center" style="display:block;">
-                        <h3 class="text-center">{{ $user->userName }}</h3>
-                        <p class="text-center" style="border:5px red;">{{ $profile->about }}</p>
+    <div class="profile-content p-4">
+        <h5 class="profile">{{ __('Profile') }}</h5>
+        <div class="post-form-container">
+            <div class="profile-section">
+                <div class="profile-info">
+                    <div class="profile-name">{{ auth()->user()->userName }}</div>
+                    <div class="subname">
+                        <p class="firstName">{{ auth()->user()->firstName }}</p>
+                        <p class="lastName">{{ auth()->user()->lastName }}</p>
                     </div>
-                    <div class="text-center">
-                        @if ($profile->image)
-                            <img src="{{ asset('profiles/' . $profile->image) }}" class="profile-image" alt="Profile image" style="width:150px; height:150px; border-radius:15px;">
-                        @endif
+                    <div class="bio">
+                        <p class="bio-text">{{ $profile->about }}</p>
                     </div>
                 </div>
-             </div>
+                @if ($profile->image)
+                    <img src="{{ asset('profiles/' . $profile->image) }}" class="profile-pic" alt="Profile image">
+                @endif
+            </div>
+
+            <div class="profile-footer">
+                <a href="{{ route('profile.edit', ['profile' => $profile->id]) }}"
+                    class="post-btn btn">{{ __('Edit Profile') }}</a>
+            </div>
         </div>
     </div>
-</div>
+
 @endsection

@@ -79,7 +79,8 @@
                     </div>
                     <div class="buttons" style="display:flex;">
                         <!-- Cancel button -->
-                        <a href="{{ route('posts.index') }}" class="post-btn btn" style="margin-right: 10px;">Cancel</a>
+                        <a href="{{ route('posts.index') }}" class="post-btn btn"
+                            style="margin-right: 10px;">{{ __('Cancel') }}</a>
 
                         <!-- Update button -->
                         <button class="post-btn btn" type="submit">{{ __('Update') }}</button>
