@@ -44,7 +44,7 @@ class ProfileController extends Controller
 
         return view('profile.edit', compact('user', 'profile'));
     }
-          
+
     public function update(Request $request)
     {
         $validator = Validator::make($request->all(), [

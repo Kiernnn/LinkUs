@@ -1,5 +1,4 @@
 .profile-content {
-<<<<<<< HEAD
    display: flex;
    flex-direction: column;
    align-items: center;
@@ -26,39 +25,10 @@
    display: flex;
    justify-content: space-between;
    width: 100%;
-=======
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    margin-left: 60px;
-}
-
-.profile {
-    color: #fff;
-    font-weight: bold;
-    margin-bottom: 20px;
-}
-
-.post-form-container {
-    background-color: #141414;
-    border: 1px solid #333;
-    border-radius: 20px;
-    padding: 20px;
-    width: 500px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-}
-
-.form-wrapper {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
->>>>>>> 4047b015e5bd9dbb0d4b786654882eb9df914508
 }
 
 
 .edit-wrapper {
-<<<<<<< HEAD
    display: flex;
    flex-direction: column;
    justify-content: flex-start;
@@ -162,108 +132,3 @@
    background-color: #dc3545;
    color: #fff;
 }
-=======
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    color: #fff;
-    position: relative;
-    width: 350px;
-    margin: 0 5px;
-    align-self: flex-start;
-}
-
-.label-name {
-    color: #fff;
-    font-weight: bold;
-    margin-bottom: 10px;
-}
-
-.subname {
-    display: flex;
-    align-items: center;
-}
-
-.subname svg {
-    margin-right: 5px;
-    display: block;
-}
-
-.firstName, .lastName, .profile-name {
-    font-size: 14px;
-    margin: 0 5px 0 0;
-    line-height: 1;
-}
-
-.underline {
-    margin-top: 5px;
-}
-
-.form-control {
-    color: #fff;
-    background-color: #141414;
-    border: none;
-    height: 30px;
-    font-size: 14px;
-}
-
-.form-control:focus {
-    color: #fff;
-    background-color: #141414;
-    border: none;
-}
-
-.profile-wrapper {
-    display: flex;
-    margin-left: 30px;
-}
-
-.profile-pic {
-    background-size: cover;
-    border-radius: 50%;
-    width: 60px;
-    height: 60px;
-    margin-left: auto;
-    z-index: 0;
-}
-
-.upload_svg {
-    z-index: 1;
-    position: fixed;
-    bottom: 560px;
-    margin-left: 40px;
-}
-
-.post-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #292929;
-    border: 1px solid #3e3e3e;
-    border-radius: 8px;
-    color: #fff;
-    width: 100%;
-    height: 35px;
-    padding: 14px 24px;
-    text-decoration: none;
-    font-size: 16px;
-    margin: 14px 0;
-    cursor: pointer;
-}
-
-.post-btn:hover {
-    color: #fff;
-    border: 1px solid #3e3e3e;
-}
-
-.alert {
-    margin-top: 10px;
-    padding: 10px;
-    border-radius: 5px;
-}
-
-.alert-danger {
-    background-color: #dc3545;
-    color: #fff;
-}
->>>>>>> 4047b015e5bd9dbb0d4b786654882eb9df914508
