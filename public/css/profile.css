@@ -1,15 +1,26 @@
+.profile-content::-webkit-scrollbar {
+    display: none;
+    width: 8px;
+    background-color: #292929;
+}
+
 .profile-content {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     margin-left: 60px;
+    height: 100vh;
+    overflow-y: auto;
+    padding-bottom: 2%;
 }
 
 .profile {
     color: #fff;
     font-weight: bold;
     margin-bottom: 20px;
+    justify-content: center;
+    text-align: center;
 }
 
 .post-form-container {
@@ -164,6 +175,97 @@
 .alert-danger {
     background-color: #dc3545;
     color: #fff;
+}
+
+.post-wrapper {
+    margin-top: 10px;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-height: 800vh;
+    overflow-y: scroll ;
+    scrollbar-width: none;
+}
+
+.post-header {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.post-profile {
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+}
+
+.post-pf-name {
+    color: #fff;
+    font-weight: bold;
+    font-size: 15px;
+    margin-right: 10px;
+}
+
+.post-subtitle {
+    color: #fff;
+    font-size: 10px;
+    white-space: nowrap;
+    margin-right: auto;
+    margin-top: 10px;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.dropdown-item {
+    font-size: 13px;
+}
+
+.post-content {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-direction: column;
+    color: #fff;
+    padding: 10px;
+    margin-left: 40px;
+    margin-bottom: -20px;
+}
+
+.post-content .content {
+    font-size: 16px;
+}
+
+.post-image {
+    max-width: 300px;
+    max-height: 300px;
+    object-fit: cover;
+    border-radius: 20px;
+}
+
+.post-footer {
+    padding: 10px;
+    margin-left: -20px;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.post-footer button {
+    background: none;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.post-footer button:hover {
+    background-color: #1a1a1a;
 }
 
 /* Media Queries for Responsiveness */
