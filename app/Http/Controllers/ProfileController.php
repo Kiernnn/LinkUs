@@ -2,28 +2,35 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\profile;
-use App\Http\Controllers\controller;
+use App\Models\Profile;
+use App\Http\Controllers\Controller;
+use App\Models\Post;
+use App\helpers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-use App\helpers;
 use Validator;
 use Exception;
 
 class ProfileController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $user = auth()->user();
         $profile = $user->profile;
+
 
         // Create a default profile if it doesn't exist
         if(!$profile) {
             $profile = Profile::create(['user_id' => $user->id]);
         }
 
-        return view('profile.index', compact('user', 'profile'));
+        // Fetch user's posts
+        // $posts = $user->posts;
+        // $posts = $user->Posts::orderBy("created_at","desc")->get();
+        $posts = $user->posts()->orderBy('created_at', 'desc')->get();
+
+        return view('profile.index', compact('user', 'profile', 'posts'));
     }
 
     public function edit()

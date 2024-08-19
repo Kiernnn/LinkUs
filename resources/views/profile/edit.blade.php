@@ -1,54 +1,81 @@
-@extends('layouts.app')
+@extends('layouts.sidebar')
 @section('title', 'Profile')
 
+@section('style')
+    <link href="{{ asset('css/profile_edit.css') }}" rel="stylesheet">
+@endsection
+
 @section('content')
-<div class="container" style="margin-top:100px; margin-left:500px; overflow:hidden; overflow-y:scroll; height:100vh;">
-    <div class="row">
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-header text-center" style="font-size:30px;">{{ __('Edit Profile') }}</div>
-                <div class="card-body" style="background:grey; display:flex; flex-direction:column; padding-bottom:20px;">
-                    <form action="{{ route('profile.update', ['profile' => $profile->id]) }}" method="POST" enctype="multipart/form-data">
-                        @csrf
-                        @method('PUT')
+    <div class="profile-content p-4">
+        <h5 class="profile">{{ __('Edit Profile') }}</h5>
+        <div class="post-form-container">
+            <form action="{{ route('profile.update', ['profile' => $profile->id]) }}" method="POST"
+                enctype="multipart/form-data">
+                @csrf
+                @method('PUT')
 
-                        <div class="form-group">
-                            <label for="image">Profile Photo</label>
-                            <input type="file" name="image" id="image" style="cursor:pointer;">
-                            @if($profile->image)
-                                <div>
-                                    <img src="{{ asset('profiles/' . $profile->image) }}" alt="Profile Picture" style="width:150px; height:150px;">
-                                </div>
-                            @else
-                                <img src="{{ asset('images/user_default.png') }}" alt="Profile Picture" class="profile-pic">
-                            @endif
+                <div class="form-wrapper">
+                    <div class="edit-wrapper">
+                        <label for="name" class="label-name">Name</label>
+                        <div class="subname">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="16px" viewBox="0 -960 960 960" width="16px"
+                                fill="#fff">
+                                <path
+                                    d="M240-80q-33 0-56.5-23.5T160-160v-400q0-33 23.5-56.5T240-640h40v-80q0-83 58.5-141.5T480-920q83 0 141.5 58.5T680-720v80h40q33 0 56.5 23.5T800-560v400q0 33-23.5 56.5T720-80H240Zm0-80h480v-400H240v400Zm240-120q33 0 56.5-23.5T560-360q0-33-23.5-56.5T480-440q-33 0-56.5 23.5T400-360q0 33 23.5 56.5T480-280ZM360-640h240v-80q0-50-35-85t-85-35q-50 0-85 35t-35 85v80ZM240-160v-400 400Z" />
+                            </svg>
+                            <p class="firstName">{{ auth()->user()->firstName }}</p>
+                            <p class="lastName">{{ auth()->user()->lastName }} </p>
+                            <p class="profile-name">({{ auth()->user()->userName }})</p>
                         </div>
-
-                        <div class="form-group">
-                            <label for="about">About</label>
+                        <hr class="underline">
+                        <div class="form-group mb-0">
+                            <label for="about" class="label-name">{{ __('Bio') }}</label>
                             <textarea name="about" id="about" class="form-control">{{ old('about', $profile->about) }}</textarea>
                         </div>
-
-                        <!-- back and Edit button -->
-                        <div class="card-footer" style="margin:auto; margin-left:50px;">
-                            <a href="{{ route('profile.index') }}" class="btn btn-danger">Back</a>
-                            <button type="submit" class="btn btn-primary">Update</button>
-                        </div>
-                    </form>
-
-                    <!-- Display Error -->
-                    @if ($errors->any())
-                        <div class="alert alert-danger mt-3">
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
+                        <hr>
+                    </div>
+                    <div class="profile-wrapper">
+                        <img src="{{ asset('profiles/' . $profile->image) }}" alt="Profile Picture" class="profile-pic"
+                            id="profile-pic">
+                        <svg class="upload_svg" id="upload_svg" xmlns="http://www.w3.org/2000/svg" height="24px"
+                            viewBox="0 -960 960 960" width="24px" fill="#fff">
+                            <path
+                                d="M440-280h80v-160h160v-80H520v-160h-80v160H280v80h160v160Zm40 200q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z" />
+                        </svg>
+                        <input type="file" name="image" id="image" accept="image/*" class="form-control"
+                            style="display: none;">
+                    </div>
                 </div>
-            </div>
+
+                <div class="buttons" style="display:flex;">
+                    <!-- Update button -->
+                    <button class="post-btn btn" type="submit">{{ __('Done') }}</button>
+                </div>
+            </form>
+            @if (session('error'))
+                <div class="alert alert-danger mt-2">
+                    {{ session('error') }}
+                </div>
+            @endif
         </div>
     </div>
-</div>
+@endsection
+
+@section('script')
+    <script>
+        document.getElementById('upload_svg').addEventListener('click', function() {
+            document.getElementById('image').click();
+        });
+
+        document.getElementById('image').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('profile-pic').src = e.target.result;
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>
 @endsection

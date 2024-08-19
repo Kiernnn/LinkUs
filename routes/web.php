@@ -38,7 +38,15 @@ Route::group(['middleware' => ['auth']], function () {
    });
 
    // Friends Routes
-   Route::get('/friends', [FriendsController::class, 'index'])->name('friends.index');
+   Route::group(['prefix'=> 'friends'], function() {
+      Route::controller(FriendsController::class)->group(function() {
+         Route::get('/', 'index')->name('friends.index');
+         Route::post('/send-request/{receiverId}', 'sendRequest')->name('friends.sendRequest');
+         Route::post('/accept-request/{requestId}', 'acceptRequest')->name('friends.acceptRequest');
+         Route::post('/decline-request/{requestId}', 'declineRequest')->name('friends.declineRequest');
+         Route::post('/unfriend/{friendId}', 'unfriend')->name('friends.unfriend');
+      });
+   });
 
    // Profile Routes
    Route::group(['prefix'=> 'profile'], function () {

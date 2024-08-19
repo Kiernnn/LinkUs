@@ -1,3 +1,31 @@
 .friends-content {
     margin-left: 60px;
 }
+
+.friend-list,
+.friend-requests {
+    background-color: #2a2a2a;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.friend-list ul,
+.friend-requests ul {
+    background-color: #343a40;
+    border-radius: 5px;
+    padding: 10px;
+    list-style: none;
+}
+
+.friend-list ul li,
+.friend-requests ul li {
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: #495057;
+    color: white;
+}
+
+.friend-list ul li:last-child,
+.friend-requests ul li:last-child {
+    margin-bottom: 0;
+}

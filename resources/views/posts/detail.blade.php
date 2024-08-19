@@ -9,7 +9,7 @@
     <div class="scrollable-container p-4">
 
         <!-- back button -->
-        <a href="{{ route('posts.index') }}" style="background:black; color:white; text-decoration:none; border:solid white;border-radius:10px; padding:10px 10px 10px 10px; margin-bottom:10px;">Back</a>
+        <a href="{{ route('posts.index') }}" style="background:black; color:white; text-decoration:none; border:solid white;border-radius:10px; padding:10px 10px 10px 10px; margin-bottom:10px; position:fixed;">Back</a>
 
         <!-- Display post detail -->
         <div class="detail-content">
@@ -52,7 +52,7 @@
                 @forelse ($post->comments as $comment)
                     <div class="comment-header" style="display:block;">
                         <img src="{{ asset('images/user_default.png') }}" alt="Profile Picture" class="profile-pic">
-                        <div class="profile-name">{{ $post->user->userName }}</div>
+                        <div class="profile-name">{{ $comment->user->userName }}</div>
                     </div>
                     <div class="comment-content">
                         <p class="content ml-10px">{{ $comment->content }}</p>
