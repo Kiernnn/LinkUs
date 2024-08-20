@@ -9,7 +9,7 @@
     <div class="profile-content p-4">
         <h5 class="profile">{{ __('Edit Profile') }}</h5>
         <div class="post-form-container">
-            <form action="{{ route('profile.update', ['profile' => $profile->id]) }}" method="POST"
+            <form action="{{ route('profile.update', ['profile' => auth()->user()->profile->id]) }}" method="POST"
                 enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
@@ -30,12 +30,12 @@
                         <hr class="underline">
                         <div class="form-group mb-0">
                             <label for="about" class="label-name">{{ __('Bio') }}</label>
-                            <textarea name="about" id="about" class="form-control">{{ old('about', $profile->about) }}</textarea>
+                            <textarea name="about" id="about" class="form-control">{{ old('about', auth()->user()->profile->about) }}</textarea>
                         </div>
                         <hr>
                     </div>
                     <div class="profile-wrapper">
-                        <img src="{{ asset('profiles/' . $profile->image) }}" alt="Profile Picture" class="profile-pic"
+                        <img src="{{ asset('profiles/' . auth()->user()->profile->image) }}" alt="Profile Picture" class="profile-pic"
                             id="profile-pic">
                         <svg class="upload_svg" id="upload_svg" xmlns="http://www.w3.org/2000/svg" height="24px"
                             viewBox="0 -960 960 960" width="24px" fill="#fff">
@@ -52,6 +52,7 @@
                     <button class="post-btn btn" type="submit">{{ __('Done') }}</button>
                 </div>
             </form>
+            
             @if (session('error'))
                 <div class="alert alert-danger mt-2">
                     {{ session('error') }}

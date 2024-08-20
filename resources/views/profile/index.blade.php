@@ -12,22 +12,22 @@
             <div class="post-form-container">
                 <div class="profile-section">
                     <div class="profile-info">
-                        <div class="profile-name">{{ $user->userName }}</div>
+                        <div class="profile-name">{{ auth()->user()->userName }}</div>
                         <div class="subname">
                             <p class="firstName">{{ auth()->user()->firstName }}</p>
                             <p class="lastName">{{ auth()->user()->lastName }}</p>
                         </div>
                         <div class="bio">
-                            <p class="bio-text">{{ $profile->about }}</p>
+                            <p class="bio-text">{{ auth()->user()->profile->about }}</p>
                         </div>
                     </div>
-                    @if ($profile->image)
-                        <img src="{{ asset('profiles/' . $profile->image) }}" class="profile-pic" alt="Profile image">
+                    @if (auth()->user()->profile->image)
+                        <img src="{{ asset('profiles/' . auth()->user()->profile->image) }}" class="profile-pic" alt="Profile image">
                     @endif
                 </div>
 
                 <div class="profile-footer">
-                    <a href="{{ route('profile.edit', ['profile' => $profile->id]) }}"
+                    <a href="{{ route('profile.edit') }}"
                         class="post-btn btn">{{ __('Edit Profile') }}</a>
                 </div>
             </div>
@@ -39,7 +39,7 @@
 
                         <!-- Profile Section Start -->
                         <div class="post-header">
-                            <img src="{{ asset('profiles/' . $profile->image) }}" alt="Profile Picture"
+                            <img src="{{ asset('profiles/' . auth()->user()->profile->image) }}" alt="Profile Picture"
                                 class="post-profile">
                             <div class="post-pf-name">{{ $post->user->userName }}</div>
                             <div class="post-subtitle mb-2 small">

@@ -16,33 +16,20 @@ class ProfileController extends Controller
 {
     public function index(Request $request)
     {
-        $user = auth()->user();
-        $profile = $user->profile;
-
-
-        // Create a default profile if it doesn't exist
-        if(!$profile) {
-            $profile = Profile::create(['user_id' => $user->id]);
+        if(!auth()->user()->profile) {
+            Profile::create([
+                'user_id' => $user->id
+            ]);
         }
 
-        // Fetch user's posts
-        // $posts = $user->posts;
-        // $posts = $user->Posts::orderBy("created_at","desc")->get();
-        $posts = $user->posts()->orderBy('created_at', 'desc')->get();
-
-        return view('profile.index', compact('user', 'profile', 'posts'));
+        $posts = auth()->user()->posts()->orderBy('created_at', 'desc')->get();
+        
+        return view('profile.index', compact('posts'));
     }
 
     public function edit()
     {
-        $user = auth()->user();
-        $profile = $user->profile;
-
-        if(!$profile) {
-            $profile = Profile::create(['user_id' => $user->id]);
-        }
-
-        return view('profile.edit', compact('user', 'profile'));
+        return view('profile.edit');
     }
 
     public function update(Request $request)
@@ -50,15 +37,13 @@ class ProfileController extends Controller
         $validator = Validator::make($request->all(), [
             'image' => 'nullable|image|max:2048',
             'about' => 'nullable|string|max:255',
-            'delete_image' => 'nullable|boolean',
         ]);
 
         if($validator->fails()){
             return redirect()->back()->withErrors($validator->errors());
         }
 
-        $user = auth()->user();
-        $profile = $user->profile;
+        $profile = auth()->user()->profile;
 
         try{
             $profile->update([
@@ -76,10 +61,9 @@ class ProfileController extends Controller
                 $profile->save();
             }
 
-            return redirect()->route('profile.index')->with('success', 'Profile updated successfully');
+            return redirect()->route('profile.index')->with('success', 'Profile Updated Successfully');
         } catch(\Exception $e){
-            dd($e);
-            return redirect()->back()->with('error', 'Profile update failed');
+            return redirect()->back()->with('error', 'Profile Update Failed !');
         }
     }
 }

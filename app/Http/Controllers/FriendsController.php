@@ -11,9 +11,9 @@ class FriendsController extends Controller
 {
     public function index()
     {
-        $user = auth()->user(); // Get the authenticated user
-        $friends = Friend::where('user_id', $user->id)->get(); // Fetch the user's friends
-        $friendRequests = FriendRequest::where('receiver_id', $user->id)->get(); // Fetch the user's received friend requests
+        $user = auth()->user(); 
+        $friends = Friend::where('user_id', $user->id)->get(); 
+        $friendRequests = FriendRequest::where('receiver_id', $user->id)->get();
 
         return view('friends.index', compact('user', 'friends', 'friendRequests'));
     }
