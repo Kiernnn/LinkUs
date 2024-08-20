@@ -35,8 +35,8 @@
                         <hr>
                     </div>
                     <div class="profile-wrapper">
-                        <img src="{{ asset('profiles/' . auth()->user()->profile->image) }}" alt="Profile Picture" class="profile-pic"
-                            id="profile-pic">
+                        <img src="{{ asset('profiles/' . auth()->user()->profile->image) }}" alt="Profile Picture"
+                            class="profile-pic" id="profile-pic">
                         <svg class="upload_svg" id="upload_svg" xmlns="http://www.w3.org/2000/svg" height="24px"
                             viewBox="0 -960 960 960" width="24px" fill="#fff">
                             <path
@@ -52,12 +52,19 @@
                     <button class="post-btn btn" type="submit">{{ __('Done') }}</button>
                 </div>
             </form>
-            
+
+            @if (session('success'))
+                <div class="alert alert-success mt-2">
+                    {{ session('success') }}
+                </div>
+            @endif
+
             @if (session('error'))
                 <div class="alert alert-danger mt-2">
                     {{ session('error') }}
                 </div>
             @endif
+
         </div>
     </div>
 @endsection

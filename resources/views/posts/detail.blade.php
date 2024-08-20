@@ -9,7 +9,8 @@
     <div class="scrollable-container p-4">
 
         <!-- back button -->
-        <a href="{{ route('posts.index') }}" style="background:black; color:white; text-decoration:none; border:solid white;border-radius:10px; padding:10px 10px 10px 10px; margin-bottom:10px; position:fixed;">Back</a>
+        <a href="{{ route('posts.index') }}"
+            style="background:black; color:white; text-decoration:none; border:solid white;border-radius:10px; padding:10px 10px 10px 10px; margin-bottom:10px; position:fixed;">Back</a>
 
         <!-- Display post detail -->
         <div class="detail-content">
@@ -22,7 +23,7 @@
                     </div>
                 </div>
                 <div class="post-content">
-                    <p class="content">{{ $post->content }}</p><br><br>
+                    <p class="content">{{ $post->content }}</p>
                     @if ($post->image)
                         <img src="{{ asset('posts/' . $post->image) }}" class="post-image" alt="Post image">
                     @endif
@@ -48,50 +49,50 @@
                 <hr style="color:white;">
 
                 <!-- Existing comments -->
-                <div class="comment-sec" style="background:rgb(108, 108, 108); border-radius:15px;">
-                @forelse ($post->comments as $comment)
-                    <div class="comment-header" style="display:block;">
-                        <img src="{{ asset('images/user_default.png') }}" alt="Profile Picture" class="profile-pic">
-                        <div class="profile-name">{{ $comment->user->userName }}</div>
-                    </div>
-                    <div class="comment-content">
-                        <p class="content ml-10px">{{ $comment->content }}</p>
-                    </div>
-                    @can('delete', $comment)
-                        <form action="{{ route('comments.destroy', $comment->id) }}" method="POST">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit">Delete</button>
-                        </form>
-                    @endcan
-                @empty
-                    <p class="content">{{ __('No comments yet.') }}</p>
-                @endforelse
-
-                <!-- New comment -->
-                <div class="post-footer">
-                    <form action="{{ route('comments.store', $post->id) }}" method="POST">
-                        @csrf
-                        <div class="comment-box">   
-                            <input type="text" name="content" placeholder="Add a comment...">
-                            <button>Comment</button>
+                <div class="comment-sec" style="border-radius:15px;">
+                    @forelse ($post->comments as $comment)
+                        <div class="comment-header" style="display:block;">
+                            <img src="{{ asset('images/user_default.png') }}" alt="Profile Picture" class="profile-pic">
+                            <div class="profile-name">{{ $comment->user->userName }}</div>
                         </div>
-                    </form>
-                </div>
+                        <div class="comment-content">
+                            <p class="content ml-10px">{{ $comment->content }}</p>
+                        </div>
+                        @can('delete', $comment)
+                            <form action="{{ route('comments.destroy', $comment->id) }}" method="POST">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit">Delete</button>
+                            </form>
+                        @endcan
+                    @empty
+                        <p class="content">{{ __('No comments yet.') }}</p>
+                    @endforelse
 
-                <!-- Display Validation Errors -->
-                @if ($errors->any())
-                    <div class="alert alert-danger"
-                        style="width:200px; height:40px; padding:5px 5px 5px 5px; text-decoration:none; margin-left:100px;">
-                        <ul>
-                            @foreach ($errors->all() as $error)
-                                <span>{{ 'Write something!' }}</span>
-                            @endforeach
-                        </ul>
+                    <!-- New comment -->
+                    <div class="post-footer">
+                        <form action="{{ route('comments.store', $post->id) }}" method="POST">
+                            @csrf
+                            <div class="comment-box">
+                                <input type="text" name="content" placeholder="Add a comment...">
+                                <button>Comment</button>
+                            </div>
+                        </form>
                     </div>
-                @endif
 
+                    <!-- Display Validation Errors -->
+                    @if ($errors->any())
+                        <div class="alert alert-danger"
+                            style="width:200px; height:40px; padding:5px 5px 5px 5px; text-decoration:none; margin-left:100px;">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <span>{{ 'Write something!' }}</span>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+
+                </div>
             </div>
         </div>
-    </div>
-@endsection
+    @endsection

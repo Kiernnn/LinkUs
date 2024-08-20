@@ -98,21 +98,6 @@
 @endsection
 
 @section('script')
-    <script>
-        document.getElementById("file-input").addEventListener("change", function(event) {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    document.getElementById("preview").setAttribute("src", e.target.result);
-                };
-                reader.readAsDataURL(file);
-                document.getElementById('upload_svg').style.display = 'none';
-            } else {
-                document.getElementById("preview").setAttribute("src", "#");
-            }
-        });
-    </script>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
