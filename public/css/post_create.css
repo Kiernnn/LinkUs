@@ -77,7 +77,8 @@
     color: #fff;
     padding: 5px 10px;
     cursor: pointer;
-    display: flex;
+    display: inline-block;
+    visibility: visible;
     align-items: center;
 }
 

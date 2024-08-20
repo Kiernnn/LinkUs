@@ -16,6 +16,7 @@
             </div>
             <form action="{{ route('posts.store') }}" method="POST" class="post-form" enctype="multipart/form-data">
                 @csrf
+
                 <textarea name="content" placeholder="What's on your mind?" class="form-control"></textarea>
                 <div class="form-actions d-flex justify-content-between align-items-center mt-2 position-relative">
                     <div id="add-image-icon" class="attachment-btn btn">
@@ -29,8 +30,7 @@
                         <input type="file" id="file-input" name="image" class="file-input" style="display: none;">
                     </div>
                     <div class="image-container">
-                        <img class="preview-img" id="image-preview" src="#" alt="Preview Image"
-                            style="display: none;">
+                        <img class="preview-img" id="image-preview" src="#" alt="Preview Image">
                         <button type="button" id="remove-image" class="delete-btn" style="display: none;">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 69 14"
                                 class="svgIcon bin-top">
@@ -69,7 +69,8 @@
                             @foreach (\App\Enums\PostStatus::cases() as $status)
                                 <option value="{{ $status->value }}"
                                     {{ $status === \App\Enums\PostStatus::PUBLIC ? 'selected' : '' }}>
-                                    {{ $status->name }}</option>
+                                    {{ $status->name }}
+                                </option>
                             @endforeach
                         </select>
                     </div>
@@ -90,21 +91,7 @@
 @endsection
 
 @section('script')
-    <script>
-        document.getElementById("file-input").addEventListener("change", function(event) {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    document.getElementById("preview").setAttribute("src", e.target.result);
-                };
-                reader.readAsDataURL(file);
-                document.getElementById('upload_svg').style.display = 'none';
-            } else {
-                document.getElementById("preview").setAttribute("src", "#");
-            }
-        });
-    </script>
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const addImageIcon = document.getElementById('add-image-icon');
@@ -114,48 +101,49 @@
             const uploadSvg = document.getElementById('upload_svg');
 
             function updateImageState() {
-                if (fileInput.files && fileInput.files.length > 0) {
-                    addImageIcon.style.display = 'none'; // Hide the add image button
-                    imagePreview.style.display = 'block'; // Show the image preview
-                    removeImageButton.style.display = 'block'; // Show the remove button
+                if (fileInput.files.length > 0) {
+                    // If there's a file selected, show the preview and remove button
+                    imagePreview.style.display = 'block';
+                    removeImageButton.style.display = 'flex';
+                    addImageIcon.style.display = 'none';
                 } else {
-                    addImageIcon.style.display = 'block'; // Show the add image button
-                    imagePreview.style.display = 'none'; // Hide the image preview
-                    removeImageButton.style.display = 'none'; // Hide the remove button
+                    // If no file is selected, show the add image icon and hide others
+                    imagePreview.style.display = 'none';
+                    removeImageButton.style.display = 'none';
+                    addImageIcon.style.display = 'block';
                 }
             }
 
-            // Initialize the state on page load
-            updateImageState();
-
-            // Open file selector when the add image icon is clicked
             addImageIcon.addEventListener('click', function() {
                 fileInput.click();
             });
 
-            // Remove the image and reset the state when the remove button is clicked
             removeImageButton.addEventListener('click', function() {
                 fileInput.value = ''; // Clear the file input
-                imagePreview.src = '#'; // Reset the preview image source
-                uploadSvg.style.display = 'block'; // Show the upload icon again
-                updateImageState(); // Update the UI to reflect the cleared state
+                imagePreview.src = ''; // Clear the image preview
+                uploadSvg.style.display = 'block'; // Show the SVG icon again
+                updateImageState(); // Update state to show add-image-icon
             });
 
-            // Update the preview and UI when a file is selected
             fileInput.addEventListener('change', function(event) {
                 const file = event.target.files[0];
                 if (file) {
                     const reader = new FileReader();
                     reader.onload = function(e) {
-                        imagePreview.src = e.target.result; // Set the preview image source
-                        updateImageState(); // Update the UI to reflect the new image
+                        imagePreview.src = e.target.result;
+                        uploadSvg.style.display = 'none'; // Hide SVG icon when image is present
+                        updateImageState
+                    (); // Update state to hide add-image-icon and show preview and remove button
                     };
                     reader.readAsDataURL(file);
                 } else {
-                    updateImageState(); // Reset the UI if no file is selected
+                    uploadSvg.style.display = 'block'; // Show SVG when no file is selected
+                    updateImageState(); // Update state to show add-image-icon
                 }
             });
+
+            // Initial state check
+            updateImageState();
         });
     </script>
-
 @endsection
