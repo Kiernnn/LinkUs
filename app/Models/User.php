@@ -18,6 +18,15 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
+
+     public function run()
+     {
+         User::factory()
+                 ->count(20)
+                 ->hasPosts(1)
+                 ->create();
+     }
+
     protected $fillable = [
         'firstName',
         'lastName',

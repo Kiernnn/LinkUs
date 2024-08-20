@@ -20,7 +20,7 @@
                     </svg>
                 </button>
             </div>
-            < <!-- Search Tab End -->
+            <!-- Search Tab End -->
 
                 <!-- Post container Start -->
                 <div class="post-wrapper">

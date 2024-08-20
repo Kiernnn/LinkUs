@@ -11,6 +11,13 @@ class Post extends Model
     protected $guarded = [];
     protected $table = 'posts';
 
+    public function run()
+    {
+        Post::factory()
+            ->count(20)
+            ->create();
+    }
+
     protected $fillable = [
         'user_id',
         'status',

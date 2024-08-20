@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateFriendRequestTable extends Migration
+class CreateFriendRequestsTable extends Migration
 {
     /**
      * Run the migrations.

@@ -2,14 +2,16 @@
 
 namespace Database\Seeders;
 
+use App\Models\Post;
 use App\Models\User;
+use App\Models\Comment;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Carbon;
-class UserSeeder extends Seeder
+use Faker\Factory as Faker;
+
+class PostSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -18,6 +20,6 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        User::factory()->count(20)->create();
+        Post::factory()->count(30)->create();
     }
 }

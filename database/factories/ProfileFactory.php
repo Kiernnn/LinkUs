@@ -3,10 +3,9 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str;
 use App\Models\User;
 
-class PostFactory extends Factory
+class ProfileFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -17,10 +16,7 @@ class PostFactory extends Factory
     {
         return [
             'user_id' => User::factory(),
-            'content' => ucfirst(Str::limit($this->faker->sentence, 20)), 
-            'status' => $this->faker->randomElement(['public', 'friends', 'me']), 
-            'created_at' => now(),
-            'updated_at' => now(),
+            'about' => $this->faker->realText(150),
         ];
     }
 }
