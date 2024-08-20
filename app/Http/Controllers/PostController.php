@@ -13,7 +13,9 @@ class PostController extends Controller
 {
     public function index(Request $request)
     {
-        $posts = Post::orderBy("created_at","desc")->get();
+        $posts = Post::orderBy('created_at','desc')
+                    ->where('user_id','!=',auth()->user()->id)
+                    ->get();
     
         return view('posts.index', compact('posts'));
     }

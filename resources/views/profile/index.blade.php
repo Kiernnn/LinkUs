@@ -18,11 +18,19 @@
                             <p class="lastName">{{ auth()->user()->lastName }}</p>
                         </div>
                         <div class="bio">
-                            <p class="bio-text">{{ auth()->user()->profile->about }}</p>
+                            <p class="bio-text">
+                                @if (auth()->user()->profile)
+                                    {{ auth()->user()->profile->about }}
+                                @else
+                                    {{ __('No bio yet') }}
+                                @endif
+                            </p>
                         </div>
                     </div>
                     @if (auth()->user()->profile->image)
                         <img src="{{ asset('profiles/' . auth()->user()->profile->image) }}" class="profile-pic" alt="Profile image">
+                    @else
+                        <img src="{{ asset('images/user_default.png') }}" class="profile-pic" alt="Profile image">
                     @endif
                 </div>
 
@@ -39,8 +47,13 @@
 
                         <!-- Profile Section Start -->
                         <div class="post-header">
-                            <img src="{{ asset('profiles/' . auth()->user()->profile->image) }}" alt="Profile Picture"
-                                class="post-profile">
+                            @if (auth()->user()->profile->image)
+                                <img src="{{ asset('profiles/' . auth()->user()->profile->image) }}" alt="Profile Picture"
+                                    class="post-profile">
+                            @else
+                                <img src="{{ asset('images/user_default.png') }}" alt="Profile Picture"
+                                    class="post-profile">
+                            @endif
                             <div class="post-pf-name">{{ $post->user->userName }}</div>
                             <div class="post-subtitle mb-2 small">
                                 {{ $post->created_at->diffForHumans() }}

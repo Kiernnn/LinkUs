@@ -18,7 +18,7 @@ class ProfileController extends Controller
     {
         if(!auth()->user()->profile) {
             Profile::create([
-                'user_id' => $user->id
+                'user_id' => auth()->user()->id
             ]);
         }
 
