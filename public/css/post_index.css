@@ -123,7 +123,15 @@
     justify-content: flex-end;
 }
 
+.dropdown-menu {
+    color: #fff;
+    background-color: #141414;
+    border: 1px solid #fff;
+}
+
 .dropdown-item {
+    color: #fff;
+    background-color: #141414;
     font-size: 13px;
 }
 

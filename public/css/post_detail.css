@@ -82,6 +82,7 @@
 
 .post-content .content,
 .comment-content .content  {
+    color: #fff;
     font-size: 16px;
 }
 
@@ -90,6 +91,10 @@
     max-height: 300px;
     object-fit: cover;
     border-radius: 20px;
+}
+
+.comment-sec .comment-yet {
+    color: #fff;
 }
 
 .footer-info {
@@ -134,14 +139,28 @@
    color: #fff;
 }
 
-.post-footer .comment-box button{
-   width: 100px;
-   border-radius: 20px;
-   background-color: #292929;
-   color: #fff;
-   border: 0px;
-}
-
 .post-footer .comment-box input:focus {
    outline: none;
+}
+
+.post-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #292929;
+    border: 1px solid #3e3e3e;
+    border-radius: 8px;
+    color: #fff;
+    width: auto;
+    height: 40px;
+    padding: 14px 24px;
+    text-decoration: none;
+    font-size: 16px;
+    margin: 14px 0;
+    cursor: pointer;
+}
+
+.post-btn:hover {
+    color: #fff;
+    border: 1px solid #3e3e3e;
 }

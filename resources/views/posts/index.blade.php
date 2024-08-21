@@ -54,8 +54,8 @@
                                                 d="M480-160q-33 0-56.5-23.5T400-240q0-33 23.5-56.5T480-320q33 0 56.5 23.5T560-240q0 33-23.5 56.5T480-160Zm0-240q-33 0-56.5-23.5T400-480q0-33 23.5-56.5T480-560q33 0 56.5 23.5T560-480q0 33-23.5 56.5T480-400Zm0-240q-33 0-56.5-23.5T400-720q0-33 23.5-56.5T480-800q33 0 56.5 23.5T560-720q0 33-23.5 56.5T480-640Z" />
                                         </svg>
                                     </a>
-                                    <div class="dropdown-menu dropdown-menu-end text-bg-dark">
-                                        <a href="{{ route('posts.edit', $post->id) }}" class="dropdown-item text-bg-dark">
+                                    <div class="dropdown-menu dropdown-menu-end">
+                                        <a href="{{ route('posts.edit', $post->id) }}" class="dropdown-item">
                                             <svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 -960 960 960"
                                                 width="18px" fill="#fff">
                                                 <path
@@ -63,7 +63,7 @@
                                             </svg>
                                             {{ __('Edit post') }}
                                         </a>
-                                        <a href="#" class="dropdown-item text-bg-dark">
+                                        <a href="#" class="dropdown-item">
                                             <svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 -960 960 960"
                                                 width="18px" fill="#fff">
                                                 <path
@@ -71,7 +71,7 @@
                                             </svg>
                                             {{ __('Edit privacy') }}
                                         </a>
-                                        <a href="#" class="dropdown-item text-bg-dark">
+                                        <a href="#" class="dropdown-item">
                                             <svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 -960 960 960"
                                                 width="18px" fill="#c31818">
                                                 <path

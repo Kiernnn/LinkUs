@@ -98,50 +98,172 @@
         /* Bottom navigation bar styles */
         .bottom-nav {
             display: none;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-around;
             position: fixed;
             bottom: 0;
             left: 0;
             width: 100%;
-            background-color: #0A0A0A;
-            box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.1);
-            z-index: 1030;
+            height: 60px;
+            background: #0a0a0a;
+            border-top: 1px solid #333;
+            border-top-right-radius: 20px;
+            border-top-left-radius: 20px;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.5);
+            color: #fff;
+            padding: 0 10px;
         }
 
-        .bottom-nav .nav-link {
-            padding: 10px;
-            color: #6c757d;
+        .bottom-nav .logo_content {
+            display: none;
         }
 
-        .bottom-nav .nav-link svg {
-            fill: #ffffff;
+        .bottom-nav ul {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+            width: 100%;
+            padding: 0;
+            margin: 0;
+            list-style: none;
         }
 
-        .bottom-nav .nav-link.active svg {
-            fill: #ffffff;
+        .bottom-nav ul .content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 60px;
+            height: 60px;
+            list-style: none;
+            border-radius: 12px;
+        }
+
+        .bottom-nav ul .content a {
             display: flex;
             align-items: center;
             justify-content: center;
             width: 50px;
-            height: 30px;
-            background: #292929;
+            height: 50px;
+            text-decoration: none;
+            color: #fff;
             border-radius: 12px;
+            transition: background 0.3s ease;
+            position: relative;
         }
 
-        @media (max-width: 767.98px) {
-            .sidebar {
-                display: none;
-            }
+        .bottom-nav ul .content a:hover,
+        .bottom-nav ul .content a:focus {
+            background: #292929;
+        }
 
+        .bottom-nav ul .content a::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 20%;
+            left: 170%;
+            transform: translateX(-50%);
+            background-color: #141414;
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 8px;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+            font-size: 12px;
+        }
+
+        .bottom-nav ul .content a:hover::after,
+        .bottom-nav ul .content a:focus::after {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .bottom-nav ul .content a svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        .bottom-nav ul .content a:hover svg path,
+        .bottom-nav ul .content a:focus svg path {
+            fill: #fff;
+        }
+
+        .bottom-nav ul .content a.active {
+            background: #141414;
+        }
+
+        .bottom-nav .logout {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Show bottom-nav on larger screens */
+        @media (min-width: 768px) {
             .bottom-nav {
                 display: flex;
-                justify-content: space-around;
-                align-items: center;
+            }
+        }
+
+        /* Responsive adjustments for row direction */
+        @media (max-width: 768px) {
+            .bottom-nav {
+                height: auto;
+                padding: 0 5px;
+                flex-direction: row;
+                /* Ensure row direction on smaller screens */
             }
 
-            .main-content {
-                margin-bottom: 56px;
-                color: red;
-                /* Space for bottom nav */
+            .bottom-nav ul {
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-between;
+                width: 100%;
+                padding: 0;
+                margin: 0;
+            }
+
+            .bottom-nav ul .content {
+                width: 50px;
+                /* Adjust width for smaller screens */
+                height: 50px;
+                /* Adjust height for smaller screens */
+                margin: 0 5px;
+            }
+
+            .bottom-nav ul .content a {
+                width: 100%;
+                height: 100%;
+                padding: 5px;
+            }
+
+            .bottom-nav ul .content a::after {
+                bottom: 100%;
+                left: 50%;
+                transform: translateX(-50%) translateY(-10px);
+                white-space: normal;
+            }
+        }
+
+        /* Further customization for very small screens (if needed) */
+        @media (max-width: 480px) {
+            .bottom-nav ul .content {
+                width: 40px;
+                height: 40px;
+                margin: 0 3px;
+            }
+
+            .bottom-nav ul .content a {
+                width: 100%;
+                height: 100%;
+                padding: 3px;
+            }
+
+            .bottom-nav ul .content a svg {
+                width: 20px;
+                height: 20px;
             }
         }
     </style>
@@ -155,14 +277,14 @@
         <div class="row">
             <nav class="sidebar col-lg-3 col-md-4 d-none d-md-block sidebar-sticky">
                 <div class="logo_content">
-                    <div class="logo">
+                    <a href="{{ route('posts.index') }}" class="logo">
                         <img class="icon" src="{{ asset('images/icon.png') }}" alt="Logo">
-                    </div>
+                    </a>
                 </div>
                 <ul class="nav_list list-unstyled">
                     <!-- Home Page Start -->
                     <li class="content">
-                        <a href="{{ route('posts.index') }}"
+                        <a href="{{ route('posts.index') }}" data-tooltip="Home"
                             class="d-flex align-items-center nav-link{{ Request::routeIs('posts.index') ? ' active' : '' }}">
                             <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960"
                                 width="24px" fill="#fff">
@@ -177,7 +299,7 @@
 
                     <!-- Friends Page Start -->
                     <li class="content">
-                        <a href="{{ route('friends.index') }}"
+                        <a href="{{ route('friends.index') }}" data-tooltip="Friends"
                             class="d-flex align-items-center nav-link{{ Request::routeIs('friends.index') ? ' active' : '' }}">
                             <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960"
                                 width="24px" fill="#fff">
@@ -190,7 +312,7 @@
 
                     <!-- Post Create Page Start -->
                     <li class="content">
-                        <a href="{{ route('posts.create') }}"
+                        <a href="{{ route('posts.create') }}" data-tooltip="Create"
                             class="d-flex align-items-center nav-link{{ Request::routeIs('posts.create') ? ' active' : '' }}">
                             <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960"
                                 width="24px" fill="#fff">
@@ -205,7 +327,7 @@
 
                     <!-- Profile Page Start -->
                     <li class="content">
-                        <a href="{{ route('profile.index') }}"
+                        <a href="{{ route('profile.index') }}" data-tooltip="Profile"
                             class="d-flex align-items-center nav-link{{ Request::routeIs('profile.index') ? ' active' : '' }}">
                             <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960"
                                 width="24px" fill="#fff">
@@ -230,6 +352,8 @@
                                         d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h280v80H200v560h280v80H200Zm440-160-55-58 102-102H360v-80h327L585-622l55-58 200 200-200 200Z" />
                                 </svg>
                             </div>
+
+                            <div class="text">{{ __('Logout') }}</div>
                         </button>
                     </li>
                     <!-- Logout Section End -->
@@ -243,48 +367,86 @@
     <!-- Navbar Section End -->
 
     <!-- Bottom navigation bar for mobile devices -->
-    <nav class="bottom-nav ml-4">
-        <a href="{{ route('posts.index') }}" class="nav-link{{ Request::routeIs('posts.index') ? ' active' : '' }}">
-            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
-                fill="#fff">
-                <path
-                    d="M240-200h120v-240h240v240h120v-360L480-740 240-560v360Zm-80 80v-480l320-240 320 240v480H520v-240h-80v240H160Zm320-350Z" />
-                <path xmlns="http://www.w3.org/2000/svg"
-                    d="M240-200h120v-240h240v240h120v-360L480-740 240-560v360Zm-80 80v-480l320-240 320 240v480H520v-240h-80v240H160Zm320-350Z" />
-            </svg>
-        </a>
-        <a href="{{ route('friends.index') }}"
-            class="nav-link{{ Request::routeIs('friends.index') ? ' active' : '' }}">
-            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
-                fill="#fff">
-                <path
-                    d="M500-482q29-32 44.5-73t15.5-85q0-44-15.5-85T500-798q60 8 100 53t40 105q0 60-40 105t-100 53Zm220 322v-120q0-36-16-68.5T662-406q51 18 94.5 46.5T800-280v120h-80Zm80-280v-80h-80v-80h80v-80h80v80h80v80h-80v80h-80Zm-480-40q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM0-160v-112q0-34 17.5-62.5T64-378q62-31 126-46.5T320-440q66 0 130 15.5T576-378q29 15 46.5 43.5T640-272v112H0Zm320-400q33 0 56.5-23.5T400-640q0-33-23.5-56.5T320-720q-33 0-56.5 23.5T240-640q0 33 23.5 56.5T320-560ZM80-240h480v-32q0-11-5.5-20T540-306q-54-27-109-40.5T320-360q-56 0-111 13.5T100-306q-9 5-14.5 14T80-272v32Zm240-400Zm0 400Z" />
-            </svg>
-        </a>
-        <a href="{{ route('posts.create') }}" class="nav-link{{ Request::routeIs('posts.create') ? ' active' : '' }}">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 448 512">
-                <path
-                    d="M64 80c-8.8 0-16 7.2-16 16l0 320c0 8.8 7.2 16 16 16l320 0c8.8 0 16-7.2 16-16l0-320c0-8.8-7.2-16-16-16L64 80zM0 96C0 60.7 28.7 32 64 32l320 0c35.3 0 64 28.7 64 64l0 320c0 35.3-28.7 64-64 64L64 480c-35.3 0-64-28.7-64-64L0 96zM200 344l0-64-64 0c-13.3 0-24-10.7-24-24s10.7-24 24-24l64 0 0-64c0-13.3 10.7-24 24-24s24 10.7 24 24l0 64 64 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-64 0 0 64c0 13.3-10.7 24-24 24s-24-10.7-24-24z">
-                </path>
-            </svg>
-        </a>
-        <a href="{{ route('profile.index') }}"
-            class="nav-link{{ Request::routeIs('profile.index') ? ' active' : '' }}">
-            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
-                fill="#fff">
-                <path
-                    d="M480-480q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM160-160v-112q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v112H160Zm80-80h480v-32q0-11-5.5-20T700-306q-54-27-109-40.5T480-360q-56 0-111 13.5T260-306q-9 5-14.5 14t-5.5 20v32Zm240-320q33 0 56.5-23.5T560-640q0-33-23.5-56.5T480-720q-33 0-56.5 23.5T400-640q0 33 23.5 56.5T480-560Zm0-80Zm0 400Z" />
-            </svg>
-        </a>
-        <a href="{{ route('logout') }}" class="nav-link"
-            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
-                fill="#fff">
-                <path
-                    d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h280v80H200v560h280v80H200Zm440-160-55-58 102-102H360v-80h327L585-622l55-58 200 200-200 200Z" />
-            </svg>
-        </a>
+    <nav class="bottom-nav d-md-none d-block">
+        <ul class="nav_list list-unstyled">
+            <!-- Home Page Start -->
+            <li class="content">
+                <a href="{{ route('posts.index') }}" data-tooltip="Home"
+                    class="d-flex align-items-center nav-link{{ Request::routeIs('posts.index') ? ' active' : '' }}">
+                    <!-- SVG for Home Icon -->
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
+                        fill="#fff">
+                        <path
+                            d="M240-200h120v-240h240v240h120v-360L480-740 240-560v360Zm-80 80v-480l320-240 320 240v480H520v-240h-80v240H160Zm320-350Z" />
+                    </svg>
+                </a>
+            </li>
+            <!-- Home Page End -->
+
+            <!-- Friends Page Start -->
+            <li class="content">
+                <a href="{{ route('friends.index') }}" data-tooltip="Friends"
+                    class="d-flex align-items-center nav-link{{ Request::routeIs('friends.index') ? ' active' : '' }}">
+                    <!-- SVG for Friends Icon -->
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
+                        fill="#fff">
+                        <path
+                            d="M500-482q29-32 44.5-73t15.5-85q0-44-15.5-85T500-798q60 8 100 53t40 105q0 60-40 105t-100 53Zm220 322v-120q0-36-16-68.5T662-406q51 18 94.5 46.5T800-280v120h-80Zm80-280v-80h-80v-80h80v-80h80v80h80v80h-80v80h-80Zm-480-40q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM0-160v-112q0-34 17.5-62.5T64-378q62-31 126-46.5T320-440q66 0 130 15.5T576-378q29 15 46.5 43.5T640-272v112H0Zm320-400q33 0 56.5-23.5T400-640q0-33-23.5-56.5T320-720q-33 0-56.5 23.5T240-640q0 33 23.5 56.5T320-560ZM80-240h480v-32q0-11-5.5-20T540-306q-54-27-109-40.5T320-360q-56 0-111 13.5T100-306q-9 5-14.5 14T80-272v32Zm240-400Zm0 400Z" />
+                    </svg>
+                </a>
+            </li>
+            <!-- Friends Page End -->
+
+            <!-- Post Create Page Start -->
+            <li class="content">
+                <a href="{{ route('posts.create') }}" data-tooltip="Create"
+                    class="d-flex align-items-center nav-link{{ Request::routeIs('posts.create') ? ' active' : '' }}">
+                    <!-- SVG for Create Icon -->
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
+                        fill="#fff">
+                        <path
+                            d="M440-280h80v-160h160v-80H520v-160h-80v160H280v80h160v160ZM200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H200Zm0-80h560v-560H200v560Zm0-560v560-560Z" />
+                    </svg>
+                </a>
+            </li>
+            <!-- Post Create Page End -->
+
+            <!-- Profile Page Start -->
+            <li class="content">
+                <a href="{{ route('profile.index') }}" data-tooltip="Profile"
+                    class="d-flex align-items-center nav-link{{ Request::routeIs('profile.index') ? ' active' : '' }}">
+                    <!-- SVG for Profile Icon -->
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
+                        fill="#fff">
+                        <path
+                            d="M480-480q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM160-160v-112q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v112H160Zm80-80h480v-32q0-11-5.5-20T700-306q-54-27-109-40.5T480-360q-56 0-111 13.5T260-306q-9 5-14.5 14t-5.5 20v32Zm240-320q33 0 56.5-23.5T560-640q0-33-23.5-56.5T480-720q-33 0-56.5 23.5T400-640q0 33 23.5 56.5T480-560Zm0-80Zm0 400Z" />
+                    </svg>
+                </a>
+            </li>
+            <!-- Profile Page End -->
+
+            <!-- Logout Section Start -->
+            <li class="logout">
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                    @csrf
+                </form>
+                <button class="Btn d-flex align-items-center"
+                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                    <div class="sign">
+                        <!-- SVG for Logout Icon -->
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960"
+                            width="24px" fill="#fff">
+                            <path
+                                d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h280v80H200v560h280v80H200Zm440-160-55-58 102-102H360v-80h327L585-622l55-58 200 200-200 200Z" />
+                        </svg>
+                    </div>
+                    <div class="text">{{ __('Logout') }}</div>
+                </button>
+            </li>
+            <!-- Logout Section End -->
+        </ul>
     </nav>
+
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>

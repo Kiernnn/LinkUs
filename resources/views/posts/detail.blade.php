@@ -53,10 +53,13 @@
                     @forelse ($post->comments as $comment)
                         <div class="comment-header" style="display:block;">
                             <img src="{{ asset('images/user_default.png') }}" alt="Profile Picture" class="profile-pic">
-                            <div class="profile-name">{{ $comment->user->userName }}</div>
-                        </div>
-                        <div class="comment-content">
-                            <p class="content ml-10px">{{ $comment->content }}</p>
+                            <div class="comment-content">
+                                <div class="profile-name">{{ $comment->user->userName }}</div>
+                                <p class="content ml-10px">{{ $comment->content }}</p>
+                                <div class="post-subtitle mb-2 small">
+                                    {{ timeDiffInHours($comment->created_at) }}
+                                </div>
+                            </div>
                         </div>
                         @can('delete', $comment)
                             <form action="{{ route('comments.destroy', $comment->id) }}" method="POST">
@@ -66,7 +69,7 @@
                             </form>
                         @endcan
                     @empty
-                        <p class="content" style="color:white;">{{ __('No comments yet.') }}</p>
+                        <p class="comment-yet">{{ __('No comments yet.') }}</p>
                     @endforelse
 
                     <!-- New comment -->
@@ -75,7 +78,7 @@
                             @csrf
                             <div class="comment-box">
                                 <input type="text" name="content" placeholder="Add a comment...">
-                                <button>Comment</button>
+                                <button class="post-btn btn" type="submit">{{ __('Comment') }}</button>
                             </div>
                         </form>
                     </div>
