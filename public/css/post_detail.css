@@ -107,6 +107,14 @@
     cursor: pointer;
 }
 
+.comment-sec .delete-btn{
+    width: 100px;
+       border-radius: 20px;
+       background-color: #292929;
+       color: #fff;
+       border: 0px;
+}
+
 .footer-info button:hover {
    background-color: #1a1a1a;
 }
@@ -127,7 +135,8 @@
 }
 
 .post-footer .comment-box button{
-   border-radius: 5%;
+   width: 100px;
+   border-radius: 20px;
    background-color: #292929;
    color: #fff;
    border: 0px;

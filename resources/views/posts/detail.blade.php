@@ -19,7 +19,7 @@
                     <img src="{{ asset('images/user_default.png') }}" alt="Profile Picture" class="profile-pic">
                     <div class="profile-name">{{ $post->user->userName }}</div>
                     <div class="post-subtitle mb-2 small">
-                        {{ $post->created_at->diffForHumans() }}
+                        {{ timeDiffInHours($post->created_at) }}
                     </div>
                 </div>
                 <div class="post-content">
@@ -62,11 +62,11 @@
                             <form action="{{ route('comments.destroy', $comment->id) }}" method="POST">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit">Delete</button>
+                                <button type="submit" class="delete-btn">Delete</button>
                             </form>
                         @endcan
                     @empty
-                        <p class="content">{{ __('No comments yet.') }}</p>
+                        <p class="content" style="color:white;">{{ __('No comments yet.') }}</p>
                     @endforelse
 
                     <!-- New comment -->

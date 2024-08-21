@@ -38,10 +38,10 @@
                                     class="profile-pic">
                             @else
                                 <img src="{{ asset('images/user_default.png') }}" alt="Profile Picture" class="profile-pic">
-                            @endif
+                            @endif  
                             <div class="profile-name">{{ $post->user->userName }}</div>
                             <div class="post-subtitle mb-2 small">
-                                {{ $post->created_at->diffForHumans() }}
+                                {{ timeDiffInHours($post->created_at) }}
                             </div>
 
                             <!-- Dropdown Section Start -->

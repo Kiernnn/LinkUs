@@ -35,7 +35,6 @@
                         <hr>
                     </div>
                     <div class="profile-wrapper">
-                        
                         @if (auth()->user()->profile && auth()->user()->profile->image)
                             <img src="{{ asset('profiles/' . auth()->user()->profile->image) }}" class="profile-pic" alt="Profile Picture" id="profile-pic">
                         @else

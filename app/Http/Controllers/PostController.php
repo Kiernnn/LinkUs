@@ -56,7 +56,7 @@ class PostController extends Controller
                 'image' => $image ?? null,
             ]);
 
-            return redirect()->route('posts.index')->with('success', 'Post created successfully.');
+            return redirect()->route('profile.index')->with('success', 'Post created successfully.');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'An error occurred while creating the post.');
         }
@@ -134,6 +134,6 @@ class PostController extends Controller
 
         $post->delete();
 
-        return redirect()->route('posts.index')->with('success', 'Post deleted successfully.');
+        return redirect()->route('profile.index')->with('success', 'Post deleted successfully.');
     }
 }

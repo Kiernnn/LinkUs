@@ -33,13 +33,31 @@ if (! function_exists('deleteFile')) {
 if (!function_exists('timeDiffInHours')) {
     function timeDiffInHours($time)
     {
+        // $diffInHours = $time->diffInHours(now());
+
+        // if ($diffInHours < 24) {
+        //     return $diffInHours . ' hr';  // This returns hours with 'hr'
+        // } elseif ($diffInHours < 48) {
+        //     return '1 day';  // This handles the case where the difference is less than 48 hours but more than 24 hours
+        // } else {
+        //     return $time->diffForHumans();  // This handles differences greater than 48 hours
+        // }
+
+        $diffInSeconds = $time->diffInSeconds(now());
+        $diffInMinutes = $time->diffInMinutes(now());
         $diffInHours = $time->diffInHours(now());
-        if ($diffInHours < 24) {
-            return $diffInHours . ' hr';  // This returns hours with 'hr'
-        } elseif ($diffInHours < 48) {
-            return '1 day';  // This handles the case where the difference is less than 48 hours but more than 24 hours
+        $diffInDays = $time->diffInDays(now());
+
+        if ($diffInSeconds < 60) {
+            return $diffInSeconds . ' sec ';
+        } elseif ($diffInMinutes < 60) {
+            return $diffInMinutes . ' m ';
+        } elseif ($diffInHours < 24) {
+            return $diffInHours . ' h ';
+        } elseif ($diffInDays < 2) {
+            return '1d';
         } else {
-            return $time->diffForHumans();  // This handles differences greater than 48 hours
+            return $time->diffForHumans();  // Handles differences greater than 48 hours
         }
     }
 }

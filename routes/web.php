@@ -38,21 +38,32 @@ Route::group(['middleware' => ['auth']], function () {
    });
 
    // Friends Routes
-   Route::group(['prefix'=> 'friends'], function() {
-      Route::controller(FriendsController::class)->group(function() {
-         Route::get('/', 'index')->name('friends.index');
-         Route::post('/send-request/{receiverId}', 'sendRequest')->name('friends.sendRequest');
-         Route::post('/accept-request/{requestId}', 'acceptRequest')->name('friends.acceptRequest');
-         Route::post('/decline-request/{requestId}', 'declineRequest')->name('friends.declineRequest');
-         Route::post('/unfriend/{friendId}', 'unfriend')->name('friends.unfriend');
+   Route::group(['prefix' => 'friends'], function () {
+      Route::controller(FriendsController::class)->group(function () {
+          Route::get('/', 'index')->name('friends.index');
+          Route::post('/unfriend/{friendId}', 'unfriend')->name('friends.unfriend');
       });
-   });
+  });
 
-   // Profile Routes
+  // Friend Requests Routes
+  Route::group(['prefix' => 'friend-requests'], function () {
+      Route::controller(FriendRequestController::class)->group(function () {
+          Route::get('/', 'index')->name('friendRequests.index');
+          Route::post('/send/{receiverId}', 'sendRequest')->name('friendRequests.sendRequest');
+          Route::post('/accept/{requestId}', 'acceptRequest')->name('friendRequests.acceptRequest');
+          Route::post('/decline/{requestId}', 'declineRequest')->name('friendRequests.declineRequest');
+          Route::delete('/cancel/{requestId}', 'cancelRequest')->name('friendRequests.cancelRequest');
+      });
+  });
+
+
+   // Profile 
    Route::group(['prefix'=> 'profile'], function () {
-      Route::get('/', [ProfileController::class, 'index'])->name('profile.index');
-      Route::get('edit', [ProfileController::class, 'edit'])->name('profile.edit');
-      Route::put('update', [ProfileController::class, 'update'])->name('profile.update');
+      Route::controller(ProfileController::class)->group(function() {
+         Route::get('/', 'index')->name('profile.index');
+         Route::get('edit', 'edit')->name('profile.edit');
+         Route::put('update', 'update')->name('profile.update');
+      });
    });
 });
 
