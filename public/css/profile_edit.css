@@ -98,6 +98,7 @@
    position: fixed;
    bottom: 560px;
    margin-left: 40px;
+   cursor: pointer;
 }
 
 .post-btn {

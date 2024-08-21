@@ -35,8 +35,12 @@
                         <hr>
                     </div>
                     <div class="profile-wrapper">
-                        <img src="{{ asset('profiles/' . auth()->user()->profile->image) }}" alt="Profile Picture"
-                            class="profile-pic" id="profile-pic">
+                        
+                        @if (auth()->user()->profile && auth()->user()->profile->image)
+                            <img src="{{ asset('profiles/' . auth()->user()->profile->image) }}" class="profile-pic" alt="Profile Picture" id="profile-pic">
+                        @else
+                            <img src="{{ asset('images/user_default.png') }}" class="profile-pic" alt="Profile Picture" id="profile-pic">
+                        @endif
                         <svg class="upload_svg" id="upload_svg" xmlns="http://www.w3.org/2000/svg" height="24px"
                             viewBox="0 -960 960 960" width="24px" fill="#fff">
                             <path
@@ -64,6 +68,17 @@
                     {{ session('error') }}
                 </div>
             @endif
+
+            @if ($errors->any())
+                <div class="alert alert-danger mt-2">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
 
         </div>
     </div>

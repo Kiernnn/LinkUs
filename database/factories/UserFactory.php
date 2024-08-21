@@ -21,7 +21,7 @@ class UserFactory extends Factory
             'userName' => $this->faker->unique()->userName,
             'birthDate' => $this->faker->date,
             'gender' => $this->faker->randomElement(['male', 'female', 'other']),
-            'email' => $this->faker->unique()->safeEmail,
+            'email' => preg_replace('/@example\..*/', '@gmail.com', $this->faker->unique()->safeEmail),
             'email_verified_at' => now(),
             'password' =>  Hash::make('password'),
             'remember_token' => Str::random(20),

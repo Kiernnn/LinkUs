@@ -27,7 +27,7 @@
                             </p>
                         </div>
                     </div>
-                    @if (auth()->user()->profile->image)
+                    @if (auth()->user()->profile && auth()->user()->profile->image)
                         <img src="{{ asset('profiles/' . auth()->user()->profile->image) }}" class="profile-pic" alt="Profile image">
                     @else
                         <img src="{{ asset('images/user_default.png') }}" class="profile-pic" alt="Profile image">
