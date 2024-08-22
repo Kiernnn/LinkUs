@@ -13,6 +13,10 @@ body {
 }
 
 .sidebar {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     position: fixed;
     top: 0;
     left: 0;
@@ -43,39 +47,67 @@ body {
 }
 
 .sidebar ul {
-    margin-top: 40px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    margin-top: 120px;
+    margin-bottom: auto;
 }
 
 .sidebar ul .content {
+    position: relative; /* Required for positioning the tooltip */
+    width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
-    position: relative;
     height: 70px;
-    width: 100%;
     list-style: none;
-    line-height: 50px;
     border-radius: 12px;
+    margin-bottom: 10px;
 }
 
 .sidebar ul .content a {
-    color: #fff;
+    width: 50px;
+    height: 50px;
     display: flex;
     align-items: center;
+    justify-content: center;
     text-decoration: none;
-    transition: all 0.4s ease;
+    color: #fff;
     border-radius: 12px;
-    position: relative;
+    transition: background 0.3s ease;
+    position: relative; /* Required for the tooltip positioning */
 }
 
 .sidebar ul .content a:hover,
 .sidebar ul .content a:focus {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 50px;
-    height: 50px;
     background: #292929;
+}
+
+.sidebar ul .content a::after {
+    content: attr(data-tooltip); /* The tooltip text from the data attribute */
+    position: absolute;
+    bottom: 20%; /* Position above the icon */
+    left: 170%;
+    transform: translateX(-50%);
+    background-color: #141414;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 8px;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+    font-size: 12px;
+}
+
+.sidebar ul .content a:hover::after,
+.sidebar ul .content a:focus::after {
+    opacity: 1;
+    visibility: visible;
 }
 
 .sidebar ul .content a svg {
@@ -96,19 +128,20 @@ body {
     justify-content: center;
     width: 50px;
     height: 50px;
-    background: #292929;
+    background: #141414;
 }
 
 .sidebar .logout {
+    position: absolute; /* Required for positioning the tooltip */
     display: flex;
     align-items: center;
     justify-content: center;
-    position: absolute;
     margin-bottom: 20px;
     color: #fff;
     bottom: 0;
 }
 
+/* From Uiverse.io by kennyotsu-monochromia */
 .Btn {
     display: flex;
     align-items: center;
@@ -116,40 +149,66 @@ body {
     width: 45px;
     height: 45px;
     border: none;
-    border-radius: 50%;
+    border-radius: 5px;
     cursor: pointer;
     position: relative;
     overflow: hidden;
     transition-duration: .3s;
     box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.199);
-    background-color: #c31818;
-}
+    background-color: #0a0a0a;
+  }
 
-.sign {
+  /* plus sign */
+  .sign {
     width: 100%;
     transition-duration: .3s;
     display: flex;
     align-items: center;
     justify-content: center;
-}
+  }
 
-.sign .sign-svg {
-    width: 17px;
-}
-
-.sign .sign-svg .sign-path {
-    fill: #fff;
-}
-
-.Btn:hover {
-    width: 45px;
-    border-radius: 40px;
+  .sign svg path {
+    fill: #dc3545;
+  }
+  /* text */
+  .text {
+    position: absolute;
+    right: 0%;
+    width: 0%;
+    opacity: 0;
+    color: #dc3545;
+    font-size: 14px;
     transition-duration: .3s;
-}
+  }
+  /* hover effect on button width */
+  .Btn:hover {
+    width: 70px;
+    border-radius: 10px;
+    transition-duration: .3s;
+    background-color: #141414;
+  }
 
-.Btn:active {
-    transform: translate(2px, 2px);
-}
+  .Btn:hover .sign {
+    width: 30%;
+    transition-duration: .3s;
+    padding-left: 5px;
+  }
+
+  .Btn:hover .sign svg path {
+    fill: #dc3545;
+  }
+  /* hover effect button's text */
+  .Btn:hover .text {
+    color: #dc3545;
+    opacity: 1;
+    width: 70%;
+    transition-duration: .3s;
+    padding-right: 5px;
+  }
+  /* button click effect*/
+  .Btn:active {
+    transform: translate(2px ,2px);
+  }
 
 @media (max-width: 768px) {
     .sidebar {
