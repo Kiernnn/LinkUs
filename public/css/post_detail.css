@@ -145,3 +145,14 @@
 .post-footer .comment-box input:focus {
    outline: none;
 }
+
+.alert {
+    margin-top: 10px;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.alert-danger {
+    background-color: #dc3545;
+    color: #fff;
+}

@@ -3,10 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\User;
+use App\Models\Friend;
 
 class FriendRequest extends Model
 {
-    protected $table = 'friend_requests'; // Ensure this matches your table name
     protected $fillable = ['sender_id', 'receiver_id'];
 
     public function sender()
@@ -18,4 +19,5 @@ class FriendRequest extends Model
     {
         return $this->belongsTo(User::class, 'receiver_id');
     }
+
 }

@@ -55,6 +55,9 @@
                             <img src="{{ asset('images/user_default.png') }}" alt="Profile Picture" class="profile-pic">
                             <div class="profile-name">{{ $comment->user->userName }}</div>
                         </div>
+                        <div class="post-subtitle mb-2 small" style="color:white;">
+                            {{ timeDiffInHours($post->created_at) }}
+                        </div>
                         <div class="comment-content">
                             <p class="content ml-10px">{{ $comment->content }}</p>
                         </div>
@@ -78,20 +81,13 @@
                                 <button>Comment</button>
                             </div>
                         </form>
+                        {{-- error message --}}
+                        @if (session('error'))
+                            <div class="alert alert-danger mt-2">
+                                {{ session('error') }}
+                            </div>
+                        @endif
                     </div>
-
-                    <!-- Display Validation Errors -->
-                    @if ($errors->any())
-                        <div class="alert alert-danger"
-                            style="width:200px; height:40px; padding:5px 5px 5px 5px; text-decoration:none; margin-left:100px;">
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <span>{{ 'Write something!' }}</span>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
-
                 </div>
             </div>
         </div>

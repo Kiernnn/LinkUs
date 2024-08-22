@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use App\Models\Friend;
+use App\Models\FriendRequest;
 
 class User extends Authenticatable
 {
@@ -65,4 +67,16 @@ class User extends Authenticatable
     {
         return $this->hasOne(Profile::class);
     }
+
+    // User.php
+    public function friends()
+    {
+        return $this->hasMany(Friend::class, 'user_id');
+    }
+
+    public function friendRequests()
+    {
+        return $this->hasMany(FriendRequest::class, 'receiver_id');
+    }
+
 }

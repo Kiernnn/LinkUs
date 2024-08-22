@@ -115,10 +115,10 @@ class PostController extends Controller
     }
 
      // Comment 
-     public function detail(Post $post)
-     {
+    public function detail(Post $post)
+    {
         return view('posts.detail', compact('post'));
-     }
+    }
 
     public function back(Post $post)
     {

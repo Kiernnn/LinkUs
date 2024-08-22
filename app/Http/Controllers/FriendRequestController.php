@@ -2,78 +2,107 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use App\Models\User;
 use App\Models\FriendRequest;
 use App\Models\Friend;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Exception;
 
 class FriendRequestController extends Controller
 {
+    public function index()
+    {
+        $userId = Auth::id();
 
-    public function index(){
-        $userId = auth()->user()->id;
-        $friendRequests = FriendRequest::where('receiver_id', $userId)->with('sender')->get();
-        return view('friends.friend_requests', compact('friendRequests'));
+        // Get all friends of the authenticated user
+        $friends = Friend::where('user_id', $userId)
+                         ->orWhere('friend_id', $userId)
+                         ->get();
 
-        return view('friendRequests.index', compact('friendRequests'));
+        // Get all friend requests sent to the authenticated user
+        $friendRequests = FriendRequest::where('receiver_id', $userId)->get();
+
+        // Get all IDs of users to whom the authenticated user has sent friend requests
+        $sentRequests = FriendRequest::where('sender_id', $userId)->pluck('receiver_id')->toArray();
+
+        // Pass all variables to the view
+        return view('friends.index', compact('friends', 'friendRequests', 'sentRequests'));
     }
+
 
     public function sendRequest($receiverId)
     {
-        $senderId = auth()->user()->id;
-        
-        if (FriendRequest::where('sender_id', $senderId)->where('receiver_id', $receiverId)->exists()) {
-            return redirect()->back()->with('message', 'Friend request already sent.');
+        try {
+            $senderId = Auth::id();
+
+            if ($senderId === $receiverId) {
+                throw new Exception('You cannot send a friend request to yourself.');
+            }
+
+            $existingRequest = FriendRequest::where('sender_id', $senderId)
+                                            ->where('receiver_id', $receiverId)
+                                            ->first();
+
+            if ($existingRequest) {
+                throw new Exception('You have already sent a friend request to this user.');
+            }
+
+            FriendRequest::create([
+                'sender_id' => $senderId,
+                'receiver_id' => $receiverId,
+            ]);
+
+            return back()->with('success', 'Friend request sent successfully.');
+
+        } catch (Exception $e) {
+            return back()->with('error', $e->getMessage());
         }
-
-        FriendRequest::create([
-            'sender_id' => $senderId,
-            'receiver_id' => $receiverId,
-        ]);
-
-        return redirect()->back()->with('success', 'Friend request sent.');
     }
 
-    public function acceptRequest($requestId)
+    public function acceptRequest($id)
     {
-        $friendRequest = FriendRequest::findOrFail($requestId);
+        try {
+            $friendRequest = FriendRequest::findOrFail($id);
+            $friendRequest->delete();
 
-        Friend::create([
-            'user_id' => $friendRequest->receiver_id,
-            'friend_id' => $friendRequest->sender_id,
-        ]);
+            Friend::create([
+                'user_id' => $friendRequest->receiver_id,
+                'friend_id' => $friendRequest->sender_id,
+            ]);
 
-        Friend::create([
-            'user_id' => $friendRequest->sender_id,
-            'friend_id' => $friendRequest->receiver_id,
-        ]);
+            return back()->with('success', 'Friend request accepted.');
 
-        $friendRequest->delete();
-
-        return redirect()->back()->with('success', 'Friend request accepted.');
+        } catch (Exception $e) {
+            return back()->with('error', $e->getMessage());
+        }
     }
 
-    public function declineRequest($requestId)
+    public function declineRequest($id)
     {
-        $friendRequest = FriendRequest::findOrFail($requestId);
-        $friendRequest->delete();
+        try {
+            $friendRequest = FriendRequest::findOrFail($id);
+            $friendRequest->delete();
 
-        // if ($request->receiver_id !== auth()->user()->id) {
-        //     return redirect()->back()->with('error', 'Unauthorized action.');
-        // }
+            return back()->with('success', 'Friend request declined.');
 
-        // $request->update(['status' => 'declined']);
-
-        return redirect()->back()->with('success', 'Friend request declined.');
+        } catch (Exception $e) {
+            return back()->with('error', $e->getMessage());
+        }
     }
 
-    public function cancelRequest($requestId)
+    public function cancelRequest($id)
     {
-        $friendRequest = FriendRequest::findOrFail($requestId);
-        $friendRequest->delete();
+        try {
+            $friendRequest = FriendRequest::where('sender_id', Auth::id())
+                                            ->where('receiver_id', $id)
+                                            ->firstOrFail();
 
-        return redirect()->back()->with('message', 'Friend request canceled.');
+            $friendRequest->delete();
+
+            return back()->with('success', 'Friend request canceled.');
+
+        } catch (Exception $e) {
+            return back()->with('error', $e->getMessage());
+        }
     }
 }

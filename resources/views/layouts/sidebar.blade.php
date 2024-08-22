@@ -155,7 +155,8 @@
         <div class="row">
             <nav class="sidebar col-lg-3 col-md-4 d-none d-md-block sidebar-sticky">
                 <div class="logo_content">
-                    <div class="logo">
+                    <div class="logo" style="cursor: pointer;">
+                        <a href="{{ route('posts.index') }}">
                         <img class="icon" src="{{ asset('images/icon.png') }}" alt="Logo">
                     </div>
                 </div>

@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\FriendsController;
+use App\Http\Controllers\FriendRequestController;
 use App\Http\Controllers\ProfileController;
 
 Auth::routes();
@@ -37,25 +38,23 @@ Route::group(['middleware' => ['auth']], function () {
       });
    });
 
-   // Friends Routes
    Route::group(['prefix' => 'friends'], function () {
       Route::controller(FriendsController::class)->group(function () {
           Route::get('/', 'index')->name('friends.index');
-          Route::post('/unfriend/{friendId}', 'unfriend')->name('friends.unfriend');
+          Route::delete('/unfriend/{friendId}', 'unfriend')->name('friends.unfriend');
+          Route::get('/search', 'search')->name('friends.search'); // Search route
       });
   });
 
-  // Friend Requests Routes
-  Route::group(['prefix' => 'friend-requests'], function () {
+  Route::group(['prefix' => 'friendRequests'], function () {
       Route::controller(FriendRequestController::class)->group(function () {
-          Route::get('/', 'index')->name('friendRequests.index');
-          Route::post('/send/{receiverId}', 'sendRequest')->name('friendRequests.sendRequest');
-          Route::post('/accept/{requestId}', 'acceptRequest')->name('friendRequests.acceptRequest');
-          Route::post('/decline/{requestId}', 'declineRequest')->name('friendRequests.declineRequest');
-          Route::delete('/cancel/{requestId}', 'cancelRequest')->name('friendRequests.cancelRequest');
+         Route::get('/', 'index')->name('friendRequests.index');
+          Route::post('/send/{receiverId}', 'sendRequest')->name('friendRequests.send');
+          Route::post('/accept/{id}', 'acceptRequest')->name('friendRequests.accept');
+          Route::delete('/decline/{id}', 'declineRequest')->name('friendRequests.decline');
+          Route::post('/cancel/{id}', 'cancelRequest')->name('friendRequests.cancel');
       });
   });
-
 
    // Profile 
    Route::group(['prefix'=> 'profile'], function () {
