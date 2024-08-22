@@ -49,52 +49,61 @@
                 <hr style="color:white;">
 
                 <!-- Existing comments -->
-                <div class="comment-sec" style="border-radius:15px;">
+                <div class="comment-sec">
                     @forelse ($post->comments as $comment)
-                        <div class="comment-header" style="display:block;">
+                        <div class="comment-header">
                             <img src="{{ asset('images/user_default.png') }}" alt="Profile Picture" class="profile-pic">
                             <div class="comment-content">
-                                <div class="profile-name">{{ $comment->user->userName }}</div>
-                                <p class="content ml-10px">{{ $comment->content }}</p>
-                                <div class="post-subtitle mb-2 small">
-                                    {{ timeDiffInHours($comment->created_at) }}
+                                <div class="profile-name mb-1">{{ $comment->user->userName }}</div>
+                                <p class="content mb-1">{{ $comment->content }}</p>
+                                <div class="comment-sub">
+                                    <div class="post-subtitle mb-2 small">
+                                        {{ timeDiffInHours($comment->created_at) }}
+                                        @can('delete', $comment)
+                                            <form action="{{ route('comments.destroy', $comment->id) }}" method="POST">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="delete-btn">{{ __('Delete') }}</button>
+                                            </form>
+                                        @endcan
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        @can('delete', $comment)
-                            <form action="{{ route('comments.destroy', $comment->id) }}" method="POST">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="delete-btn">Delete</button>
-                            </form>
-                        @endcan
                     @empty
                         <p class="comment-yet">{{ __('No comments yet.') }}</p>
                     @endforelse
 
-                    <!-- New comment -->
+                    <!-- Add comment -->
                     <div class="post-footer">
                         <form action="{{ route('comments.store', $post->id) }}" method="POST">
                             @csrf
                             <div class="comment-box">
-                                <input type="text" name="content" placeholder="Add a comment...">
-                                <button class="post-btn btn" type="submit">{{ __('Comment') }}</button>
+                                <input type="text" name="content" placeholder="Add a comment..." class="comment-input" />
+                                <button class="send-btn" type="submit">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 664 663">
+                                        <path fill="none"
+                                            d="M646.293 331.888L17.7538 17.6187L155.245 331.888M646.293 331.888L17.753 646.157L155.245 331.888M646.293 331.888L318.735 330.228L155.245 331.888">
+                                        </path>
+                                        <path stroke-linejoin="round" stroke-linecap="round" stroke-width="33.67"
+                                            stroke="#6c6c6c"
+                                            d="M646.293 331.888L17.7538 17.6187L155.245 331.888M646.293 331.888L17.753 646.157L155.245 331.888M646.293 331.888L318.735 330.228L155.245 331.888">
+                                        </path>
+                                    </svg>
+                                </button>
                             </div>
                         </form>
+                        @if (session('error'))
+                            <div class="alert alert-danger mt-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960"
+                                    width="24px" fill="#fff" style="margin-right: 10px;">
+                                    <path
+                                        d="M480-280q17 0 28.5-11.5T520-320q0-17-11.5-28.5T480-360q-17 0-28.5 11.5T440-320q0 17 11.5 28.5T480-280Zm-40-160h80v-240h-80v240Zm40 360q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z" />
+                                </svg>
+                                {{ session('error') }}
+                            </div>
+                        @endif
                     </div>
-
-                    <!-- Display Validation Errors -->
-                    @if ($errors->any())
-                        <div class="alert alert-danger"
-                            style="width:200px; height:40px; padding:5px 5px 5px 5px; text-decoration:none; margin-left:100px;">
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <span>{{ 'Write something!' }}</span>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
-
                 </div>
             </div>
         </div>
