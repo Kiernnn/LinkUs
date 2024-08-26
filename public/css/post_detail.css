@@ -61,7 +61,7 @@
 }
 
 .post-header .post-subtitle {
-    color: #fff;
+    color: #696969;
     margin-left: 10px;
     margin-top: 11px;
     font-size: 10px;
@@ -201,11 +201,6 @@
     padding-left: 10px;
     color: #fff;
 }
-.comment-input:focus ~ .send-btn svg path,
-.comment-input:valid ~ .send-btn svg path {
-    fill: #333;
-    stroke: #fff;
-  }
 
 .send-btn {
     width: fit-content;
@@ -227,11 +222,12 @@
 
 .send-btn svg path {
     transition: all 0.3s;
+
 }
 
 .send-btn:hover svg path {
-    fill: #3c3c3c;
-    stroke: white;
+    fill: #141414;
+    stroke: #fff;
 }
 
 .alert {

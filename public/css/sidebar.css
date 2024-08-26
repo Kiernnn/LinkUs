@@ -185,7 +185,7 @@ body {
     width: 70px;
     border-radius: 10px;
     transition-duration: .3s;
-    background-color: #141414;
+    background-color: #0a0a0a;
   }
 
   .Btn:hover .sign {

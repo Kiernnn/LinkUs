@@ -1,5 +1,9 @@
 @extends('layouts.sidebar')
-@section('title', 'Friend Profile')
+@section('title', 'Friends')
+
+@section('style')
+    <link href="{{ asset('css/friends_index.css') }}" rel="stylesheet">
+@endsection
 
 @section('style')
     {{-- <link rel="stylesheet" href="css/friends.css"> --}}
@@ -56,96 +60,42 @@
 @endsection
 
 @section('content')
-    @if(session('success'))
-        <div class="alert alert-success" style="margin-left: 120px;">
-            {{ session('success') }}
-        </div>
-    @endif
-
-    @if(session('error'))
-        <div class="alert alert-danger" style="margin-left: 120px;">
-            {{ session('error') }}
-        </div>
-    @endif
-    
-    <div class="container">
-        
-        <!-- Left Column: Friends List and Friend Requests -->
-        <div class="left-column">
-            <h3>Friends</h3>
-            @foreach ($friends as $friend)
-                <div class="friends" style="display: flex; align-items: center; margin-bottom: 15px;">
-                    @php
-                        $friendProfile = $friend->user_id == Auth::id() ? $friend->friend->profile : $friend->user->profile;
-                    @endphp
-                    <img src="{{ $friendProfile && $friendProfile->image && file_exists(public_path('profiles/' . $friendProfile->image)) ? asset('profiles/' . $friendProfile->image) : asset('images/user_default.png') }}" alt="Profile Picture" class="friend-pic">
-                    <div class="nameTime">
-                        <p>{{ $friend->user_id == Auth::id() ? $friend->friend->userName : $friend->user->userName }}</p>
-                        <div class="post-subtitle mb-2 small">
-                            {{ timeDiffInHours($friend->created_at) }}
-                        </div>
+    <div class="friends-content p-4">
+        <div class="friends-box">
+            <a href="{{ route('friends.index') }}" class="friends mb-2">{{ __('Friends') }}</a>
+            <div class="request-form-container mb-3">
+                <div class="friends-info mb-2">
+                    <div class="friend-requests">{{ __('Friend requests') }}</div>
+                    <a href="#" class="see-all">{{ __('See all') }}</a>
+                </div>
+                <div class="post-header mb-3">
+                    <div class="profile">
+                        <img src="{{ asset('images/user_default.png') }}" alt="Profile Picture" class="profile-pic">
+                        <div class="profile-name">{{ __('Kiernnn') }}</div>
+                        <div class="post-subtitle mb-2 small">{{ __('1d') }}</div>
                     </div>
-                    <form action="{{ route('friends.unfriend', $friend->id) }}" method="POST" style="display: inline;">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="button button-unfriend">Unfriend</button>
-                    </form>
+                    <div class="buttons mb-2">
+                        <button class="accept btn" type="submit">{{ __('Accept') }}</button>
+                        <button class="decline btn" type="submit">{{ __('Decline') }}</button>
+                    </div>
                 </div>
-            @endforeach
-
-
-            <h3>Friend Requests</h3>
-            @foreach ($friendRequests as $request)
-                <div style="margin-bottom: 15px;">
-                    <p>{{ $request->sender->userName }}</p>
-                    <form action="{{ route('friendRequests.accept', $request->id) }}" method="POST" style="display: inline;">
-                        @csrf
-                        <button type="submit" class="button button-accept">Accept</button>
-                    </form>
-                    <form action="{{ route('friendRequests.decline', $request->id) }}" method="POST" style="display: inline;">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="button button-decline">Decline</button>
-                    </form>
-                </div>
-            @endforeach
-        </div>
-
-        <!-- Right Column: Search and Add Friends -->
-        <div class="right-column">
-            <div style="background-color: #444; padding: 20px; border-radius: 20px; margin-bottom: 20px;">
-                <h3>Search Friends</h3>
-                <form action="{{ route('friends.search') }}" method="GET" style="text-align: center;">
-                    <input type="text" name="query" placeholder="Search users..." required style="padding: 10px; width: 80%; border-radius: 20px; border: 1px solid #ccc; margin-bottom: 10px;">
-                    <button type="submit" class="button button-search">Search</button>
-                </form>
             </div>
 
-            <div class="add-friends" style="background-color: #555; padding: 20px; border-radius: 20px;">
-                <h3>Add Friends</h3>
-                @if(isset($searchResults) && count($searchResults) > 0)
-                    <h4>Search Results:</h4>
-                    @foreach ($searchResults as $user)
-                        <div style="margin-bottom: 15px;">
-                            <p>{{ $user->userName }}</p>
-                            @if(in_array($user->id, $sentRequests))
-                                <button disabled class="button" style="background-color: #aaa;">Pending</button>
-                                <form action="{{ route('friendRequests.cancel', $user->id) }}" method="POST" style="display: inline;">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="button button-cancel">Cancel</button>
-                                </form>
-                            @else
-                                <form action="{{ route('friendRequests.send', $user->id) }}" method="POST" style="display: inline;">
-                                    @csrf
-                                    <button type="submit" class="button button-add">Add Friend</button>
-                                </form>
-                            @endif
-                        </div>
-                    @endforeach
-                @elseif(isset($searchResults))
-                    <p>No users found.</p>
-                @endif
+            <div class="suggest-form-container mb-3">
+                <div class="friends-info mb-2">
+                    <div class="friend-requests">{{ __('Suggested for you') }}</div>
+                    <a href="#" class="see-all">{{ __('See all') }}</a>
+                </div>
+                <div class="post-header mb-3">
+                    <div class="profile">
+                        <img src="{{ asset('images/user_default.png') }}" alt="Profile Picture" class="profile-pic">
+                        <div class="profile-name">{{ __('Kiernnn') }}</div>
+                    </div>
+                    <div class="buttons">
+                        <button class="accept btn" type="submit">{{ __('Add Friend') }}</button>
+                        <button class="decline btn" type="submit">{{ __('Remove') }}</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
