@@ -299,7 +299,7 @@
 
                     <!-- Friends Page Start -->
                     <li class="content">
-                        <a href="{{ route('friends.index') }}" data-tooltip="Friends"
+                        <a href="{{ route('friendRequests.index') }}" data-tooltip="Friend Requests"
                             class="d-flex align-items-center nav-link{{ Request::routeIs('friends.index') ? ' active' : '' }}">
                             <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960"
                                 width="24px" fill="#fff">

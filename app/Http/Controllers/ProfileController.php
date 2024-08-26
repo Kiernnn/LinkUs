@@ -16,12 +16,6 @@ class ProfileController extends Controller
 {
     public function index(Request $request)
     {
-        if(!auth()->user()->profile) {
-            Profile::create([
-                'user_id' => auth()->user()->id
-            ]);
-        }
-
         $posts = auth()->user()->posts()->orderBy('created_at', 'desc')->get();
         
         return view('profile.index', compact('posts'));
@@ -44,6 +38,10 @@ class ProfileController extends Controller
         }
 
         $profile = auth()->user()->profile;
+        if (!$profile) {
+            $profile = new Profile();
+            $profile->user_id = auth()->id();
+        }
 
         try{
             $profile->update([
@@ -58,8 +56,8 @@ class ProfileController extends Controller
                 $image = uploadFile($file, 'profiles');
 
                 $profile->image = $image ?? null;
-                $profile->save();
             }
+            $profile->save();
 
             return redirect()->route('profile.index')->with('success', 'Profile Updated Successfully');
         } catch(\Exception $e){

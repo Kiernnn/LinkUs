@@ -68,6 +68,10 @@ class RegisterController extends Controller
                     'password' => Hash::make($request->password),
                 ]);
 
+        $profile = Profile::create([
+            'user_id' => $user->id
+        ]);
+
         // Redirect to login page with success message
         if($user){
             Auth::login($user);

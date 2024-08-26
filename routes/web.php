@@ -38,18 +38,28 @@ Route::group(['middleware' => ['auth']], function () {
       });
    });
          
+   // Friends
    Route::group(['prefix' => 'friends'], function () {
-       Route::get('/', [FriendsController::class, 'index'])->name('friends.index');
-       Route::delete('/unfriend/{friendId}', [FriendsController::class, 'unfriend'])->name('friends.unfriend');
-       Route::get('/search', [FriendsController::class, 'search'])->name('friends.search');
+      Route::controller(FriendsController::class)->group(function () {
+         Route::get('/', 'index')->name('friends.index');
+         Route::get('requests', 'requests')->name('friends.requests');
+         Route::get('suggestions', 'suggestions')->name('friends.suggestions');
+         Route::delete('unfriend', 'unfriend')->name('friends.unfriend');
+         Route::get('search', 'search')->name('friends.search');
+
+
+      });
    });
 
+   // Friend Requests
    Route::group(['prefix' => 'friend-requests'], function () {
-       Route::get('/', [FriendRequestController::class, 'index'])->name('friendRequests.index');
-       Route::post('/send/{receiverId}', [FriendRequestController::class, 'sendRequest'])->name('friendRequests.send');
-       Route::post('/accept/{id}', [FriendRequestController::class, 'acceptRequest'])->name('friendRequests.accept');
-       Route::delete('/decline/{id}', [FriendRequestController::class, 'declineRequest'])->name('friendRequests.decline');
-       Route::delete('/cancel/{id}', [FriendRequestController::class, 'cancelRequest'])->name('friendRequests.cancel');
+      Route::controller(FriendRequestController::class)->group(function () {
+         Route::get('/', 'index')->name('friendRequests.index');
+          Route::post('/send/{receiverId}', 'sendRequest')->name('friendRequests.send');
+          Route::post('/accept/{id}', 'acceptRequest')->name('friendRequests.accept');
+          Route::delete('/decline/{id}', 'declineRequest')->name('friendRequests.decline');
+          Route::delete('/cancel/{id}', 'cancelRequest')->name('friendRequests.cancel');
+      });
    });
 
 

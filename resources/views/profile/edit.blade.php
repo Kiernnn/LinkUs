@@ -9,7 +9,7 @@
     <div class="profile-content p-4">
         <h5 class="profile">{{ __('Edit Profile') }}</h5>
         <div class="post-form-container">
-            <form action="{{ route('profile.update', ['profile' => auth()->user()->profile->id]) }}" method="POST"
+            <form action="{{ route('profile.update', ['profile' => auth()->user()->profile ? auth()->user()->profile->id : '']) }}" method="POST"
                 enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
@@ -30,7 +30,7 @@
                         <hr class="underline">
                         <div class="form-group mb-2">
                             <label for="about" class="label-name">{{ __('Bio') }}</label>
-                            <textarea name="about" id="about" class="form-control">{{ old('about', auth()->user()->profile->about) }}</textarea>
+                            <textarea name="about" id="about" class="form-control">{{ old('about', auth()->user()->profile ? auth()->user()->profile->about : '') }}</textarea>
                         </div>
                     </div>
                     <div class="profile-wrapper">

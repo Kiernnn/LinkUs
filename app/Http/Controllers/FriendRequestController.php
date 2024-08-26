@@ -12,22 +12,17 @@ class FriendRequestController extends Controller
 {
     public function index()
     {
-        $userId = Auth::id();
+        $friendRequests = FriendRequest::where('receiver_id', auth()->user()->id)
+                                        ->where('status', 'pending')
+                                        ->orderBy('created_at', 'desc')
+                                        ->limit(5)->get();
+                                    //    dd($friendRequests);
 
-        // Retrieve friends and friend requests data
-        $friends = Friend::with('user', 'friend')
-                         ->where('user_id', $userId)
-                         ->orWhere('friend_id', $userId)
-                         ->get();
+        $sentRequests = FriendRequest::where('sender_id', 1)->pluck('receiver_id')->toArray();
 
-        $friendRequests = FriendRequest::with('sender')
-                                       ->where('receiver_id', $userId)
-                                       ->get();
-
-        $sentRequests = FriendRequest::where('sender_id', $userId)->pluck('receiver_id')->toArray();
-
-        return view('friends.index', compact('friends', 'friendRequests', 'sentRequests'));
+        return view('friends.index', compact('friendRequests', 'sentRequests'));
     }
+
 
     public function sendRequest($receiverId)
     {

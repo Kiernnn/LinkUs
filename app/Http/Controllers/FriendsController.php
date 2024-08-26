@@ -22,6 +22,8 @@ class FriendsController extends Controller
 
             $friendRequests = FriendRequest::with('sender')
                                            ->where('receiver_id', $userId)
+                                           ->orderBy('created_at', 'desc')
+                                           ->limit(5)
                                            ->get();
 
             $sentRequests = FriendRequest::where('sender_id', $userId)->pluck('receiver_id')->toArray();
@@ -31,6 +33,33 @@ class FriendsController extends Controller
             return back()->with('error', 'An error occurred while retrieving the friends list: ' . $e->getMessage());
         }
     }
+
+    public function requests()
+    {
+        $userId = Auth::id();
+        $friendRequests = FriendRequest::with('sender')
+                                       ->where('receiver_id', $userId)
+                                       ->limit(5)
+                                       ->get();
+
+        return view('friends.requests', compact('friendRequests'));
+    }
+
+    public function suggestions()
+    {
+        $userId = Auth::id();
+        $totalUsers = User::count();
+        $suggestionCount = intval($totalUsers * 0.3); // 30% of all user accounts
+
+        $suggestions = User::where('id', '!=', $userId)
+                           ->inRandomOrder()
+                           ->limit($suggestionCount)
+                           ->get();
+
+        return view('friends.suggestions', compact('suggestions'));
+    }
+
+
 
     public function unfriend($friendId)
     {
