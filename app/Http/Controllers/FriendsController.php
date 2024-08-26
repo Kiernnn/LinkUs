@@ -1,5 +1,4 @@
-<?php
-
+<?php 
 namespace App\Http\Controllers;
 
 use App\Models\Friend;
@@ -16,22 +15,20 @@ class FriendsController extends Controller
         $userId = Auth::id();
 
         try {
-            $friends = Friend::where(function ($query) use ($userId) {
-                $query->where('user_id', $userId)
-                      ->orWhere('friend_id', $userId);
-            })
-            ->with(['user', 'friend'])
-            ->get();
+            $friends = Friend::with(['user', 'friend'])
+                             ->where('user_id', $userId)
+                             ->orWhere('friend_id', $userId)
+                             ->get();
 
-            $friendRequests = FriendRequest::where('receiver_id', $userId)
-                                           ->with('sender')
+            $friendRequests = FriendRequest::with('sender')
+                                           ->where('receiver_id', $userId)
                                            ->get();
 
             $sentRequests = FriendRequest::where('sender_id', $userId)->pluck('receiver_id')->toArray();
 
             return view('friends.index', compact('friends', 'friendRequests', 'sentRequests'));
         } catch (Exception $e) {
-            return back()->with('error', 'An error occurred while retrieving friends list: ' . $e->getMessage());
+            return back()->with('error', 'An error occurred while retrieving the friends list: ' . $e->getMessage());
         }
     }
 
@@ -40,24 +37,27 @@ class FriendsController extends Controller
         try {
             $userId = Auth::id();
 
-            // Find the friendship regardless of who is user_id or friend_id
-            $friendship = Friend::where(function($query) use ($userId, $friendId) {
-                $query->where('user_id', $userId)->where('friend_id', $friendId)
-                      ->orWhere('user_id', $friendId)->where('friend_id', $userId);
+            // Attempt to find the friendship in either direction
+            $friendship = Friend::where(function ($query) use ($userId, $friendId) {
+                $query->where('user_id', $userId)
+                      ->where('friend_id', $friendId);
+            })->orWhere(function ($query) use ($userId, $friendId) {
+                $query->where('user_id', $friendId)
+                      ->where('friend_id', $userId);
             })->first();
 
             if (!$friendship) {
-                throw new Exception('Friendship not found.');
+                return back()->with('error', 'Friendship not found.');
             }
 
+            // Delete the friendship
             $friendship->delete();
 
             return back()->with('success', 'Friend removed successfully.');
-        } catch (Exception $e) {
-            return back()->with('error', 'An error occurred while removing friend: ' . $e->getMessage());
+        } catch (\Exception $e) {
+            return back()->with('error', 'An error occurred while removing the friend: ' . $e->getMessage());
         }
     }
-
 
     public function search(Request $request)
     {
@@ -67,13 +67,13 @@ class FriendsController extends Controller
                              ->where('id', '!=', Auth::id())
                              ->get();
 
-        $friends = Friend::where('user_id', Auth::id())
+        $friends = Friend::with(['user', 'friend'])
+                         ->where('user_id', Auth::id())
                          ->orWhere('friend_id', Auth::id())
-                         ->with(['user', 'friend'])
                          ->get();
 
-        $friendRequests = FriendRequest::where('receiver_id', Auth::id())
-                                       ->with('sender')
+        $friendRequests = FriendRequest::with('sender')
+                                       ->where('receiver_id', Auth::id())
                                        ->get();
 
         $sentRequests = FriendRequest::where('sender_id', Auth::id())
@@ -82,5 +82,4 @@ class FriendsController extends Controller
 
         return view('friends.index', compact('searchResults', 'friends', 'friendRequests', 'sentRequests'));
     }
-
 }

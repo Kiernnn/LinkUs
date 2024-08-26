@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use App\Enums\RequestStatus; // Ensure this is the correct namespace for your enum
 
 class CreateFriendRequestsTable extends Migration
 {
@@ -17,6 +18,11 @@ class CreateFriendRequestsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('sender_id');
             $table->unsignedBigInteger('receiver_id');
+            $table->enum('status', [
+                RequestStatus::PENDING->value,
+                RequestStatus::ACCEPTED->value,
+                RequestStatus::REJECTED->value
+            ]);
             $table->timestamps();
 
             $table->foreign('sender_id')->references('id')->on('users')->onDelete('cascade');

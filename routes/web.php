@@ -37,24 +37,21 @@ Route::group(['middleware' => ['auth']], function () {
          Route::put('comments/{comment}', 'update')->name('comments.update');
       });
    });
-
+         
    Route::group(['prefix' => 'friends'], function () {
-      Route::controller(FriendsController::class)->group(function () {
-          Route::get('/', 'index')->name('friends.index');
-          Route::delete('/unfriend/{friendId}', 'unfriend')->name('friends.unfriend');
-          Route::get('/search', 'search')->name('friends.search'); // Search route
-      });
-  });
+       Route::get('/', [FriendsController::class, 'index'])->name('friends.index');
+       Route::delete('/unfriend/{friendId}', [FriendsController::class, 'unfriend'])->name('friends.unfriend');
+       Route::get('/search', [FriendsController::class, 'search'])->name('friends.search');
+   });
 
-  Route::group(['prefix' => 'friendRequests'], function () {
-      Route::controller(FriendRequestController::class)->group(function () {
-         Route::get('/', 'index')->name('friendRequests.index');
-          Route::post('/send/{receiverId}', 'sendRequest')->name('friendRequests.send');
-          Route::post('/accept/{id}', 'acceptRequest')->name('friendRequests.accept');
-          Route::delete('/decline/{id}', 'declineRequest')->name('friendRequests.decline');
-          Route::post('/cancel/{id}', 'cancelRequest')->name('friendRequests.cancel');
-      });
-  });
+   Route::group(['prefix' => 'friend-requests'], function () {
+       Route::get('/', [FriendRequestController::class, 'index'])->name('friendRequests.index');
+       Route::post('/send/{receiverId}', [FriendRequestController::class, 'sendRequest'])->name('friendRequests.send');
+       Route::post('/accept/{id}', [FriendRequestController::class, 'acceptRequest'])->name('friendRequests.accept');
+       Route::delete('/decline/{id}', [FriendRequestController::class, 'declineRequest'])->name('friendRequests.decline');
+       Route::delete('/cancel/{id}', [FriendRequestController::class, 'cancelRequest'])->name('friendRequests.cancel');
+   });
+
 
    // Profile 
    Route::group(['prefix'=> 'profile'], function () {

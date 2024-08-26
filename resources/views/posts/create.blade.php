@@ -16,7 +16,6 @@
             </div>
             <form action="{{ route('posts.store') }}" method="POST" class="post-form" enctype="multipart/form-data">
                 @csrf
-
                 <textarea name="content" placeholder="What's on your mind?" class="form-control"></textarea>
                 <div class="form-actions d-flex justify-content-between align-items-center mt-2 position-relative">
                     <div id="add-image-icon" class="attachment-btn btn">

@@ -1,11 +1,11 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Models\FriendRequest;
 use App\Models\Friend;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Exception;
 
 class FriendRequestController extends Controller
@@ -14,28 +14,27 @@ class FriendRequestController extends Controller
     {
         $userId = Auth::id();
 
-        // Get all friends of the authenticated user
-        $friends = Friend::where('user_id', $userId)
+        // Retrieve friends and friend requests data
+        $friends = Friend::with('user', 'friend')
+                         ->where('user_id', $userId)
                          ->orWhere('friend_id', $userId)
                          ->get();
 
-        // Get all friend requests sent to the authenticated user
-        $friendRequests = FriendRequest::where('receiver_id', $userId)->get();
+        $friendRequests = FriendRequest::with('sender')
+                                       ->where('receiver_id', $userId)
+                                       ->get();
 
-        // Get all IDs of users to whom the authenticated user has sent friend requests
         $sentRequests = FriendRequest::where('sender_id', $userId)->pluck('receiver_id')->toArray();
 
-        // Pass all variables to the view
         return view('friends.index', compact('friends', 'friendRequests', 'sentRequests'));
     }
 
-
     public function sendRequest($receiverId)
     {
-        try {
-            $senderId = Auth::id();
+        $senderId = Auth::id();
 
-            if ($senderId === $receiverId) {
+        try {
+            if ($senderId == $receiverId) {
                 throw new Exception('You cannot send a friend request to yourself.');
             }
 
@@ -53,8 +52,8 @@ class FriendRequestController extends Controller
             ]);
 
             return back()->with('success', 'Friend request sent successfully.');
-
         } catch (Exception $e) {
+            Log::error('Error sending friend request', ['error' => $e->getMessage()]);
             return back()->with('error', $e->getMessage());
         }
     }
@@ -63,16 +62,17 @@ class FriendRequestController extends Controller
     {
         try {
             $friendRequest = FriendRequest::findOrFail($id);
-            $friendRequest->delete();
 
             Friend::create([
                 'user_id' => $friendRequest->receiver_id,
                 'friend_id' => $friendRequest->sender_id,
             ]);
 
-            return back()->with('success', 'Friend request accepted.');
+            $friendRequest->delete();
 
+            return back()->with('success', 'Friend request accepted.');
         } catch (Exception $e) {
+            Log::error('Error accepting friend request', ['error' => $e->getMessage()]);
             return back()->with('error', $e->getMessage());
         }
     }
@@ -84,8 +84,8 @@ class FriendRequestController extends Controller
             $friendRequest->delete();
 
             return back()->with('success', 'Friend request declined.');
-
         } catch (Exception $e) {
+            Log::error('Error declining friend request', ['error' => $e->getMessage()]);
             return back()->with('error', $e->getMessage());
         }
     }
@@ -100,8 +100,8 @@ class FriendRequestController extends Controller
             $friendRequest->delete();
 
             return back()->with('success', 'Friend request canceled.');
-
         } catch (Exception $e) {
+            Log::error('Error canceling friend request', ['error' => $e->getMessage()]);
             return back()->with('error', $e->getMessage());
         }
     }

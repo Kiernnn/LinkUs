@@ -1,35 +1,45 @@
-.friends-content {
-    margin-left: 60px;
+::-webkit-scrollbar{
+    display: none;
 }
 
-.friend-list,
-.friend-requests {
-    background-color: #2a2a2a;
+.friends{
+    display: flex;
+}
+
+.friends .friend-pic{
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+}
+
+.nameTime{
+    margin-left: 10px;
+}
+
+.nameTime p{
+    margin: 0;
+    padding: 0;
+}
+
+.nameTime .post-subtitle{
+    margin: 0;
+    padding: 0;
+    color: white;
+}
+
+.friend-list{
+    background-color: #141414;
+    border: 1px solid #333;
+    border-radius: 20px;
+    margin-bottom:20px; 
     padding: 20px;
-    border-radius: 10px;
 }
 
-.friend-list ul,
-.friend-requests ul {
-    background-color: #343a40;
-    border-radius: 5px;
-    padding: 10px;
-    list-style: none;
+.friend-requests{
+    background-color: #141414;
+    border: 1px solid #333;
+    border-radius: 20px;
+    margin-bottom:20px; 
+    padding: 20px;
 }
 
-.friend-list ul li,
-.friend-requests ul li {
-    margin-bottom: 10px;
-    padding: 10px;
-    background-color: #495057;
-    color: white;
-}
-
-.friend-list ul li:last-child,
-.friend-requests ul li:last-child {
-    margin-bottom: 0;
-}
-
-h1, h2, li{
-    color: white;
-}

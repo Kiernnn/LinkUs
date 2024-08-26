@@ -8,7 +8,7 @@ use App\Enums\PostStatus;
 class CreatePostsTable extends Migration
 {
     /**
-     * Run the migrations.
+     * Run the migrations.              
      *
      * @return void
      */
