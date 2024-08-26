@@ -8,7 +8,7 @@
 
 @section('content')
     <div class="create-content p-4">
-        <h5 class="new-post">{{ __('Create New Post') }}</h5>
+        <a href="{{ route('posts.create') }}" class="new-post mb-2">{{ __('Create New Post') }}</a>
         <div class="post-form-container">
             <div class="profile-section">
                 <img src="{{ asset('images/user_default.png') }}" alt="Profile Picture" class="profile-pic">

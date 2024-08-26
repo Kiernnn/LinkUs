@@ -28,11 +28,10 @@
                             <p class="profile-name">({{ auth()->user()->userName }})</p>
                         </div>
                         <hr class="underline">
-                        <div class="form-group mb-0">
+                        <div class="form-group mb-2">
                             <label for="about" class="label-name">{{ __('Bio') }}</label>
                             <textarea name="about" id="about" class="form-control">{{ old('about', auth()->user()->profile->about) }}</textarea>
                         </div>
-                        <hr>
                     </div>
                     <div class="profile-wrapper">
                         @if (auth()->user()->profile && auth()->user()->profile->image)
