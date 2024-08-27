@@ -12,7 +12,7 @@ class FriendsController extends Controller
 {
     public function index()
     {
-        $userId = Auth::id();
+        $userId = auth()->user()->id;
 
         try {
             $friends = Friend::with(['user', 'friend'])
@@ -23,7 +23,7 @@ class FriendsController extends Controller
             $friendRequests = FriendRequest::with('sender')
                                            ->where('receiver_id', $userId)
                                            ->orderBy('created_at', 'desc')
-                                           ->limit(5)
+                                           ->limit()
                                            ->get();
 
             $sentRequests = FriendRequest::where('sender_id', $userId)->pluck('receiver_id')->toArray();
@@ -36,7 +36,7 @@ class FriendsController extends Controller
 
     public function requests()
     {
-        $userId = Auth::id();
+        $userId = auth()->user()->id;
         $friendRequests = FriendRequest::with('sender')
                                        ->where('receiver_id', $userId)
                                        ->limit(5)
@@ -49,7 +49,7 @@ class FriendsController extends Controller
     public function unfriend($friendId)
     {
         try {
-            $userId = Auth::id();
+            $userId = auth()->user()->id;
 
             // Attempt to find the friendship in either direction
             $friendship = Friend::where(function ($query) use ($userId, $friendId) {
@@ -99,20 +99,17 @@ class FriendsController extends Controller
 
     public function suggestions()
     {
-        $userId = Auth::id();
-        $totalUsers = User::count();
-        $suggestionCount = intval($totalUsers * 0.3); // 30% of all user accounts
+        $userId = auth()->user()->id;   
 
         $suggestions = User::where('id', '!=', $userId)
                            ->inRandomOrder()
-                           ->limit($suggestionCount)
                            ->get();
 
         return view('friends.suggestions', compact('suggestions'));
     }
 
-    public function removeSuggestion($id)
-    {
-        return back()->with('success', 'User removed from suggestions.');
-    }
+    // public function removeSuggestion($id)
+    // {
+    //     return back()->with('success', 'User removed from suggestions.');
+    // }
 }

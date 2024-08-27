@@ -1,10 +1,42 @@
 @extends('layouts.sidebar')
 @section('title', 'Friend Requests')
 
+@section('style')
+    <style>
+        .requests-content{
+            height:100vh;
+            overflow: hidden;
+            overflow-y:auto;
+            margin-bottom:20px;
+            text-align:center;
+        }
+        .requests-content h2{
+            color: white;   
+        }
+        .profile .profile-name{
+            color: white;
+        }
+        .buttons{
+            display: flex;
+            text-align: center;
+            justify-content: center
+        }
+        .buttons .decline{
+            margin-left: 5px;
+        }
+        .buttons .accept, .decline{
+            background: gray;
+            padding: 5px 5px;
+            border-radius: 10px;
+        }
+    </style>
+@endsection
+
 @section('content')
+<di class="friendRequest" >
     <div class="requests-content p-4">
         <h2>{{ __('All Friend Requests') }}</h2>
-        @foreach($friendRequests as $request)
+        @forelse($friendRequests as $request)
             <div class="friend-request mb-3">
                 <div class="profile">
                     <img src="{{ asset('images/user_default.png') }}" alt="Profile Picture" class="profile-pic">
@@ -22,6 +54,10 @@
                     </form>
                 </div>
             </div>
-        @endforeach
+        @empty
+            <p>No Request.</p>
+        @endforelse
     </div>
+</di>
+    
 @endsection

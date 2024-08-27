@@ -6,29 +6,25 @@ use App\Models\FriendRequest;
 use App\Models\Friend;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 use Exception;
 
 class FriendRequestController extends Controller
 {
     public function index()
     {
-        $userId = Auth::id();
-
-        // Fetch friend requests
-        $friendRequests = FriendRequest::where('receiver_id', $userId)
+        $friendRequests = FriendRequest::where('receiver_id', auth()->user()->id)
                                        ->where('status', 'pending')
                                        ->orderBy('created_at', 'desc')
                                        ->limit(5)
                                        ->get();
 
         // Fetch sent, received requests, and friends
-        $sentRequests = FriendRequest::where('sender_id', $userId)->pluck('receiver_id')->toArray();
-        $receivedRequests = FriendRequest::where('receiver_id', $userId)->pluck('sender_id')->toArray();
-        $friends = Friend::where('user_id', $userId)->orWhere('friend_id', $userId)->pluck('friend_id')->toArray();
+        $sentRequests = FriendRequest::where('sender_id', auth()->user()->id)->pluck('receiver_id')->toArray();
+        $receivedRequests = FriendRequest::where('receiver_id', auth()->user()->id)->pluck('sender_id')->toArray();
+        $friends = Friend::where('user_id', auth()->user()->id)->orWhere('friend_id', auth()->user()->id)->pluck('friend_id')->toArray();
 
         // Exclude these users from suggestions
-        $excludedIds = array_merge($sentRequests, $receivedRequests, $friends, [$userId]);
+        $excludedIds = array_merge($sentRequests, $receivedRequests, $friends, [auth()->user()->id]);
 
         // Fetch user suggestions
         $suggestions = User::whereNotIn('id', $excludedIds)
@@ -51,6 +47,7 @@ class FriendRequestController extends Controller
 
             $existingRequest = FriendRequest::where('sender_id', $senderId)
                                             ->where('receiver_id', $receiverId)
+                                            ->where('status', 'pending')
                                             ->first();
 
             if ($existingRequest) {
@@ -64,7 +61,6 @@ class FriendRequestController extends Controller
 
             return back()->with('success', 'Friend request sent successfully.');
         } catch (Exception $e) {
-            Log::error('Error sending friend request', ['error' => $e->getMessage()]);
             return back()->with('error', $e->getMessage());
         }
     }
@@ -74,13 +70,14 @@ class FriendRequestController extends Controller
         try {
             $friendRequest = FriendRequest::where('sender_id', Auth::id())
                                             ->where('receiver_id', $id)
+                                            ->where('status', 'pending')
                                             ->firstOrFail();
 
             $friendRequest->delete();
 
             return back()->with('success', 'Friend request canceled.');
         } catch (Exception $e) {
-            Log::error('Error canceling friend request', ['error' => $e->getMessage()]);
+
             return back()->with('error', $e->getMessage());
         }
     }
@@ -99,7 +96,6 @@ class FriendRequestController extends Controller
 
             return back()->with('success', 'Friend request accepted.');
         } catch (Exception $e) {
-            Log::error('Error accepting friend request', ['error' => $e->getMessage()]);
             return back()->with('error', $e->getMessage());
         }
     }
@@ -112,7 +108,6 @@ class FriendRequestController extends Controller
 
             return back()->with('success', 'Friend request declined.');
         } catch (Exception $e) {
-            Log::error('Error declining friend request', ['error' => $e->getMessage()]);
             return back()->with('error', $e->getMessage());
         }
     }
