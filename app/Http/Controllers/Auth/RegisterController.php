@@ -77,7 +77,7 @@ class RegisterController extends Controller
         if($user){
             Auth::login($user);
             return redirect()->route('posts.index');
-        }       
+        }
     }
 
 }
