@@ -1,37 +1,40 @@
 @extends('layouts.sidebar')
-
 @section('title', 'Friend Suggestions')
 
-@section('content')
-    <div class="suggestions-content p-4" style="margin-left: 120px;">
-        <!-- back button -->
-        <a href="{{ route('friends.index') }}"
-            style="background:black; color:white; text-decoration:none; border:solid white;border-radius:10px; padding:10px 10px 10px 10px; margin-bottom:10px; position:fixed;">Back
-        </a>
+@section('style')
+    <link href="{{ asset('css/friends_index.css') }}" rel="stylesheet">
+@endsection
 
-        <div class="suggestions-box" style="height:100vh; overflow: hidden; overflow-y:auto; margin-bottom:20px; text-align:center;">
-            <h2 style="color:white;">{{ __('Friend Suggestions') }}</h2>
-            @forelse ($suggestions as $user)
-                <div class="suggestion mb-3 mt-5">
-                    <div class="profile">
-                        <img src="{{ asset($user->profile && $user->profile->image ? 'profiles/' . $user->profile->image : 'images/user_default.png') }}" alt="Profile Picture" class="profile-pic">
-                        <div class="profile-name" style="color: white;">{{ $user->userName }}</div>
+@section('content')
+    <div class="friends-content p-4">
+        <a href="{{ route('friends.suggestions') }}" class="friends mb-2">{{ __('Suggestions') }}</a>
+        <div class="friends-box">
+            <div class="suggest-form-container mb-3">
+                @forelse ($suggestions as $user)
+                    <div class="post-header mb-3">
+                        <div class="request-container mb-2">
+                            <div class="profile">
+                                <img src="{{ asset($user->profile && $user->profile->image ? 'profiles/' . $user->profile->image : 'images/user_default.png') }}"
+                                    alt="Profile Picture" class="profile-pic">
+                                <div class="profile-name">{{ $user->userName }}</div>
+                            </div>
+                            <div class="buttons mb-2">
+                                <form action="{{ route('friendRequests.send', $user->id) }}" method="POST">
+                                    @csrf
+                                    <button class="accept btn" type="submit">{{ __('Add Friend') }}</button>
+                                </form>
+                                <form action="{{ route('friends.removeSuggestion', $user->id) }}" method="POST">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button class="decline btn" type="submit">{{ __('Remove') }}</button>
+                                </form>
+                            </div>
+                        </div>
                     </div>
-                    <div class="buttons">
-                        <form action="{{ route('friendRequests.send', $user->id )}}" method="POST" style="display: inline;">
-                            @csrf
-                            <button class="btn btn-primary" type="submit">{{ __('Add Friend') }}</button>
-                        </form>
-                        <form action="{{ route('friends.removeSuggestion', $user->id) }}" method="POST" style="display:inline;">
-                            @csrf
-                            @method('DELETE')
-                            <button class="btn btn-secondary" type="submit">{{ __('Remove') }}</button>
-                        </form>
-                    </div>
-                </div>
-            @empty
-                <p>No suggestions available!</p>
-            @endforelse
+                @empty
+                    <p style="color:white;">{{ __('No suggestions available!') }}</p>
+                @endforelse
+            </div>
         </div>
     </div>
 @endsection
