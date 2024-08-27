@@ -21,8 +21,7 @@
                         @endphp
                         <div class="request-container mb-2"> <!-- New container -->
                             <div class="profile">
-                                <img src="{{ asset($sender->profile->image ? 'profiles/' . $sender->profile->image : 'images/user_default.png') }}"
-                                    alt="Profile Picture" class="profile-pic">
+                                <img src="{{ asset($sender->profile && $sender->profile->image ? 'profiles/' . $sender->profile->image : 'images/user_default.png') }}" alt="Profile Picture" class="profile-pic">
                                 <div class="profile-name">{{ $sender->userName }}</div>
                                 <div class="post-subtitle mb-2 small">
                                     {{ timeDiffInHours($data->created_at) }}
