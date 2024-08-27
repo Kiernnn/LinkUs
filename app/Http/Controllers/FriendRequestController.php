@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\FriendRequest;
 use App\Models\Friend;
 use Illuminate\Http\Request;
@@ -12,17 +13,32 @@ class FriendRequestController extends Controller
 {
     public function index()
     {
-        $friendRequests = FriendRequest::where('receiver_id', auth()->user()->id)
-                                        ->where('status', 'pending')
-                                        ->orderBy('created_at', 'desc')
-                                        ->limit(5)->get();
-                                    //    dd($friendRequests);
+        $userId = Auth::id();
 
-        $sentRequests = FriendRequest::where('sender_id', 1)->pluck('receiver_id')->toArray();
+        // Fetch friend requests
+        $friendRequests = FriendRequest::where('receiver_id', $userId)
+                                       ->where('status', 'pending')
+                                       ->orderBy('created_at', 'desc')
+                                       ->limit(5)
+                                       ->get();
 
-        return view('friends.index', compact('friendRequests', 'sentRequests'));
+        // Fetch sent, received requests, and friends
+        $sentRequests = FriendRequest::where('sender_id', $userId)->pluck('receiver_id')->toArray();
+        $receivedRequests = FriendRequest::where('receiver_id', $userId)->pluck('sender_id')->toArray();
+        $friends = Friend::where('user_id', $userId)->orWhere('friend_id', $userId)->pluck('friend_id')->toArray();
+
+        // Exclude these users from suggestions
+        $excludedIds = array_merge($sentRequests, $receivedRequests, $friends, [$userId]);
+
+        // Fetch user suggestions
+        $suggestions = User::whereNotIn('id', $excludedIds)
+                           ->inRandomOrder()
+                           ->limit(5)
+                           ->get();
+
+        // Pass variables to the view
+        return view('friends.index', compact('friendRequests', 'suggestions'));
     }
-
 
     public function sendRequest($receiverId)
     {
@@ -49,6 +65,22 @@ class FriendRequestController extends Controller
             return back()->with('success', 'Friend request sent successfully.');
         } catch (Exception $e) {
             Log::error('Error sending friend request', ['error' => $e->getMessage()]);
+            return back()->with('error', $e->getMessage());
+        }
+    }
+
+    public function cancelRequest($id)
+    {
+        try {
+            $friendRequest = FriendRequest::where('sender_id', Auth::id())
+                                            ->where('receiver_id', $id)
+                                            ->firstOrFail();
+
+            $friendRequest->delete();
+
+            return back()->with('success', 'Friend request canceled.');
+        } catch (Exception $e) {
+            Log::error('Error canceling friend request', ['error' => $e->getMessage()]);
             return back()->with('error', $e->getMessage());
         }
     }
@@ -85,19 +117,32 @@ class FriendRequestController extends Controller
         }
     }
 
-    public function cancelRequest($id)
+    public function suggestions(Request $request)
     {
-        try {
-            $friendRequest = FriendRequest::where('sender_id', Auth::id())
-                                            ->where('receiver_id', $id)
-                                            ->firstOrFail();
+        $userId = Auth::id();
+        $sentRequests = FriendRequest::where('sender_id', $userId)->pluck('receiver_id')->toArray();
+        $receivedRequests = FriendRequest::where('receiver_id', $userId)->pluck('sender_id')->toArray();
+        $friends = Friend::where('user_id', $userId)->orWhere('friend_id', $userId)->pluck('friend_id')->toArray();
 
-            $friendRequest->delete();
+        $excludedIds = array_merge($sentRequests, $receivedRequests, $friends, [$userId]);
 
-            return back()->with('success', 'Friend request canceled.');
-        } catch (Exception $e) {
-            Log::error('Error canceling friend request', ['error' => $e->getMessage()]);
-            return back()->with('error', $e->getMessage());
+        if ($request->has('all')) {
+            // Show all users excluding the ones in excludedIds
+            $suggestions = User::whereNotIn('id', $excludedIds)->get();
+        } else {
+            // Show a limited number of suggestions
+            $suggestions = User::whereNotIn('id', $excludedIds)
+                               ->inRandomOrder()
+                               ->limit(5)
+                               ->get();
         }
+
+        return view('friends.suggestions', compact('suggestions'));
     }
+
+    public function removeSuggestion($id)
+    {
+        return back()->with('success', 'User removed from suggestions.');
+    }
+
 }

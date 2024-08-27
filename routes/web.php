@@ -43,11 +43,10 @@ Route::group(['middleware' => ['auth']], function () {
       Route::controller(FriendsController::class)->group(function () {
          Route::get('/', 'index')->name('friends.index');
          Route::get('requests', 'requests')->name('friends.requests');
-         Route::get('suggestions', 'suggestions')->name('friends.suggestions');
          Route::delete('unfriend', 'unfriend')->name('friends.unfriend');
+         Route::get('suggestions', 'suggestions')->name('friends.suggestions');
+         Route::delete('/remove-suggestion/{id}', 'removeSuggestion')->name('friends.removeSuggestion');
          Route::get('search', 'search')->name('friends.search');
-
-
       });
    });
 
@@ -59,6 +58,7 @@ Route::group(['middleware' => ['auth']], function () {
           Route::post('/accept/{id}', 'acceptRequest')->name('friendRequests.accept');
           Route::delete('/decline/{id}', 'declineRequest')->name('friendRequests.decline');
           Route::delete('/cancel/{id}', 'cancelRequest')->name('friendRequests.cancel');
+          Route::delete('/remove-suggestion/{id}', 'removeSuggestion')->name('friendRequests.removeSuggestion');
       });
    });
 

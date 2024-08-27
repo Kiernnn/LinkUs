@@ -44,22 +44,7 @@ class FriendsController extends Controller
 
         return view('friends.requests', compact('friendRequests'));
     }
-
-    public function suggestions()
-    {
-        $userId = Auth::id();
-        $totalUsers = User::count();
-        $suggestionCount = intval($totalUsers * 0.3); // 30% of all user accounts
-
-        $suggestions = User::where('id', '!=', $userId)
-                           ->inRandomOrder()
-                           ->limit($suggestionCount)
-                           ->get();
-
-        return view('friends.suggestions', compact('suggestions'));
-    }
-
-
+    
 
     public function unfriend($friendId)
     {
@@ -110,5 +95,24 @@ class FriendsController extends Controller
                                      ->toArray();
 
         return view('friends.index', compact('searchResults', 'friends', 'friendRequests', 'sentRequests'));
+    }
+
+    public function suggestions()
+    {
+        $userId = Auth::id();
+        $totalUsers = User::count();
+        $suggestionCount = intval($totalUsers * 0.3); // 30% of all user accounts
+
+        $suggestions = User::where('id', '!=', $userId)
+                           ->inRandomOrder()
+                           ->limit($suggestionCount)
+                           ->get();
+
+        return view('friends.suggestions', compact('suggestions'));
+    }
+
+    public function removeSuggestion($id)
+    {
+        return back()->with('success', 'User removed from suggestions.');
     }
 }

@@ -21,10 +21,10 @@
                     
                     <div class="post-header mb-3">
                         <div class="profile">
-                            <img src="{{ asset($sender->profile->image ? 'profiles/' . $sender->profile->image : 'images/user_default.png') }}" alt="Profile Picture" class="profile-pic">
+                            <img src="{{ asset(isset($sender->profile) && $sender->profile->image ? 'profiles/' . $sender->profile->image : 'images/user_default.png') }}" alt="Profile Picture" class="profile-pic">
                             <div class="profile-name">{{ $sender->userName }}</div>
                             <div class="post-subtitle mb-2 small">
-                                {{ timeDiffInHours($sender->created_at) }}
+                                {{ timeDiffInHours($data->created_at) }}
                             </div>
                         </div>
                         <div class="buttons mb-2">
@@ -48,18 +48,29 @@
             <div class="suggest-form-container mb-3">
                 <div class="friends-info mb-2">
                     <div class="friend-requests">{{ __('Suggested for you') }}</div>
-                    <a href="{{ route('friends.suggestions') }}" class="see-all">{{ __('See all') }}</a>
+                    <a href="{{ route('friends.suggestions',['all' => true]) }}" class="see-all">{{ __('See all') }}</a>
                 </div>
-                <div class="post-header mb-3">
-                    <div class="profile">
-                        <img src="{{ asset('images/user_default.png') }}" alt="Profile Picture" class="profile-pic">
-                        <div class="profile-name">{{ __('Kiernnn') }}</div>
+                @forelse ($suggestions as $user)
+                    <div class="post-header mb-3">
+                        <div class="profile">
+                            <img src="{{ asset(isset($user->profile) && $user->profile->image ? 'profiles/' . $user->profile->image : 'images/user_default.png') }}" alt="Profile Picture" class="profile-pic">
+                            <div class="profile-name">{{ $user->userName }}</div>
+                        </div>
+                        <div class="buttons">
+                            <form action="{{ route('friendRequests.send', $user->id )}}" method="POST" style="display: inline;">
+                                @csrf
+                                <button class="accept btn" type="submit">{{ __('Add Friend') }}</button>
+                            </form>
+                            <form action="{{ route('friendRequests.removeSuggestion', $user->id) }}" method="POST" style="display:inline;">
+                                @csrf
+                                @method('DELETE')
+                                <button class="decline btn" type="submit">{{ __('Remove') }}</button>
+                            </form>
+                        </div>
                     </div>
-                    <div class="buttons">
-                        <button class="accept btn" type="submit">{{ __('Add Friend') }}</button>
-                        <button class="decline btn" type="submit">{{ __('Remove') }}</button>
-                    </div>
-                </div>
+                @empty
+                    <p style="color: white">No Suggestions Found!</p>
+                @endforelse
             </div>
         </div>
     </div>

@@ -47,7 +47,7 @@
 
                         <!-- Profile Section Start -->
                         <div class="post-header">
-                            <img src="{{ asset(auth()->user()->profile->image ? 'profiles/' . auth()->user()->profile->image : 'images/user_default.png') }}" alt="Profile Picture" class="post-profile">
+                            <img src="{{ asset(auth()->user()->profile && auth()->user()->profile->image ? 'profiles/' . auth()->user()->profile->image : 'images/user_default.png') }}" alt="Profile Picture" class="post-profile">
                             <div class="post-pf-name">{{ $post->user->userName }}</div>
                             <div class="post-subtitle mb-2 small">
                                 {{ timeDiffInHours($post->created_at) }}
