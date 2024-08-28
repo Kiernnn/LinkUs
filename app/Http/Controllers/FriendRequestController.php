@@ -33,7 +33,7 @@ class FriendRequestController extends Controller
                            ->get();
 
         // Pass variables to the view
-        return view('friends.index', compact('friendRequests', 'suggestions'));
+        return view('friend-requests.index', compact('friendRequests', 'suggestions'));
     }
 
     public function sendRequest($receiverId)
@@ -82,21 +82,21 @@ class FriendRequestController extends Controller
         }
     }
 
-    public function acceptRequest($id)
+    public function acceptRequest(Request $request)
     {
         try {
-            $friendRequest = FriendRequest::findOrFail($id);
+            $friendRequest = FriendRequest::findOrFail($request->reqId);
 
-            Friend::create([
-                'user_id' => $friendRequest->receiver_id,
-                'friend_id' => $friendRequest->sender_id,
-            ]);
+            // Friend::create([
+            //     'user_id' => $friendRequest->receiver_id,
+            //     'friend_id' => $friendRequest->sender_id,
+            // ]);
 
-            $friendRequest->delete();
+            // $friendRequest->delete();
 
-            return back()->with('success', 'Friend request accepted.');
+            return response()->json(['message' => 'Friend request accepted'], 200);
         } catch (Exception $e) {
-            return back()->with('error', $e->getMessage());
+            return response()->json(['message' => 'Error accepting friend request', 'error' => $e->getMessage()], 500);
         }
     }
 
@@ -104,7 +104,7 @@ class FriendRequestController extends Controller
     {
         try {
             $friendRequest = FriendRequest::findOrFail($id);
-            $friendRequest->delete();
+            // $friendRequest->delete();
 
             return back()->with('success', 'Friend request declined.');
         } catch (Exception $e) {
