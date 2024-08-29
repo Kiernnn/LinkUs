@@ -14,7 +14,7 @@ class FriendsController extends Controller
     {
         $userId = auth()->user()->id;
 
-        try {
+        try {   
             $friends = Friend::with(['user', 'friend'])
                              ->where('user_id', $userId)
                              ->orWhere('friend_id', $userId)
@@ -23,12 +23,17 @@ class FriendsController extends Controller
             $friendRequests = FriendRequest::with('sender')
                                            ->where('receiver_id', $userId)
                                            ->orderBy('created_at', 'desc')
-                                           ->limit()
+                                           ->limit(5)
                                            ->get();
 
             $sentRequests = FriendRequest::where('sender_id', $userId)->pluck('receiver_id')->toArray();
 
-            return view('friends.index', compact('friends', 'friendRequests', 'sentRequests'));
+            $suggestions = User::where('id', '!=', $userId)
+                               ->inRandomOrder()
+                               ->limit(5)
+                               ->get(); 
+
+            return view('friends.index', compact('friends', 'friendRequests', 'sentRequests', 'suggestions'));
         } catch (Exception $e) {
             return back()->with('error', 'An error occurred while retrieving the friends list: ' . $e->getMessage());
         }
@@ -39,13 +44,11 @@ class FriendsController extends Controller
         $userId = auth()->user()->id;
         $friendRequests = FriendRequest::with('sender')
                                        ->where('receiver_id', $userId)
-                                       ->limit(5)
                                        ->get();
 
         return view('friends.requests', compact('friendRequests'));
     }
     
-
     public function unfriend($friendId)
     {
         try {
@@ -67,30 +70,46 @@ class FriendsController extends Controller
             // Delete the friendship
             $friendship->delete();
 
-            return back()->with('success', 'Friend removed successfully.');
+            return back()->with('success', 'Unfriend successfully');
         } catch (\Exception $e) {
             return back()->with('error', 'An error occurred while removing the friend: ' . $e->getMessage());
         }
     }
 
+    public function list()
+    {
+        $userId = auth()->user()->id;
+
+        try {
+            $friends = Friend::with(['user', 'friend'])
+                             ->where('user_id', $userId)
+                             ->orWhere('friend_id', $userId)
+                             ->get();
+
+            return view('friends.list', compact('friends'));
+        } catch (Exception $e) {
+            return back()->with('error', 'An error occurred while retrieving the friends list: ' . $e->getMessage());
+        }
+    }
+    
     public function search(Request $request)
     {
         $query = $request->input('query');
 
         $searchResults = User::where('userName', 'LIKE', "%{$query}%")
-                             ->where('id', '!=', Auth::id())
+                             ->where('id', '!=', auth()->user()->id)
                              ->get();
 
         $friends = Friend::with(['user', 'friend'])
-                         ->where('user_id', Auth::id())
-                         ->orWhere('friend_id', Auth::id())
+                         ->where('user_id', auth()->user()->id)
+                         ->orWhere('friend_id', auth()->user()->id)
                          ->get();
 
         $friendRequests = FriendRequest::with('sender')
-                                       ->where('receiver_id', Auth::id())
+                                       ->where('receiver_id', auth()->user()->id)
                                        ->get();
-
-        $sentRequests = FriendRequest::where('sender_id', Auth::id())
+   
+        $sentRequests = FriendRequest::where('sender_id', auth()->user()->id)
                                      ->pluck('receiver_id')
                                      ->toArray();
 
@@ -108,8 +127,8 @@ class FriendsController extends Controller
         return view('friends.suggestions', compact('suggestions'));
     }
 
-    // public function removeSuggestion($id)
-    // {
-    //     return back()->with('success', 'User removed from suggestions.');
-    // }
+    public function removeSuggestion($id)
+    {
+        return back()->with('success', 'User removed from suggestions.');
+    }
 }

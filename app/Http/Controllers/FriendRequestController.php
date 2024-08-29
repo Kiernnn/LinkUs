@@ -38,7 +38,7 @@ class FriendRequestController extends Controller
 
     public function sendRequest($receiverId)
     {
-        $senderId = Auth::id();
+        $senderId = auth()->user()->id;
 
         try {
             if ($senderId == $receiverId) {
@@ -68,7 +68,7 @@ class FriendRequestController extends Controller
     public function cancelRequest($id)
     {
         try {
-            $friendRequest = FriendRequest::where('sender_id', Auth::id())
+            $friendRequest = FriendRequest::where('sender_id', auth()->user()->id)
                                             ->where('receiver_id', $id)
                                             ->where('status', 'pending')
                                             ->firstOrFail();
@@ -87,12 +87,12 @@ class FriendRequestController extends Controller
         try {
             $friendRequest = FriendRequest::findOrFail($request->reqId);
 
-            // Friend::create([
-            //     'user_id' => $friendRequest->receiver_id,
-            //     'friend_id' => $friendRequest->sender_id,
-            // ]);
+            Friend::create([
+                'user_id' => $friendRequest->receiver_id,
+                'friend_id' => $friendRequest->sender_id,
+            ]);
 
-            // $friendRequest->delete();
+            $friendRequest->delete();
 
             return response()->json(['message' => 'Friend request accepted'], 200);
         } catch (Exception $e) {
@@ -104,7 +104,7 @@ class FriendRequestController extends Controller
     {
         try {
             $friendRequest = FriendRequest::findOrFail($id);
-            // $friendRequest->delete();
+            $friendRequest->delete();
 
             return back()->with('success', 'Friend request declined.');
         } catch (Exception $e) {
@@ -114,7 +114,7 @@ class FriendRequestController extends Controller
 
     public function suggestions(Request $request)
     {
-        $userId = Auth::id();
+        $userId = auth()->user()->id;
         $sentRequests = FriendRequest::where('sender_id', $userId)->pluck('receiver_id')->toArray();
         $receivedRequests = FriendRequest::where('receiver_id', $userId)->pluck('sender_id')->toArray();
         $friends = Friend::where('user_id', $userId)->orWhere('friend_id', $userId)->pluck('friend_id')->toArray();
@@ -139,5 +139,4 @@ class FriendRequestController extends Controller
     {
         return back()->with('success', 'User removed from suggestions.');
     }
-
 }

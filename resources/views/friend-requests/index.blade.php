@@ -13,6 +13,7 @@
                 <div class="friends-info mb-2">
                     <div href="{{ route('friends.index') }}" class="friends mb-2">{{ __('Friend Requests') }}</div>
                     <a href="{{ route('friends.requests') }}" class="see-all">{{ __('See all') }}</a>
+                    <a href="{{ route('friends.list')}}" class="friends-list" style="text-decoration:none;">{{ __('friends list')}}</a>
                 </div>
                 <div class="post-header mb-3">
                     @forelse ($friendRequests as $data)
@@ -96,11 +97,12 @@
                reqId : reqId,
             },
             success: function(response) {
-               
+               console.log(response);
+            },
             error: function(xhr, status, error) {
                alert("Error: " + error);
             }
-        });
-   };
+      });
+   };   
 </script>
 @endsection

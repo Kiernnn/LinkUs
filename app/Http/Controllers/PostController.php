@@ -6,8 +6,8 @@ use App\Models\Post;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 use App\helpers;
-use Validator;
 
 class PostController extends Controller
 {
@@ -114,7 +114,7 @@ class PostController extends Controller
         
     }
 
-     // Comment 
+    // Comment 
     public function detail(Post $post)
     {
         return view('posts.detail', compact('post'));
@@ -135,5 +135,22 @@ class PostController extends Controller
         $post->delete();
 
         return redirect()->route('profile.index')->with('success', 'Post deleted successfully.');
+    }
+
+    public function search(Request $request)
+    {
+        $query = $request->input('text');
+
+        $posts = Post::where('user_id', '!=', auth()->user()->id)
+                     ->where(function($q) use ($query) {
+                         $q->where('content', 'LIKE', '%' . $query . '%')
+                           ->orWhereHas('user', function($q) use ($query) {
+                               $q->where('userName', 'LIKE', '%' . $query . '%');
+                           });
+                     })
+                     ->orderBy('created_at', 'desc')
+                     ->get();
+
+        return view('posts.search', compact('posts'));
     }
 }

@@ -13,6 +13,7 @@
                 <div class="friends-info mb-2">
                     <div href="{{ route('friends.index') }}" class="friends mb-2">{{ __('Friend Requests') }}</div>
                     <a href="{{ route('friends.requests') }}" class="see-all">{{ __('See all') }}</a>
+                    <a href="{{ route('friends.list')}}" class="friend-list">{{ __('friend list') }}</a>
                 </div>
                 <div class="post-header mb-3">
                     @forelse ($friendRequests as $data)

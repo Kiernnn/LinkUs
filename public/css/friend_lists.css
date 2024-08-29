@@ -1,0 +1,45 @@
+/* Friend list container */
+.friends-list {
+   overflow: hidden;
+   overflow-y: auto;
+   max-height: 100vh;
+}
+
+/* Friend picture styling */
+.friend-pic {
+   border-radius: 50%;
+   object-fit: cover;
+   border: 2px solid #ddd;
+}
+
+/* Card styling */
+.friend-item {
+   background-color: #fff;
+   border-radius: 10px;
+   padding: 10px;
+   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+   .friend-item {
+       margin-bottom: 20px;
+   }
+
+   .friend-pic {
+       width: 50px;
+       height: 50px;
+   }
+
+   .friend-item h5 {
+       font-size: 16px;
+   }
+
+   .friend-item p {
+       font-size: 14px;
+   }
+
+   .btn-sm {
+       font-size: 12px;
+   }
+}
