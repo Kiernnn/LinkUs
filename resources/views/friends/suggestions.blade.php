@@ -23,11 +23,6 @@
                                     @csrf
                                     <button class="accept btn" type="submit">{{ __('Add Friend') }}</button>
                                 </form>
-                                <form action="{{ route('friends.removeSuggestion', $user->id) }}" method="POST">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button class="decline btn" type="submit">{{ __('Remove') }}</button>
-                                </form>
                             </div>
                         </div>
                     </div>

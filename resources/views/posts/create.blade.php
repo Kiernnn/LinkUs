@@ -30,7 +30,7 @@
                     </div>
                     <div class="image-container">
                         <img class="preview-img" id="image-preview" src="#" alt="Preview Image">
-                        <button type="button" id="remove-image" class="delete-btn" style="display: none;">
+                        <button type="button" id="remove-image" class="delete-btn">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 69 14"
                                 class="svgIcon bin-top">
                                 <g clip-path="url(#clip0_35_24)">
