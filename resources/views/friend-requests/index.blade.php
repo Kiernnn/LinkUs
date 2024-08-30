@@ -13,25 +13,21 @@
             <!-- Fri Requests Section Start -->
             <div class="request-form-container mb-3">
                 <div class="friends-info mb-2">
-                    <div href="{{ route('friends.index') }}" class="friends mb-2">{{ __('Friend Requests') }}</div>
+                    <div class="friends mb-2">{{ __('Friend Requests') }}</div>
                     <a href="{{ route('friends.requests') }}" class="see-all">{{ __('See all') }}</a>
                     <a href="{{ route('friends.list')}}" class="friends-list" style="text-decoration:none;">{{ __('friends list')}}</a>
                 </div>
                 <div class="post-header mb-3">
                     @forelse ($friendRequests as $data)
-                        @php
-                            $sender = \App\Models\User::find($data->sender_id);
-                        @endphp
+                        @php $sender = \App\Models\User::find($data->sender_id); @endphp
                         <div class="request-container mb-2">
                             <div class="profile mb-0">
                                 <img src="{{ asset($sender->profile && $sender->profile->image ? 'profiles/' . $sender->profile->image : 'images/user_default.png') }}"
-                                    alt="Profile Picture" class="profile-pic">
+                                     alt="Profile Picture" class="profile-pic">
                                 <div class="profile-info mb-0">
                                     <div class="name-and-subtitle">
                                         <div class="profile-name">{{ $sender->userName }}</div>
-                                        <div class="post-subtitle mb-2 small">
-                                            {{ timeDiffInHours($data->created_at) }}
-                                        </div>
+                                        <div class="post-subtitle mb-2 small">{{ timeDiffInHours($data->created_at) }}</div>
                                     </div>
                                     <div class="accept-fri">{{ __('You are now friends') }}</div>
                                     <div class="accept-fri">{{ __('Request declined') }}</div>
@@ -39,16 +35,13 @@
                             </div>
 
                             <div class="buttons mb-2">
-                                <button class="accept btn" type="submit" id="acceptBtn{{ $data->id }}"
-                                    onclick="acceptFriReq({{ $data->id }})">
+                                <button class="accept btn" id="acceptBtn{{ $data->id }}" onclick="handleFriendRequest('accept', {{ $data->id }})">
                                     {{ __('Accept') }}
                                 </button>
-                                <form action="{{ route('friendRequests.decline', $data->id) }}" method="POST"
-                                    style="display:inline;">
+                                <form action="{{ route('friendRequests.decline', $data->id) }}" method="POST" style="display:inline;">
                                     @csrf
                                     @method('DELETE')
-                                    <button class="decline btn" type="submit" id="declineBtn{{ $data->id }}"
-                                        onclick="declineFriReq({{ $data->id }}); return false;">
+                                    <button class="decline btn" id="declineBtn{{ $data->id }}" onclick="handleFriendRequest('decline', {{ $data->id }}); return false;">
                                         {{ __('Decline') }}
                                     </button>
                                 </form>
@@ -58,7 +51,6 @@
                         <p style="color:white;">{{ __('No Friend Requests Found!') }}</p>
                     @endforelse
                 </div>
-
             </div>
             <!-- Fri Requests Section End -->
 
@@ -71,16 +63,18 @@
                 @forelse ($suggestions as $user)
                     <div class="post-header mb-3">
                         <div class="request-container mb-2">
-                            <div class="profile">
+                            <div class="profile mb-0">
                                 <img src="{{ asset(isset($user->profile) && $user->profile->image ? 'profiles/' . $user->profile->image : 'images/user_default.png') }}"
-                                    alt="Profile Picture" class="profile-pic">
-                                <div class="profile-name">{{ $user->userName }}</div>
+                                     alt="Profile Picture" class="profile-pic">
+                                     <div class="profile-info mb-0">
+                                            <div class="profile-name">{{ $user->userName }}</div>
+                                            <div id="successMessage{{ $user->id }}" class="add-fri" style="display: none; color: #808080; font-weight: bold;">{{ __('Friend request sent') }}</div>
+                                    </div>
                             </div>
                             <div class="buttons">
-                                <form action="{{ route('friendRequests.send', $user->id) }}" method="POST"
-                                    style="display: inline;">
+                                <form action="{{ route('friendRequests.send', $user->id) }}" method="POST" style="display: inline;">
                                     @csrf
-                                    <button class="accept btn" type="submit">{{ __('Add Friend') }}</button>
+                                    <button class="accept btn" id="addFriendBtn{{ $user->id }}" onclick="sendFriendRequest(event, {{ $user->id }})">{{ __('Add Friend') }}</button>
                                 </form>
                             </div>
                         </div>
@@ -89,112 +83,118 @@
                     <p style="color: white">No Suggestions Found!</p>
                 @endforelse
             </div>
+
             <!-- Suggestion Section End -->
         </div>
     </div>
 @endsection
 
 @section('script')
-
     <script>
-        // Accept friend requests section start
-        function acceptFriReq(reqId) {
+        function handleFriendRequest(action, reqId) {
             const acceptBtn = document.getElementById('acceptBtn' + reqId);
-            const declineBtn = acceptBtn.nextElementSibling;
-            acceptBtn.style.display = 'none';
-            declineBtn.style.display = 'none';
-
+            const declineBtn = document.getElementById('declineBtn' + reqId);
             const requestContainer = acceptBtn.closest('.request-container');
             const profile = requestContainer.querySelector('.profile');
-            const acceptFriMessage = requestContainer.querySelector('.accept-fri');
+            const message = requestContainer.querySelector('.accept-fri');
 
-            acceptFriMessage.textContent = "{{ __('You are now friends') }}";
-            acceptFriMessage.style.display = 'block';
-            acceptFriMessage.style.visibility = 'visible';
-            acceptFriMessage.style.opacity = '1';
+            if (action === 'accept') {
+                acceptBtn.style.display = 'none';
+                declineBtn.style.display = 'none';
+                message.textContent = "{{ __('You are now friends') }}";
+            } else {
+                acceptBtn.style.display = 'none';
+                declineBtn.style.display = 'none';
+                message.textContent = "{{ __('Request declined') }}";
+            }
 
-            setTimeout(function() {
+            message.style.display = 'block';
+            message.style.visibility = 'visible';
+            message.style.opacity = '1';
+
+            setTimeout(() => {
                 const transitionDuration = '0.3s';
-
                 profile.style.transition = `opacity ${transitionDuration} ease, height ${transitionDuration} ease`;
                 profile.style.opacity = '0';
                 profile.style.height = '0';
                 profile.style.overflow = 'hidden';
 
-                acceptFriMessage.style.transition =
-                    `opacity ${transitionDuration} ease, height ${transitionDuration} ease`;
-                acceptFriMessage.style.opacity = '0';
-                acceptFriMessage.style.height = '0';
-                acceptFriMessage.style.overflow = 'hidden';
+                message.style.transition = `opacity ${transitionDuration} ease, height ${transitionDuration} ease`;
+                message.style.opacity = '0';
+                message.style.height = '0';
+                message.style.overflow = 'hidden';
 
-                setTimeout(function() {
+                setTimeout(() => {
                     requestContainer.remove();
                 }, 300);
             }, 2000);
 
+            const url = action === 'accept' ? "{{ route('friendRequests.accept') }}" : "{{ route('friendRequests.decline', '') }}/" + reqId;
+            const method = action === 'accept' ? 'POST' : 'DELETE';
+
             $.ajax({
-                url: "{{ route('friendRequests.accept') }}",
-                type: 'POST',
+                url: url,
+                type: method,
                 data: {
                     _token: "{{ csrf_token() }}",
                     reqId: reqId,
                 },
                 success: function(response) {
-
+                    // Optionally handle success response
                 },
                 error: function(xhr, status, error) {
                     alert("Error: " + error);
                 }
             });
         }
-        // Accept friend requests section end
 
-        // Decline friend requests section start
-        function declineFriReq(reqId) {
-            const acceptBtn = document.getElementById('acceptBtn' + reqId);
-            if (acceptBtn) {
-                acceptBtn.style.display = 'none';
-            }
+        function sendFriendRequest(event, userId) {
+            event.preventDefault(); // Prevent the default form submission
 
-            const declineBtn = document.getElementById('declineBtn' + reqId);
-            if (declineBtn) {
-                declineBtn.style.display = 'none';
-            }
+            const addFriendBtn = document.getElementById('addFriendBtn' + userId);
+            addFriendBtn.style.display = 'none'; // Hide the button
 
-            const requestContainer = declineBtn.closest('.request-container');
-            const profile = requestContainer.querySelector('.profile');
-            const removeFriMessage = requestContainer.querySelector('.accept-fri');
+            const successMessage = document.getElementById('successMessage' + userId);
+            successMessage.style.display = 'block'; // Show the success message
 
-            removeFriMessage.textContent = "{{ __('Request declined') }}";
-            removeFriMessage.style.display = 'block';
-            removeFriMessage.style.visibility = 'visible';
-            removeFriMessage.style.opacity = '1';
+            const requestContainer = addFriendBtn.closest('.request-container');
 
-            setTimeout(function() {
+            $.ajax({
+                url: "{{ route('friendRequests.send', '') }}/" + userId, // Construct the URL
+                type: 'POST',
+                data: {
+                    _token: "{{ csrf_token() }}",
+                },
+                success: function(response) {
+                    // Optionally handle success response
+                },
+                error: function(xhr, status, error) {
+                    alert("Error: " + error);
+                }
+            });
+
+            // Apply effects similar to accept button
+            setTimeout(() => {
                 const transitionDuration = '0.3s';
-
+                const profile = requestContainer.querySelector('.profile');
                 profile.style.transition = `opacity ${transitionDuration} ease, height ${transitionDuration} ease`;
                 profile.style.opacity = '0';
                 profile.style.height = '0';
                 profile.style.overflow = 'hidden';
 
-                removeFriMessage.style.transition =
-                    `opacity ${transitionDuration} ease, height ${transitionDuration} ease`;
-                removeFriMessage.style.opacity = '0';
-                removeFriMessage.style.height = '0';
-                removeFriMessage.style.overflow = 'hidden';
+                successMessage.style.transition = `opacity ${transitionDuration} ease, height ${transitionDuration} ease`;
+                successMessage.style.opacity = '0';
+                successMessage.style.height = '0';
+                successMessage.style.overflow = 'hidden';
+                // successMessage.style.color = '#808080 !important'; // Change color
+                // successMessage.style.fontWeight = 'bold'; // Change font weight
 
-                setTimeout(function() {
+
+                setTimeout(() => {
                     requestContainer.remove();
-
-                    const remainingRequests = document.querySelectorAll('.request-container');
-                    if (remainingRequests.length === 0) {
-                        const noRequestsMessage = document.querySelector('.no-requests-message');
-                        noRequestsMessage.style.display = 'block';
-                    }
                 }, 300);
             }, 2000);
         }
-        // Decline friend requests section end
+
     </script>
 @endsection
