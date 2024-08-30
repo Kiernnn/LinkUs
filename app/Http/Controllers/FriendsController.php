@@ -84,6 +84,7 @@ class FriendsController extends Controller
             $friends = Friend::with(['user', 'friend'])
                              ->where('user_id', $userId)
                              ->orWhere('friend_id', $userId)
+                             ->orderBy('created_at', 'desc')
                              ->get();
 
             return view('friends.list', compact('friends'));

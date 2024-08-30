@@ -56,9 +56,9 @@ Route::group(['middleware' => ['auth']], function () {
    Route::group(['prefix' => 'friend-requests'], function () {
       Route::controller(FriendRequestController::class)->group(function () {
          Route::get('/', 'index')->name('friendRequests.index');
-          Route::post('/send/{receiverId}', 'sendRequest')->name('friendRequests.send');
-          Route::post('/accept', 'acceptRequest')->name('friendRequests.accept');
-          Route::delete('/decline/{id}', 'declineRequest')->name('friendRequests.decline');
+          Route::post('/send', 'sendRequest')->name('friendRequests.send');
+          Route::post('/accept', 'acceptRequest')->name('friendRequests.accept');   
+          Route::delete('/decline', 'declineRequest')->name('friendRequests.decline');
           Route::delete('/cancel/{id}', 'cancelRequest')->name('friendRequests.cancel');
           Route::get('suggestions', 'suggestions')->name('friends.suggestions');
           Route::delete('/remove-suggestion/{id}', 'removeSuggestion')->name('friendRequests.removeSuggestion');

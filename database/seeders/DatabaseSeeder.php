@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             ProfileSeeder::class,
             PostSeeder::class,
+            FriendRequestSeeder::class,
         ]);
     }
 }
