@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Models\User;
@@ -13,10 +14,10 @@ class FriendRequestController extends Controller
     public function index()
     {
         $friendRequests = FriendRequest::where('receiver_id', auth()->user()->id)
-                                       ->where('status', 'pending')
-                                       ->orderBy('created_at', 'desc')
-                                       ->limit(5)
-                                       ->get();
+            ->where('status', 'pending')
+            ->orderBy('created_at', 'desc')
+            ->limit(5)
+            ->get();
 
         // Fetch sent, received requests, and friends
         $sentRequests = FriendRequest::where('sender_id', auth()->user()->id)->pluck('receiver_id')->toArray();
@@ -28,9 +29,9 @@ class FriendRequestController extends Controller
 
         // Fetch user suggestions
         $suggestions = User::whereNotIn('id', $excludedIds)
-                           ->inRandomOrder()
-                           ->limit(5)
-                           ->get();
+            ->inRandomOrder()
+            ->limit(5)
+            ->get();
 
         // Pass variables to the view
         return view('friend-requests.index', compact('friendRequests', 'suggestions'));
@@ -48,23 +49,23 @@ class FriendRequestController extends Controller
     public function sendRequest(Request $request)
     {
         try {
-            $existingRequest = FriendRequest::where('sender_id', auth()->user()->id)
-                                            ->where('receiver_id', $request->receiverId)
-                                            ->where('status', 'pending')
-                                            ->first();
+            // $existingRequest = FriendRequest::where('sender_id', auth()->user()->id)
+            //     ->where('receiver_id', $request->receiverId)
+            //     ->where('status', 'pending')
+            //     ->first();
 
-            if ($existingRequest) {
-                throw new Exception('You have already sent a friend request to this user.');
-            }
+            // if ($existingRequest) {
+            //     throw new Exception('You have already sent a friend request.');
+            // }
 
-            FriendRequest::create([
-                'sender_id' => auth()->user()->id,
-                'receiver_id' => $request->receiverId,
-            ]);
+            // FriendRequest::create([
+            //     'sender_id' => auth()->user()->id,
+            //     'receiver_id' => $request->receiverId,
+            // ]);
 
             return response()->json(['message' => 'Friend Request Sent'], 200);
         } catch (Exception $e) {
-            return response()->json(['message' => 'Error senting friend request', 'error' => $e->getMessage()], 500);
+            return response()->json(['message' => 'Error sending friend request', 'error' => $e->getMessage()], 500);
         }
     }
 
@@ -72,9 +73,9 @@ class FriendRequestController extends Controller
     {
         try {
             $friendRequest = FriendRequest::where('sender_id', auth()->user()->id)
-                                            ->where('receiver_id', $id)
-                                            ->where('status', 'pending')
-                                            ->firstOrFail();
+                ->where('receiver_id', $id)
+                ->where('status', 'pending')
+                ->firstOrFail();
 
             $friendRequest->delete();
 
@@ -87,16 +88,16 @@ class FriendRequestController extends Controller
     public function acceptRequest(Request $request)
     {
         try {
-            $friendRequest = FriendRequest::findOrFail($request->reqId);
+            // $friendRequest = FriendRequest::findOrFail($request->reqId);
 
-            Friend::create([
-                'user_id' => $friendRequest->receiver_id,
-                'friend_id' => $friendRequest->sender_id,
-            ]);
+            // Friend::create([
+            //     'user_id' => $friendRequest->receiver_id,
+            //     'friend_id' => $friendRequest->sender_id,
+            // ]);
 
-            $friendRequest->delete();
+            // $friendRequest->delete();
 
-            return response()->json(['message' => 'Friend request Accepted'], 200);
+            return response()->json(['message' => 'You are now friends.'], 200);
         } catch (Exception $e) {
             return response()->json(['message' => 'Error accepting friend request', 'error' => $e->getMessage()], 500);
         }
@@ -105,10 +106,10 @@ class FriendRequestController extends Controller
     public function declineRequest(Request $request)
     {
         try {
-            $friendRequest = FriendRequest::findOrFail($request->reqId);
-            $friendRequest->delete();
+            // $friendRequest = FriendRequest::findOrFail($request->reqId);
+            // $friendRequest->delete();
 
-            return response()->json(['message' => 'Friend request Declined'], 200);
+            return response()->json(['message' => 'Request Declined'], 200);
         } catch (Exception $e) {
             return response()->json(['message' => 'Error rejecting friend request', 'error' => $e->getMessage()], 500);
         }

@@ -107,17 +107,6 @@
     margin-top: 10px;
 }
 
-.accept-fri {
-    display: none;
-    font-weight: bold;
-    color: #808080;
-    visibility: hidden;
-    opacity: 0;
-    transition: opacity 0.3s ease, height 0.3s ease;
-    overflow: hidden;
-}
-
-
 .buttons {
     display: flex;
     flex-direction: row;
