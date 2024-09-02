@@ -9,6 +9,7 @@ body {
     justify-content: center;
     background-color: #f0f0f0;
 }
+
 .container {
     display: flex;
     width: 80%;
@@ -19,6 +20,7 @@ body {
     overflow: hidden;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
 }
+
 .left {
     flex: 1;
     background-size: contain;
@@ -34,6 +36,7 @@ body {
     width: 100%;
     height: auto;
 }
+
 .right {
     flex: 1;
     padding: 40px;
@@ -42,20 +45,17 @@ body {
     justify-content: center;
     align-items: center;
 }
+
 .right h1 {
-    display: flex;
-    max-width: auto;
-    height: 100px;
-    display: flex;
     font-size: 40px;
-    font-weight: 600;
-    align-items: center;
-    justify-content: center;
+    font-weight: bold;
 }
+
 .right form {
     width: 100%;
     max-width: 400px;
 }
+
 .oauthButton {
     display: flex;
     justify-content: center;
@@ -99,12 +99,15 @@ body {
 .oauthButton:hover::before {
     width: 100%;
 }
+
 .icon {
     width: 1.5rem;
     height: 1.5rem;
 }
+
 .right form input {
     width: 100%;
+    padding-right: 2.5rem;
     padding: 0.875rem;
     margin-bottom: 20px;
     font-size: 1rem;
@@ -114,8 +117,25 @@ body {
     outline: none;
     transition: ease 0.25s;
 }
+
 .right form input:focus {
     box-shadow: 4px 6px 0 #000;
+}
+
+input[type="date"] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border: 1px solid #ccc;
+    padding: 10px;
+    font-size: 16px;
+    color: #000;
+    background-color: #fff;
+}
+
+input[type="date"]:focus::-webkit-input-placeholder,
+input[type="date"]:valid::-webkit-input-placeholder {
+    color: transparent;
 }
 
 .gender-selection {
@@ -168,6 +188,75 @@ input[type="radio"]:checked + label {
     color: #000;
     font-weight: bold;
 }
+
+.input-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.input-wrapper input[type="password"] {
+    width: 100%;
+    padding-right: 40px; /* Add space for the toggle icon */
+    padding: 0.875rem;
+    margin-bottom: 20px;
+    font-size: 1rem;
+    border: 1px solid #000;
+    border-radius: 0.5rem;
+    box-shadow: 2.5px 3px 0 #000;
+    outline: none;
+    transition: ease 0.25s;
+}
+
+.toggle-password {
+    position: absolute;
+    top: 38%;
+    right: 30px;
+    transform: translateY(-50%);
+    color: #6c757d;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    font-size: 18px;
+    fill: #6c757d;
+}
+
+.toggle-password .eye,
+.toggle-password .eye-slash {
+    position: absolute;
+    animation: keyframes-fill 0.5s;
+}
+
+.toggle-password .eye-slash {
+    display: none;
+}
+
+.toggle-password input:checked ~ .eye {
+    display: none;
+}
+
+.toggle-password input:checked ~ .eye-slash {
+    display: block;
+}
+
+.toggle-password input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+@keyframes keyframes-fill {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.2);
+    }
+}
+
 .right .register {
     display: flex;
     width: 80px;
@@ -185,10 +274,12 @@ input[type="radio"]:checked + label {
     cursor: pointer;
     margin: 35px 0;
 }
+
 .register:active {
     box-shadow: 4px 6px 0 #292929;
     transform: translate(3px, 3px);
 }
+
 .button-container {
     display: flex;
     justify-content: flex-end;
@@ -207,6 +298,9 @@ input[type="radio"]:checked + label {
     .right {
         width: 100%;
     }
+    .toggle-password {
+        right: 30px;
+    }
 }
 
 /* For devices with a width between 601px and 1024px */
@@ -220,6 +314,9 @@ input[type="radio"]:checked + label {
     }
     .right {
         width: 100%;
+    }
+    .toggle-password {
+        right: 30px;
     }
 }
 
@@ -236,5 +333,8 @@ input[type="radio"]:checked + label {
     }
     .right {
         width: 50%;
+    }
+    .toggle-password {
+        right: 30px;
     }
 }
