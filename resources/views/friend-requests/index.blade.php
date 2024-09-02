@@ -8,19 +8,25 @@
 @section('content')
 
     <div class="friends-content p-4">
-        <a href="{{ route('friends.index') }}" class="friends mb-2">{{ __('Friends') }}</a>
         <div class="friends-box">
+            <div class="friends-container mb-3">
+                <a href="{{ route('friends.index') }}" class="friends mb-3">{{ __('Friends') }}</a>
+                <div class="title-links">
+                    <a href="{{ route('friendRequests.requests') }}" class="links">{{ __('Friend requests') }}</a>
+                    <a href="{{ route('friends.suggestions', ['all' => true]) }}" class="links">{{ __('Suggestions') }}</a>
+                    <a href="{{ route('friends.list') }}" class="links">{{ __('Your friends') }}</a>
+                </div>
+            </div>
 
             <!-- Friend Requests Section -->
             <div class="request-form-container mb-3">
                 <div class="friends-info mb-2">
-                    <div class="friends mb-2">{{ __('Friend Requests') }}</div>
+                    <div class="friends mb-2">{{ __('Friend requests') }}</div>
                     <a href="{{ route('friendRequests.requests') }}" class="see-all">{{ __('See all') }}</a>
-                    <a href="{{ route('friends.list') }}" class="friends-list" style="text-decoration:none;">{{ __('friends list') }}</a>
                 </div>
                 <div class="post-header mb-3">
                     @forelse ($friendRequests as $data)
-                        @php $sender = $data->sender; @endphp <!-- Eager load sender -->
+                        @php $sender = $data->sender; @endphp
                         <div class="request-container mb-2">
                             <div class="profile mb-0">
                                 <img src="{{ asset($sender->profile->image ?? 'images/user_default.png') }}"
@@ -133,6 +139,7 @@
             });
         }
 
+        // Suggestion(add, remove)
         function sendFriendRequest(event, userId) {
             event.preventDefault();
 
@@ -142,14 +149,11 @@
             var requestContainer = addFriendBtn.closest('.request-container');
             var profile = requestContainer.querySelector('.profile');
 
-            // Hide the Add Friend button
             addFriendBtn.style.display = 'none';
 
-            // Show the Remove button and success message at the same time
             removeBtn.style.display = 'inline-block';
             successMessage.style.display = 'block';
 
-            // Optionally, make an AJAX request to handle friend request
             $.ajax({
                 url: "{{ route('friendRequests.send') }}",
                 type: 'POST',
@@ -158,10 +162,8 @@
                     receiverId: userId,
                 },
                 success: function(response) {
-                    // Update the success message text
                     successMessage.textContent = response.message;
 
-                    // Optionally, remove the container after a delay
                     setTimeout(() => {
                         profile.style.transition = 'opacity 0.3s ease, height 0.3s ease';
                         profile.style.opacity = '0';

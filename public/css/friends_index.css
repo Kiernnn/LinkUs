@@ -26,6 +26,48 @@
     text-decoration: none;
 }
 
+.friends-container {
+    background-color: #141414;
+    border: 1px solid #333;
+    border-radius: 20px;
+    padding: 20px;
+    width: 600px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.friends {
+    color: #fff;
+    font-size: 16px;
+    font-weight: bold;
+    text-decoration: none;
+    margin-bottom: 10px;
+}
+
+.title-links {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.links {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    text-align: center;
+    color: #fff;
+    font-size: 14px;
+    font-weight: bold;
+    background-color: #333;
+    height: 40px;
+    border-radius: 20px;
+    padding: 0 20px;
+}
+
+
 .request-form-container,
 .suggest-form-container {
     background-color: #141414;
@@ -47,6 +89,7 @@
 
 .friend-requests,
 .see-all {
+    color: #fff;
     font-size: 16px;
     font-weight: bold;
     text-decoration: none;
