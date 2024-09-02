@@ -7,7 +7,7 @@
 
 @section('content')
     <div class="friends-content p-4">
-        <a href="{{ route('friends.requests') }}" class="friends mb-2">{{ __('Friend Requests') }}</a>
+        <a href="{{ route('friendRequests.requests') }}" class="friends mb-2">{{ __('Friend Requests') }}</a>
         <div class="friends-box">
             <div class="request-form-container mb-3">
                 @forelse ($friendRequests as $request)

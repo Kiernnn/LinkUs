@@ -12,6 +12,15 @@ use Exception;
 
 class CommentController extends Controller
 {
+    public function index($id) {
+        try {
+            $data = Post::findOrFail($id);
+            return view('posts.detail', ['post' => $data]);
+        } catch (Exception $e) {
+            return redirect()->route('posts.index')->with('error', 'Write something to comment!');
+        }
+    }
+
     public function store(Request $request, Post $post)
     {
         try {
@@ -28,16 +37,6 @@ class CommentController extends Controller
             return redirect()->route('posts.detail', $post->id)->with('success', 'Comment added successfully.');
         } catch (Exception $e) {
             return redirect()->route('posts.detail', $post->id)->with('error', 'Write something to comment!');
-        }
-    }
-
-    public function show($id)
-    {
-        try {
-            $data = Post::findOrFail($id);
-            return view('posts.detail', ['post' => $data]);
-        } catch (Exception $e) {
-            return redirect()->route('posts.index')->with('error', 'Write something to comment!');
         }
     }
 

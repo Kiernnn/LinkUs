@@ -15,7 +15,7 @@
             <div class="request-form-container mb-3">
                 <div class="friends-info mb-2">
                     <div class="friends mb-2">{{ __('Friend Requests') }}</div>
-                    <a href="{{ route('friends.requests') }}" class="see-all">{{ __('See all') }}</a>
+                    <a href="{{ route('friendRequests.requests') }}" class="see-all">{{ __('See all') }}</a>
                     <a href="{{ route('friends.list') }}" class="friends-list" style="text-decoration:none;">{{ __('friends list') }}</a>
                 </div>
                 <div class="post-header mb-3">

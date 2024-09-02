@@ -1,89 +1,59 @@
 @extends('layouts.sidebar')
-@section('title', 'Friend Requests')
+@section('title', 'Friends list')
 
 @section('style')
-    <link href="{{ asset('css/friends_index.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/friend_lists.css') }}" rel="stylesheet">
 @endsection
 
 @section('content')
-    <div class="friends-content p-4">
-        <a href="{{ route('friends.index') }}" class="friends mb-2">{{ __('Friends') }}</a>
-        <div class="friends-box">
-            <div class="request-form-container mb-3">
-                <div class="friends-info mb-2">
-                    <div href="{{ route('friends.index') }}" class="friends mb-2">{{ __('Friend Requests') }}</div>
-                    <a href="{{ route('friends.requests') }}" class="see-all">{{ __('See all') }}</a>
-                    <a href="{{ route('friends.list')}}" class="friend-list">{{ __('friend list') }}</a>
+<div class="container" style="overflow:hidden; overflow-y:auto; height:100vh; scrollbar-width:none; ">
+    <div class="row justify-content-center" style="margin-top:10px; margin-bottom: 20px;">
+        <div class="col-md-8">
+            <h2 class="text-center" style="margin-top: 20px; color:white;">{{ __('Friends List') }}</h2>
+            
+            @if (session('success'))
+                <div class="alert alert-success">
+                    {{ session('success') }}
                 </div>
-                <div class="post-header mb-3">
-                    @forelse ($friendRequests as $data)
-                        @php
-                            $sender = \App\Models\User::find($data->sender_id);
-                        @endphp
-                        <div class="request-container mb-2"> <!-- New container -->
-                            <div class="profile">
-                                <img src="{{ asset($sender->profile && $sender->profile->image ? 'profiles/' . $sender->profile->image : 'images/user_default.png') }}"
-                                    alt="Profile Picture" class="profile-pic">
-                                <div class="profile-name">{{ $sender->userName }}</div>
-                                <div class="post-subtitle mb-2 small">
-                                    {{ timeDiffInHours($data->created_at) }}
-                                </div>
+            @endif
+
+            @if (session('error'))
+                <div class="alert alert-danger">
+                    {{ session('error') }}
+                </div>
+            @endif
+
+            <!-- Friends List -->
+            <div class="friends-list" style="margin-top: 20px;">
+                @forelse ($friends as $friend)
+                    @php
+                        // Determine the friend's user model
+                        $friendUser = $friend->user_id == auth()->id() ? $friend->friend : $friend->user;
+                    @endphp
+
+                    <div class="friend-item" style="margin-bottom: 20px; background: #f9f9f9; padding: 15px; border-radius: 10px;">
+                        <div class="row">
+                            <div class="col-md-2">
+                                <img src="{{ asset($friendUser->profile && $friendUser->profile->image ? 'profiles/' . $friendUser->profile->image : 'images/user_default.png') }}" alt="Profile Picture" class="friend-pic" style="border-radius:50%; width:60px; height:60px;">
                             </div>
-                            <div class="buttons mb-2">
-                                <form action="{{ route('friendRequests.accept', $data->id) }}" method="POST"
-                                    style="display:inline;">
-                                    @csrf
-                                    @method('POST')
-                                    <button class="accept btn" type="submit">{{ __('Accept') }}</button>
-                                </form>
-                                <form action="{{ route('friendRequests.decline', $data->id) }}" method="POST"
-                                    style="display:inline;">
+                            <div class="col-md-8">
+                                <h5>{{ $friendUser->userName }}</h5>
+                            </div>
+                            <div class="col-md-2 text-right">
+                                <form action="{{ route('friends.unfriend', ['friendId' => $friendUser->id]) }}" method="POST">
                                     @csrf
                                     @method('DELETE')
-                                    <button class="decline btn" type="submit">{{ __('Decline') }}</button>
-                                </form>
-                            </div>
-                        </div>
-                    @empty
-                        <p style="color:white;">{{ __('No Friend Requests Found!') }}</p>
-                    @endforelse
-                </div>
-
-            </div>
-
-
-            <div class="suggest-form-container mb-3">
-                <div class="friends-info mb-2">
-                    <div class="friend-requests mb-2">{{ __('Suggested for you') }}</div>
-                    <a href="{{ route('friends.suggestions', ['all' => true]) }}" class="see-all">{{ __('See all') }}</a>
-                </div>
-                @forelse ($suggestions as $user)
-                    <div class="post-header mb-3">
-                        <div class="request-container mb-2">
-                            <div class="profile">
-                                <img src="{{ asset(isset($user->profile) && $user->profile->image ? 'profiles/' . $user->profile->image : 'images/user_default.png') }}"
-                                    alt="Profile Picture" class="profile-pic">
-                                <div class="profile-name">{{ $user->userName }}</div>
-                            </div>
-                            <div class="buttons">
-                                <form action="{{ route('friendRequests.send', $user->id) }}" method="POST"
-                                    style="display: inline;">
-                                    @csrf
-                                    <button class="accept btn" type="submit">{{ __('Add Friend') }}</button>
-                                </form>
-                                <form action="{{ route('friendRequests.removeSuggestion', $user->id) }}" method="POST"
-                                    style="display:inline;">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button class="decline btn" type="submit">{{ __('Remove') }}</button>
+                                    <button type="submit" class="btn btn-danger btn-sm">Unfriend</button>
                                 </form>
                             </div>
                         </div>
                     </div>
                 @empty
-                    <p style="color: white">No Suggestions Found!</p>
+                    <hr style="color:white;">
+                    <p style="color:white; text-align:center; font-size:30px;">You have no friends yet.</p>
                 @endforelse
             </div>
         </div>
     </div>
+</div>
 @endsection

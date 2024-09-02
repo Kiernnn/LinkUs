@@ -36,6 +36,15 @@ class FriendRequestController extends Controller
         return view('friend-requests.index', compact('friendRequests', 'suggestions'));
     }
 
+    public function requests()
+    {
+        $friendRequests = FriendRequest::with('sender')
+                                       ->where('receiver_id', auth()->user()->id)
+                                       ->get();
+
+        return view('friend-requests.requests', compact('friendRequests'));
+    }
+
     public function sendRequest(Request $request)
     {
         try {
@@ -69,10 +78,9 @@ class FriendRequestController extends Controller
 
             $friendRequest->delete();
 
-            return back()->with('success', 'Friend request canceled.');
+            return response()->json(['message' => 'Friend Request Canceled'], 200);
         } catch (Exception $e) {
-
-            return back()->with('error', $e->getMessage());
+            return response()->json(['message' => 'Error Cancelling Friend Request.', 'error' => $e->getMessage()], 500);
         }
     }
 
@@ -108,12 +116,11 @@ class FriendRequestController extends Controller
 
     public function suggestions(Request $request)
     {
-        $userId = auth()->user()->id;
-        $sentRequests = FriendRequest::where('sender_id', $userId)->pluck('receiver_id')->toArray();
-        $receivedRequests = FriendRequest::where('receiver_id', $userId)->pluck('sender_id')->toArray();
-        $friends = Friend::where('user_id', $userId)->orWhere('friend_id', $userId)->pluck('friend_id')->toArray();
+        $sentRequests = FriendRequest::where('sender_id', auth()->user()->id)->pluck('receiver_id')->toArray();
+        $receivedRequests = FriendRequest::where('receiver_id', auth()->user()->id)->pluck('sender_id')->toArray();
+        $friends = Friend::where('user_id', auth()->user()->id)->orWhere('friend_id', auth()->user()->id)->pluck('friend_id')->toArray();
 
-        $excludedIds = array_merge($sentRequests, $receivedRequests, $friends, [$userId]);
+        $excludedIds = array_merge($sentRequests, $receivedRequests, $friends, [auth()->user()->id]);
 
         if ($request->has('all')) {
             // Show all users excluding the ones in excludedIds
@@ -122,10 +129,8 @@ class FriendRequestController extends Controller
             // Show a limited number of suggestions
             $suggestions = User::whereNotIn('id', $excludedIds)
                                ->inRandomOrder()
-                               ->limit(5)
                                ->get();
         }
-
         return view('friends.suggestions', compact('suggestions'));
     }
 
