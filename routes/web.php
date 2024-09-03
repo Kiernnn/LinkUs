@@ -48,6 +48,9 @@ Route::group(['middleware' => ['auth']], function () {
          Route::get('suggestions', 'suggestions')->name('friends.suggestions');
          Route::delete('/remove-suggestion/{id}', 'removeSuggestion')->name('friends.removeSuggestion');
          Route::get('search', 'search')->name('friends.search');
+      });   
+      Route::controller(FriendRequestController::class)->group(function () {
+         Route::get('suggestions', 'suggestions')->name('friends.suggestions');
       });
    });
 
@@ -58,13 +61,10 @@ Route::group(['middleware' => ['auth']], function () {
          Route::get('requests', 'requests')->name('friendRequests.requests');
           Route::post('/send', 'sendRequest')->name('friendRequests.send');
           Route::post('/accept', 'acceptRequest')->name('friendRequests.accept');   
-          Route::delete('/decline', 'declineRequest')->name('friendRequests.decline');
+          Route::delete('/decline/{id}', 'declineRequest')->name('friendRequests.decline');
           Route::delete('/cancel/{id}', 'cancelRequest')->name('friendRequests.cancel');
-          Route::get('suggestions', 'suggestions')->name('friends.suggestions');
-          Route::delete('/remove-suggestion/{id}', 'removeSuggestion')->name('friendRequests.removeSuggestion');
       });
    });
-
 
    // Profile 
    Route::group(['prefix'=> 'profile'], function () {

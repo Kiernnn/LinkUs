@@ -102,9 +102,16 @@ class FriendsController extends Controller
 
     public function suggestions()
     {
-        $suggestions = User::where('id', '!=', auth()->user()->id)
-                           ->inRandomOrder()
-                           ->get();
+        $suggestions = User::where('id', '!=', auth()->user()->id);
+                        //    ->inRandomOrder()
+                        //    ->get();
+                        if ($all) {
+                            // Show all suggestions when 'all' is true
+                            $suggestions = $query->get();
+                        } else {
+                            // Show limited suggestions when 'all' is false or not set
+                            $suggestions = $query->inRandomOrder()->get();
+                        }
 
         return view('friends.suggestions', compact('suggestions'));
     }
