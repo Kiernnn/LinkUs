@@ -16,7 +16,7 @@
                         <div class="request-container mb-2">
                             <div class="profile mb-0">
                                 <img src="{{ asset($sender->profile && $sender->profile->image ? 'profiles/' . $sender->profile->image : 'images/user_default.png') }}"
-                                alt="Profile Picture" class="profile-pic">
+                                    alt="Profile Picture" class="profile-pic">
                                 <div class="name-and-subtitle mb-0">
                                     <div class="profile-name">{{ $sender->userName }}</div>
                                     <div class="post-subtitle mb-2 small">{{ timeDiffInHours($data->created_at) }}
@@ -48,82 +48,8 @@
     </div>
 @endsection
 
-@section('scripts')
+@section('script')
     <script>
-        // function handleFriendRequest(action, reqId) {
-        //     var acceptBtn = document.getElementById('acceptBtn' + reqId);
-        //     var declineBtn = document.getElementById('declineBtn' + reqId);
-        //     var requestContainer = acceptBtn.closest('.request-container');
-        //     var profile = requestContainer.querySelector('.profile');
-        //     var message = requestContainer.querySelector('.notiMsg' + reqId);
-
-        //     const url = action === 'accept' ? "{{ route('friendRequests.accept') }}" :
-        //         "{{ route('friendRequests.decline', '') }}/" + reqId;
-        //     const method = action === 'accept' ? 'POST' : 'DELETE';
-
-        //     $.ajax({
-        //         url: url,
-        //         type: method,
-        //         data: {
-        //             _token: "{{ csrf_token() }}",
-        //             reqId: reqId,
-        //         },
-        //         success: function(response) {
-        //             acceptBtn.style.display = 'none';
-        //             declineBtn.style.display = 'none';
-        //             message.textContent = response.message;
-        //             message.style.display = 'block';
-
-        //             setTimeout(() => {
-        //                 profile.style.transition = 'opacity 0.3s ease, height 0.3s ease';
-        //                 profile.style.opacity = '0';
-        //                 profile.style.height = '0';
-        //                 requestContainer.remove();
-        //             }, 2000);
-        //         },
-        //         error: function(xhr, status, error) {
-        //             alert("Error: " + error);
-        //         }
-        //     }); 
-        // }
-
-        // Friend Request (accept, decline)
-        // function handleFriendRequest(action, reqId) {
-        //     var acceptBtn = document.getElementById('acceptBtn' + reqId);
-        //     var declineBtn = document.getElementById('declineBtn' + reqId);
-        //     var requestContainer = acceptBtn.closest('.request-container');
-        //     var profile = requestContainer.querySelector('.profile');
-        //     var message = requestContainer.querySelector('.notiMsg' + reqId);
-
-        //     const url = action === 'accept' ? "{{ route('friendRequests.accept') }}" :
-        //         "{{ route('friendRequests.decline', '') }}/" + reqId;
-        //     const method = action === 'accept' ? 'POST' : 'DELETE';
-
-        //     $.ajax({
-        //         url: url,
-        //         type: method,
-        //         data: {
-        //             _token: "{{ csrf_token() }}",
-        //             reqId: reqId,
-        //         },
-        //         success: function(response) {
-        //             acceptBtn.style.display = 'none';
-        //             declineBtn.style.display = 'none';
-        //             message.textContent = response.message;
-        //             message.style.display = 'block';
-
-        //             setTimeout(() => {
-        //                 // profile.style.transition = 'opacity 0.3s ease, height 0.3s ease';
-        //                 // profile.style.opacity = '0';
-        //                 // profile.style.height = '0';
-        //                 requestContainer.remove();
-        //             }, 3000);
-        //         },
-        //         error: function(xhr, status, error) {
-        //             alert("Error: " + error);
-        //         }
-        //     }); 
-        // }   
         // Friend Request (accept, decline)
         function handleFriendRequest(action, reqId) {
             var acceptBtn = document.getElementById('acceptBtn' + reqId);
@@ -159,8 +85,7 @@
                 error: function(xhr, status, error) {
                     alert("Error: " + error);
                 }
-            }); 
-        }    
-
+            });
+        }
     </script>
 @endsection

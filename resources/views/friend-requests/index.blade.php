@@ -186,29 +186,26 @@
 
         // Cancel friend Reqest
         function declineFriReq(event, userId) {
-            event.preventDefault(); // Prevent default form submission
+            event.preventDefault();
 
             var removeBtn = document.getElementById('removeBtn' + userId);
             var statusMessage = document.getElementById('statusMessage' + userId);
             var successMessage = document.getElementById('successMessage' + userId);
 
             $.ajax({
-                url: "{{ route('friendRequests.cancel', '') }}/" + userId, // URL with userId
+                url: "{{ route('friendRequests.cancel', '') }}/" + userId,
                 type: 'DELETE',
                 data: {
-                    _token: "{{ csrf_token() }}" // CSRF token for security
+                    _token: "{{ csrf_token() }}"
                 },
                 success: function(response) {
-                    // Hide the Remove button and success message
                     removeBtn.style.display = 'none';
                     successMessage.style.display = 'none';
 
-                    // Show the status message
                     statusMessage.textContent = "Friend Request Cancelled";
                     statusMessage.style.display = 'block';
                 },
                 error: function(xhr, status, error) {
-                    // Handle errors if needed
                     statusMessage.textContent = "Error: " + error;
                     statusMessage.style.display = 'block';
                 }

@@ -178,9 +178,18 @@
 
 /* Responsive Design */
 @media (max-width: 768px) {
+
+    .home-content {
+        margin-left: 0;
+    }
+
     .input {
         width: 100%;
         font-size: 12px;
+    }
+
+    .post-content {
+        margin-left: 10px;
     }
 
     .post-container {

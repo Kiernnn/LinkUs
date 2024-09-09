@@ -71,17 +71,13 @@
             var statusMessage = document.getElementById('statusMessage' + userId);
             var requestContainer = addFriendBtn.closest('.request-container');
 
-            // Hide the Add Friend button
             addFriendBtn.style.display = 'none';
 
-            // Show the Remove button and success message
             removeBtn.style.display = 'inline-block';
             successMessage.style.display = 'block';
 
-            // Hide any previous status message
             statusMessage.style.display = 'none';
 
-            // Optionally, make an AJAX request to handle friend request
             $.ajax({
                 url: "{{ route('friendRequests.send') }}",
                 type: 'POST',
@@ -90,10 +86,8 @@
                     receiverId: userId,
                 },
                 success: function(response) {
-                    // Update the success message text
                     successMessage.textContent = response.message;
 
-                    // Optionally, remove the container after a delay
                     setTimeout(() => {
                         requestContainer.remove();
                     }, 3000);
@@ -106,29 +100,26 @@
 
         // Cancel friend Reqest
         function declineFriReq(event, userId) {
-            event.preventDefault(); // Prevent default form submission
+            event.preventDefault();
 
             var removeBtn = document.getElementById('removeBtn' + userId);
             var statusMessage = document.getElementById('statusMessage' + userId);
             var successMessage = document.getElementById('successMessage' + userId);
 
             $.ajax({
-                url: "{{ route('friendRequests.cancel', '') }}/" + userId, // URL with userId
+                url: "{{ route('friendRequests.cancel', '') }}/" + userId,
                 type: 'DELETE',
                 data: {
-                    _token: "{{ csrf_token() }}" // CSRF token for security
+                    _token: "{{ csrf_token() }}"
                 },
                 success: function(response) {
-                    // Hide the Remove button and success message
                     removeBtn.style.display = 'none';
                     successMessage.style.display = 'none';
 
-                    // Show the status message
                     statusMessage.textContent = "Friend Request Cancelled";
                     statusMessage.style.display = 'block';
                 },
                 error: function(xhr, status, error) {
-                    // Handle errors if needed
                     statusMessage.textContent = "Error: " + error;
                     statusMessage.style.display = 'block';
                 }

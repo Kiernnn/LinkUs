@@ -78,14 +78,12 @@ class FriendRequestController extends Controller
     public function cancelRequest($id)
     {
         try {
-            // Retrieve the friend request based on sender_id and receiver_id
-            $friendRequest = FriendRequest::where('sender_id', auth()->user()->id)
-                ->where('receiver_id', $id)
-                ->where('status', 'pending')
-                ->firstOrFail();
+            // $friendRequest = FriendRequest::where('sender_id', auth()->user()->id)
+            //     ->where('receiver_id', $id)
+            //     ->where('status', 'pending')
+            //     ->firstOrFail();
 
-            // Delete the friend request
-            $friendRequest->delete();
+            // $friendRequest->delete();
 
             return response()->json(['message' => 'Friend Request Cancelled'], 200);
         } catch (Exception $e) {
@@ -97,14 +95,14 @@ class FriendRequestController extends Controller
     public function acceptRequest(Request $request)
     {
         try {
-            $friendRequest = FriendRequest::findOrFail($request->reqId);
+            // $friendRequest = FriendRequest::findOrFail($request->reqId);
 
-            Friend::create([
-                'user_id' => $friendRequest->receiver_id,
-                'friend_id' => $friendRequest->sender_id,
-            ]);
+            // Friend::create([
+            //     'user_id' => $friendRequest->receiver_id,
+            //     'friend_id' => $friendRequest->sender_id,
+            // ]);
 
-            $friendRequest->delete();
+            // $friendRequest->delete();
 
             return response()->json(['message' => 'You are now friends.'], 200);
         } catch (Exception $e) {
@@ -115,20 +113,17 @@ class FriendRequestController extends Controller
     public function declineRequest(Request $request, $id)
     {
         try {
-            // Fetch the FriendRequest by its primary key 'id'
-            $friendRequest = FriendRequest::find($id);
+            // $friendRequest = FriendRequest::find($id);
 
-            if (!$friendRequest) {
-                return response()->json(['message' => 'Friend request not found'], 404);
-            }
+            // if (!$friendRequest) {
+            //     return response()->json(['message' => 'Friend request not found'], 404);
+            // }
 
-            // Remove the friendship if it exists
-            Friend::where('user_id', $friendRequest->receiver_id)
-                  ->where('friend_id', $friendRequest->sender_id)
-                  ->delete();
+            // Friend::where('user_id', $friendRequest->receiver_id)
+            //       ->where('friend_id', $friendRequest->sender_id)
+            //       ->delete();
 
-            // Delete the friend request
-            $friendRequest->delete();
+            // $friendRequest->delete();
 
             return response()->json(['message' => 'Friend Request Declined.'], 200);
         } catch (Exception $e) {
