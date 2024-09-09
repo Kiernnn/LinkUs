@@ -8,33 +8,43 @@
 @section('content')
     <div class="profile-content p-4">
         <div class="profile-box">
-            <h5 class="profile">{{ __('Profile') }}</h5>
-            <div class="post-form-container">
-                <div class="profile-section">
+            <h5 class="profile mb-2">{{ __('Profile') }}</h5>
+            <div class="post-form-container card p-4 shadow">
+                <div class="profile-section d-flex mb-0">
                     <div class="profile-info">
                         <div class="profile-name">{{ auth()->user()->userName }}</div>
-                        <div class="subname">
+                        <div class="subname d-flex">
                             <p class="firstName">{{ auth()->user()->firstName }}</p>
                             <p class="lastName">{{ auth()->user()->lastName }}</p>
                         </div>
-                        <div class="bio">
-                            <p class="bio-text">
-                                @if (auth()->user()->profile)
-                                    {{ auth()->user()->profile->about }}
-                                @else
-                                    {{ __('No bio yet') }}
-                                @endif
-                            </p>
-                        </div>
                     </div>
                     @if (auth()->user()->profile && auth()->user()->profile->image)
-                        <img src="{{ asset('profiles/' . auth()->user()->profile->image) }}" class="profile-pic"
-                            alt="Profile image">
+                        <img src="{{ asset('profiles/' . auth()->user()->profile->image) }}"
+                            class="profile-pic rounded-circle ms-auto" alt="Profile image">
                     @else
-                        <img src="{{ asset('images/user_default.png') }}" class="profile-pic" alt="Profile image">
+                        <img src="{{ asset('images/user_default.png') }}" class="profile-pic rounded-circle ms-auto"
+                            alt="Profile image">
                     @endif
                 </div>
-
+                <div class="all mb-0">
+                    <div class="all-post">
+                        <p class="post-text">{{ auth()->user()->posts->count() }}</p>
+                        <p class="post-text text-secondary">{{ __('posts') }}</p>
+                    </div>
+                    <div class="all-fri">
+                        <p class="fri-text">{{ auth()->user()->friends()->count() }}</p>
+                        <p class="fri-text text-secondary">{{ __('friends') }}</p>
+                    </div>
+                </div>
+                <div class="bio mt-0">
+                    <p class="bio-text">
+                        @if (auth()->user()->profile)
+                            {{ auth()->user()->profile->about }}
+                        @else
+                            {{ __('No bio yet') }}
+                        @endif
+                    </p>
+                </div>
                 <div class="profile-footer">
                     <a href="{{ route('profile.edit') }}" class="post-btn btn">{{ __('Edit Profile') }}</a>
                 </div>
@@ -43,13 +53,14 @@
             <!-- Post container Start -->
             <div class="post-wrapper mt-2">
                 @foreach ($posts as $post)
-                    <div class="post-form-container mb-2">
+                    <div class="post-form-container card p-4 shadow mt-2">
 
                         <!-- Profile Section Start -->
-                        <div class="post-header">
-                            <img src="{{ asset(auth()->user()->profile && auth()->user()->profile->image ? 'profiles/' . auth()->user()->profile->image : 'images/user_default.png') }}" alt="Profile Picture" class="post-profile">
-                            <div class="post-pf-name">{{ $post->user->userName }}</div>
-                            <div class="post-subtitle mb-2 small">
+                        <div class="post-header d-flex">
+                            <img src="{{ asset(auth()->user()->profile && auth()->user()->profile->image ? 'profiles/' . auth()->user()->profile->image : 'images/user_default.png') }}"
+                                alt="Profile Picture" class="post-profile rounded-circle">
+                            <div class="post-pf-name ms-0">{{ $post->user->userName }}</div>
+                            <div class="post-subtitle mb-2 small text-secondary">
                                 {{ timeDiffInHours($post->created_at) }}
                             </div>
 
@@ -63,8 +74,8 @@
                                                 d="M480-160q-33 0-56.5-23.5T400-240q0-33 23.5-56.5T480-320q33 0 56.5 23.5T560-240q0 33-23.5 56.5T480-160Zm0-240q-33 0-56.5-23.5T400-480q0-33 23.5-56.5T480-560q33 0 56.5 23.5T560-480q0 33-23.5 56.5T480-400Zm0-240q-33 0-56.5-23.5T400-720q0-33 23.5-56.5T480-800q33 0 56.5 23.5T560-720q0 33-23.5 56.5T480-640Z" />
                                         </svg>
                                     </a>
-                                    <div class="dropdown-menu dropdown-menu-end text-bg-dark">
-                                        <a href="{{ route('posts.edit', $post->id) }}" class="dropdown-item text-bg-dark">
+                                    <div class="dropdown-menu dropdown-menu-end">
+                                        <a href="{{ route('posts.edit', $post->id) }}" class="dropdown-item">
                                             <svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 -960 960 960"
                                                 width="18px" fill="#fff">
                                                 <path
@@ -72,7 +83,7 @@
                                             </svg>
                                             {{ __('Edit post') }}
                                         </a>
-                                        <a href="#" class="dropdown-item text-bg-dark">
+                                        <a href="#" class="dropdown-item">
                                             <svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 -960 960 960"
                                                 width="18px" fill="#fff">
                                                 <path
@@ -82,11 +93,10 @@
                                         </a>
 
                                         <!-- Form to delete post -->
-                                        <form class="dropdown-item text-bg-dark" method="POST"
-                                            action="{{ route('posts.destroy', $post->id) }}">
+                                        <form method="POST" action="{{ route('posts.destroy', $post->id) }}">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="dropdown-item text-bg-dark">
+                                            <button type="submit" class="dropdown-item">
                                                 <svg xmlns="http://www.w3.org/2000/svg" height="18px"
                                                     viewBox="0 -960 960 960" width="18px" fill="#c31818">
                                                     <path
@@ -104,12 +114,13 @@
                         <!-- Profile Section End -->
 
                         <!-- Post Content Section Start -->
-                        <div class="post-content">
-                            <p class="content ml-10px">{{ $post->content }}</p>
+                        <div class="post-content mt-1">
+                            <p class="content">{{ $post->content }}</p>
                             @if ($post->image)
-                                <img src="{{ asset('posts/' . $post->image) }}" class="post-image" alt="Post image">
+                                <img src="{{ asset('posts/' . $post->image) }}" class="post-image rounded-3 mt-2"
+                                    alt="Post image">
                             @endif
-                            <div class="post-footer">
+                            <div class="post-footer d-flex mt-1">
                                 <form style="display:inline;">
                                     <button>
                                         <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960"

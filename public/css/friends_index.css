@@ -15,17 +15,6 @@
     padding-bottom: 2%;
 }
 
-.friends {
-    display: flex;
-    color: #fff;
-    font-size: 16px;
-    font-weight: bold;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    text-decoration: none;
-}
-
 .friends-container {
     background-color: #141414;
     border: 1px solid #333;
@@ -87,12 +76,22 @@
     margin-bottom: 10px;
 }
 
-.friend-requests,
-.see-all {
+.friend-requests {
     color: #fff;
     font-size: 16px;
     font-weight: bold;
     text-decoration: none;
+}
+
+.see-all {
+    color: #808080;
+    font-size: 16px;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.see-all:hover {
+    color: #fff;
 }
 
 .post-header {
@@ -201,3 +200,5 @@
 .friend-list{
     text-decoration: none;
 }
+
+

@@ -8,10 +8,11 @@
 
 @section('content')
     <div class="create-content p-4">
-        <h5 class="new-post">{{ __('Edit Post') }}</h5>
-        <div class="post-form-container">
-            <div class="profile-section">
-                <img src="{{ asset('images/user_default.png') }}" alt="Profile Picture" class="profile-pic">
+        <h5 class="new-post mb-2">{{ __('Edit Post') }}</h5>
+        <div class="post-form-container card p-4 shadow">
+            <div class="profile-section d-flex mb-3">
+                <img src="{{ asset('images/user_default.png') }}" alt="Profile Picture"
+                    class="profile-pic rounded-circle me-2">
                 <div class="profile-name">{{ auth()->user()->userName }}</div>
             </div>
             <form action="{{ route('posts.update', $post->id) }}" method="POST" class="post-form"
@@ -19,7 +20,7 @@
                 @csrf
                 @method('PUT')
 
-                <textarea name="content" class="form-control">{{ $post->content }}</textarea>
+                <textarea name="content" class="form-control mt-2">{{ $post->content }}</textarea>
                 <div class="form-actions d-flex justify-content-between align-items-center mt-2 position-relative">
                     <div id="add-image-icon" class="attachment-btn btn" style="display: none;">
                         <svg id="upload_svg" xmlns="http://www.w3.org/2000/svg" width="24" height="24"

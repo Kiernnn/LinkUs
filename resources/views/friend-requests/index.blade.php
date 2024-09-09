@@ -9,7 +9,7 @@
 
     <div class="friends-content p-4">
         <div class="friends-box">
-            <div class="friends-container mb-3">
+            <div class="friends-container mb-3 mt-3">
                 <a href="{{ route('friends.index') }}" class="friends mb-3">{{ __('Friends') }}</a>
                 <div class="title-links">
                     <a href="{{ route('friendRequests.requests') }}" class="links">{{ __('Friend requests') }}</a>
@@ -30,7 +30,7 @@
                         <div class="request-container mb-2">
                             <div class="profile mb-0">
                                 <img src="{{ asset($sender->profile && $sender->profile->image ? 'profiles/' . $sender->profile->image : 'images/user_default.png') }}"
-                                alt="Profile Picture" class="profile-pic">
+                                    alt="Profile Picture" class="profile-pic">
                                 <div class="name-and-subtitle mb-0">
                                     <div class="profile-name">{{ $sender->userName }}</div>
                                     <div class="post-subtitle mb-2 small">{{ timeDiffInHours($data->created_at) }}
@@ -70,7 +70,7 @@
                         <div class="request-container mb-2">
                             <div class="profile mb-0">
                                 <img src="{{ asset($user->profile && $user->profile->image ? 'profiles/' . $user->profile->image : 'images/user_default.png') }}"
-                                alt="Profile Picture" class="profile-pic">
+                                    alt="Profile Picture" class="profile-pic">
                                 <div class="profile-info mb-0">
                                     <div class="profile-name">{{ $user->userName }}</div>
                                     <div id="successMessage{{ $user->id }}" class="add-fri"
@@ -78,21 +78,26 @@
                                 </div>
                             </div>
                             <div class="buttons">
-                                <form action="{{ route('friendRequests.send', $user->id) }}" method="POST" style="display: inline;">
+                                <form action="{{ route('friendRequests.send', $user->id) }}" method="POST"
+                                    style="display: inline;">
                                     @csrf
-                                    <button class="accept btn" id="addFriendBtn{{ $user->id }}" onclick="sendFriendRequest(event, {{ $user->id }})">
+                                    <button class="accept btn" id="addFriendBtn{{ $user->id }}"
+                                        onclick="sendFriendRequest(event, {{ $user->id }})">
                                         {{ __('Add Friend') }}
                                     </button>
                                 </form>
                                 <form action="{{ route('friendRequests.cancel', $user->id) }}" method="POST">
                                     @csrf
                                     @method('DELETE')
-                                    <button class="decline btn" id="removeBtn{{ $user->id }}" style="display: none;" onclick="declineFriReq(event, {{ $user->id }}); return false;">
+                                    <button class="decline btn" id="removeBtn{{ $user->id }}" style="display: none;"
+                                        onclick="declineFriReq(event, {{ $user->id }}); return false;">
                                         {{ __('Remove') }}
                                     </button>
                                 </form>
-                                <div id="statusMessage{{ $user->id }}" class="status-message" style="color: #808080; font-weight: bold; display: none;"></div>
-                                <div id="successMessage{{ $user->id }}" class="status-message" style="color: #808080; font-weight: bold; display: none;"></div>
+                                <div id="statusMessage{{ $user->id }}" class="status-message"
+                                    style="color: #808080; font-weight: bold; display: none;"></div>
+                                <div id="successMessage{{ $user->id }}" class="status-message"
+                                    style="color: #808080; font-weight: bold; display: none;"></div>
                             </div>
                         </div>
                     </div>
@@ -141,7 +146,7 @@
                 error: function(xhr, status, error) {
                     alert("Error: " + error);
                 }
-            }); 
+            });
         }
 
         // Suggestion(add, remove)

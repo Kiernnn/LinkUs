@@ -59,7 +59,7 @@
 
                 <!-- Login button Section Start -->
                 <div class="button-container mb-0">
-                    <button type="submit" class="submit">{{ __('Login') }}</button>
+                    <button type="submit" class="submit">{{ __('Log in') }}</button>
                 </div>
                 <!-- Login button Section End -->
 

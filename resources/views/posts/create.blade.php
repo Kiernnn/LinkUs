@@ -9,14 +9,15 @@
 @section('content')
     <div class="create-content p-4">
         <a href="{{ route('posts.create') }}" class="new-post mb-2">{{ __('Create New Post') }}</a>
-        <div class="post-form-container">
-            <div class="profile-section">
-                <img src="{{ asset('images/user_default.png') }}" alt="Profile Picture" class="profile-pic">
+        <div class="post-form-container card p-4 shadow">
+            <div class="profile-section d-flex mb-3">
+                <img src="{{ asset('images/user_default.png') }}" alt="Profile Picture"
+                    class="profile-pic rounded-circle me-2">
                 <div class="profile-name">{{ auth()->user()->userName }}</div>
             </div>
             <form action="{{ route('posts.store') }}" method="POST" class="post-form" enctype="multipart/form-data">
                 @csrf
-                <textarea name="content" placeholder="What's on your mind?" class="form-control"></textarea>
+                <textarea name="content" placeholder="What's on your mind?" class="form-control mt-2"></textarea>
                 <div class="form-actions d-flex justify-content-between align-items-center mt-2 position-relative">
                     <div id="add-image-icon" class="attachment-btn btn">
                         <svg id="upload_svg" xmlns="http://www.w3.org/2000/svg" width="24" height="24"

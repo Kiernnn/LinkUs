@@ -6,10 +6,10 @@
 @endsection
 
 @section('content')
-    <div class="scrollable-container">
+    <div class=" container-fluid scrollable-container">
         <div class="home-content p-4">
             <!-- Search Tab Start -->
-            <div class="container">
+            <div class="justify-content-center container">
                 <input type="text" name="text" class="input" placeholder=" Search">
                 <button class="search__btn">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="22" height="22">
@@ -29,16 +29,16 @@
                         $postUser = $post->user; // The user who created the post
                         $postProfile = $postUser->profile; // Fetch the profile of the post's user
                     @endphp
-                    <div class="post-container">
+                    <div class="post-container mb-3 shadow-sm p-4 rounded-4 text-light">
 
                         <!-- Profile Section Start -->
-                        <div class="post-header">
+                        <div class="post-header d-flex">
                             @if ($postProfile && $postProfile->image && file_exists(public_path('profiles/' . $postProfile->image)))
                                 <img src="{{ asset('profiles/' . $postProfile->image) }}" alt="Profile Picture"
-                                    class="profile-pic">
+                                    class="profile-pic me-3">
                             @else
                                 <img src="{{ asset('images/user_default.png') }}" alt="Profile Picture" class="profile-pic">
-                            @endif  
+                            @endif
                             <div class="profile-name">{{ $post->user->userName }}</div>
                             <div class="post-subtitle mb-2 small">
                                 {{ timeDiffInHours($post->created_at) }}
@@ -88,14 +88,14 @@
                         <!-- Profile Section End -->
 
                         <!-- Post Content Section Start -->
-                        <div class="post-content">
+                        <div class="post-content mt-1">
                             <p class="content ml-10px">{{ $post->content }}</p>
                             @if ($post->image)
                                 <img src="{{ asset('posts/' . $post->image) }}" class="post-image" alt="Post image">
                             @endif
-                            <div class="post-footer">
-                                <form style="display:inline;">
-                                    <button>
+                            <div class="post-footer d-flex mt-1">
+                                <form class="me-0" style="display:inline;">
+                                    <button class="btn">
                                         <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960"
                                             width="20px" fill="#fff">
                                             <path
@@ -103,7 +103,7 @@
                                         </svg>
                                     </button>
                                 </form>
-                                <button>
+                                <button class="btn">
                                     <a href="{{ route('posts.detail', $post->id) }}" class="card-link">
                                         <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960"
                                             width="20px" fill="#fff">

@@ -166,27 +166,8 @@ body {
     margin: 35px 0;
 }
 
-.submit:active, .register:active {
+.submit:active {
     box-shadow: 4px 6px 0 #292929;
-    transform: translate(3px, 3px);
-}
-
-.register {
-    width: 80px;
-    height: 40px;
-    color: #fff;
-    background: #000;
-    font-size: 13px;
-    font-weight: bold;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 10px 20px;
-    border: 1px solid #292929;
-    border-radius: 0.5rem;
-    box-shadow: 2.5px 3px 0 #292929;
-    cursor: pointer;
-    margin: 35px 0;
 }
 
 .error-message {
@@ -203,7 +184,7 @@ body {
     .container {
         width: 100%;
         flex-direction: column;
-        padding: 0 20px;
+        padding: 20px;
     }
 
     .right {
@@ -215,8 +196,17 @@ body {
         padding: 20px;
     }
 
-    .submit, .register {
+    .submit {
         margin: 20px 0;
+    }
+
+    .left h1 {
+        font-size: 24px;
+    }
+
+    .left form input {
+        font-size: 0.875rem;
+        padding: 0.75rem;
     }
 }
 
@@ -237,8 +227,17 @@ body {
         padding: 30px;
     }
 
-    .submit, .register {
+    .submit {
         margin: 25px 0;
+    }
+
+    .left h1 {
+        font-size: 30px;
+    }
+
+    .left form input {
+        font-size: 1rem;
+        padding: 0.875rem;
     }
 }
 
@@ -258,7 +257,16 @@ body {
         width: 50%;
     }
 
-    .submit, .register {
+    .submit {
         margin: 35px 0;
+    }
+
+    .left h1 {
+        font-size: 40px;
+    }
+
+    .left form input {
+        font-size: 1rem;
+        padding: 0.875rem;
     }
 }

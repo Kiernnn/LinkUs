@@ -17,7 +17,7 @@ class ProfileController extends Controller
     public function index(Request $request)
     {
         $posts = auth()->user()->posts()->orderBy('created_at', 'desc')->get();
-        
+
         return view('profile.index', compact('posts'));
     }
 
@@ -33,7 +33,7 @@ class ProfileController extends Controller
             'about' => 'nullable|string|max:255',
         ]);
 
-        if($validator->fails()){
+        if ($validator->fails()) {
             return redirect()->back()->withErrors($validator->errors());
         }
 
@@ -43,14 +43,14 @@ class ProfileController extends Controller
             $profile->user_id = auth()->id();
         }
 
-        try{
+        try {
             $profile->update([
                 'about' => $request->about,
             ]);
 
-            if($request->hasFile('image')) {
+            if ($request->hasFile('image')) {
                 $file = $request->file('image');
-                if($profile->image) {
+                if ($profile->image) {
                     deleteFile($profile->image, 'profiles');
                 }
                 $image = uploadFile($file, 'profiles');
@@ -60,7 +60,7 @@ class ProfileController extends Controller
             $profile->save();
 
             return redirect()->route('profile.index')->with('success', 'Profile Updated Successfully');
-        } catch(\Exception $e){
+        } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Profile Update Failed !');
         }
     }

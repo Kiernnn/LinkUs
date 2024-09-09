@@ -1,4 +1,4 @@
-<?php 
+<?php
 namespace App\Http\Controllers;
 
 use App\Models\Friend;
@@ -12,7 +12,7 @@ class FriendsController extends Controller
 {
     public function index()
     {
-        try {   
+        try {
             $friends = Friend::with(['user', 'friend'])
                              ->where('user_id', auth()->user()->id)
                              ->orWhere('friend_id', auth()->user()->id)
@@ -29,14 +29,14 @@ class FriendsController extends Controller
             $suggestions = User::where('id', '!=', auth()->user()->id)
                                ->inRandomOrder()
                                ->limit(5)
-                               ->get(); 
+                               ->get();
 
             return view('friends.index', compact('friends', 'friendRequests', 'sentRequests', 'suggestions'));
         } catch (Exception $e) {
             return back()->with('error', 'An error occurred while retrieving the friends list: ' . $e->getMessage());
         }
     }
-    
+
     public function unfriend($friendId)
     {
         try {
@@ -75,7 +75,7 @@ class FriendsController extends Controller
             return back()->with('error', 'An error occurred while retrieving the friends list: ' . $e->getMessage());
         }
     }
-    
+
     public function search(Request $request)
     {
         $query = $request->input('query');
@@ -92,7 +92,7 @@ class FriendsController extends Controller
         $friendRequests = FriendRequest::with('sender')
                                        ->where('receiver_id', auth()->user()->id)
                                        ->get();
-   
+
         $sentRequests = FriendRequest::where('sender_id', auth()->user()->id)
                                      ->pluck('receiver_id')
                                      ->toArray();

@@ -8,21 +8,17 @@
 @section('content')
     <div class="scrollable-container p-4">
 
-        <!-- back button -->
-        <a href="{{ route('posts.index') }}"
-            style="background:black; color:white; text-decoration:none; border:solid white;border-radius:10px; padding:10px 10px 10px 10px; margin-bottom:10px; position:fixed;">Back</a>
-
         <!-- Display post detail -->
-        <div class="detail-content">
-            <div class="post-container">
-                <div class="post-header">
-                    <img src="{{ asset('images/user_default.png') }}" alt="Profile Picture" class="profile-pic">
+        <div class="detail-content container">
+            <div class="post-container mb-3 shadow-sm p-4 rounded-4 text-light">
+                <div class="post-header d-flex mb-1">
+                    <img src="{{ asset('images/user_default.png') }}" alt="Profile Picture" class="profile-pic mr-2">
                     <div class="profile-name">{{ $post->user->userName }}</div>
                     <div class="post-subtitle mb-2 small">
                         {{ timeDiffInHours($post->created_at) }}
                     </div>
                 </div>
-                <div class="post-content">
+                <div class="post-content mb-0">
                     <p class="content">{{ $post->content }}</p>
                     @if ($post->image)
                         <img src="{{ asset('posts/' . $post->image) }}" class="post-image" alt="Post image">
@@ -51,12 +47,13 @@
                 <!-- Existing comments -->
                 <div class="comment-sec">
                     @forelse ($post->comments as $comment)
-                        <div class="comment-header">
-                            <img src="{{ asset('images/user_default.png') }}" alt="Profile Picture" class="profile-pic">
+                        <div class="comment-header d-flex mb-3">
+                            <img src="{{ asset('images/user_default.png') }}" alt="Profile Picture"
+                                class="profile-pic mr-2">
                             <div class="comment-content">
                                 <div class="profile-name mb-1">{{ $comment->user->userName }}</div>
                                 <p class="content mb-1">{{ $comment->content }}</p>
-                                <div class="comment-sub">
+                                <div class="comment-sub small">
                                     <div class="post-subtitle mb-2 small">
                                         <div class="post-subtitle mb-2 small">
                                             {{ timeDiffInHours($comment->created_at) }}
@@ -73,7 +70,14 @@
                             </div>
                         </div>
                     @empty
-                        <p class="comment-yet">{{ __('No comments yet.') }}</p>
+                        <p class=" comment-yet">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="22px" viewBox="0 -960 960 960" width="22px"
+                                fill="#fff">
+                                <path
+                                    d="M880-80 720-240H320q-33 0-56.5-23.5T240-320v-40h440q33 0 56.5-23.5T760-440v-280h40q33 0 56.5 23.5T880-640v560ZM160-473l47-47h393v-280H160v327ZM80-280v-520q0-33 23.5-56.5T160-880h440q33 0 56.5 23.5T680-800v280q0 33-23.5 56.5T600-440H240L80-280Zm80-240v-280 280Z" />
+                            </svg>
+                            {{ __('No comments yet.') }}
+                        </p>
                     @endforelse
 
                     <!-- Add comment -->
@@ -81,7 +85,8 @@
                         <form action="{{ route('comments.store', $post->id) }}" method="POST">
                             @csrf
                             <div class="comment-box">
-                                <input type="text" name="content" placeholder="Add a comment..." class="comment-input" />
+                                <input type="text" name="content" placeholder="Write a comment..."
+                                    class="comment-input" />
                                 <button class="send-btn" type="submit">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 664 663">
                                         <path fill="none"

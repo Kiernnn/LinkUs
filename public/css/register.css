@@ -276,8 +276,7 @@ input[type="radio"]:checked + label {
 }
 
 .register:active {
-    box-shadow: 4px 6px 0 #292929;
-    transform: translate(3px, 3px);
+    box-shadow: 3px 5px 0 #292929;
 }
 
 .button-container {
