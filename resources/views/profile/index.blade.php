@@ -31,10 +31,10 @@
                         <p class="post-text">{{ auth()->user()->posts->count() }}</p>
                         <p class="post-text text-secondary">{{ __('posts') }}</p>
                     </div>
-                    <div class="all-fri">
+                    <a href="{{ route('friends.list') }}" class="all-fri">
                         <p class="fri-text">{{ auth()->user()->friends()->count() }}</p>
                         <p class="fri-text text-secondary">{{ __('friends') }}</p>
-                    </div>
+                    </a>
                 </div>
                 <div class="bio mt-0">
                     <p class="bio-text">

@@ -97,8 +97,10 @@
 .upload_svg {
    z-index: 1;
    position: fixed;
+   background-color: #3e3e3e;
+   border-radius: 50%;
    bottom: 560px;
-   margin-left: 40px;
+   margin-left: 44px;
    cursor: pointer;
 }
 
