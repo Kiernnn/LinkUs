@@ -1,4 +1,4 @@
-@extends('layouts.sidebar')
+{{-- @extends('layouts.sidebar')
 @section('title', 'Friend Requests')
 
 @section('style')
@@ -92,6 +92,118 @@
                                     <button class="decline btn" id="removeBtn{{ $user->id }}" style="display: none;"
                                         onclick="declineFriReq(event, {{ $user->id }}); return false;">
                                         {{ __('Remove') }}
+                                    </button>
+                                </form>
+                                <div id="statusMessage{{ $user->id }}" class="status-message"
+                                    style="color: #808080; font-weight: bold; display: none;"></div>
+                                <div id="successMessage{{ $user->id }}" class="status-message"
+                                    style="color: #808080; font-weight: bold; display: none;"></div>
+                            </div>
+                        </div>
+                    </div>
+                @empty
+                    <p style="color: white">No Suggestions Found!</p>
+                @endforelse
+            </div>
+        </div>
+    </div>
+@endsection --}}
+
+
+
+@extends('layouts.sidebar')
+@section('title', 'Friend Requests')
+
+@section('style')
+    <link href="{{ asset('css/friends_index.css') }}" rel="stylesheet">
+@endsection
+
+@section('content')
+
+    <div class="friends-content p-4">
+        <div class="friends-box">
+            <div class="friends-container mb-3 mt-3">
+                <a href="{{ route('friends.index') }}" class="friends mb-3">{{ __('Friends') }}</a>
+                <div class="title-links">
+                    <a href="{{ route('friendRequests.requests') }}" class="links">{{ __('Friend requests') }}</a>
+                    <a href="{{ route('friends.suggestions', ['all' => true]) }}" class="links">{{ __('Suggestions') }}</a>
+                    <a href="{{ route('friends.list') }}" class="links">{{ __('Your friends') }}</a>
+                </div>
+            </div>
+
+            <!-- Friend Requests Section -->
+            <div class="request-form-container mb-3">
+                <div class="friends-info mb-2">
+                    <div class="friends mb-2">{{ __('Friend requests') }}</div>
+                    <a href="{{ route('friendRequests.requests') }}" class="see-all">{{ __('See all') }}</a>
+                </div>
+                <div class="post-header mb-3">
+                    @forelse ($friendRequests as $data)
+                        @php $sender = $data->sender; @endphp
+                        <div class="request-container mb-2">
+                            <div class="profile mb-0">
+                                <img src="{{ asset($sender->profile && $sender->profile->image ? 'profiles/' . $sender->profile->image : 'images/user_default.png') }}"
+                                    alt="Profile Picture" class="profile-pic">
+                                <div class="name-and-subtitle mb-0">
+                                    <div class="profile-name">{{ $sender->userName }}</div>
+                                    <div class="post-subtitle mb-2 small">{{ timeDiffInHours($data->created_at) }}</div>
+                                </div>
+                            </div>
+
+                            <div class="buttons mb-2">
+                                <button class="accept btn" id="acceptBtn{{ $data->id }}"
+                                    onclick="handleFriendRequest('accept', {{ $data->id }})">{{ __('Accept') }}</button>
+                                <form action="{{ route('friendRequests.decline', $data->id) }}" method="POST"
+                                    style="display:inline;">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button class="decline btn" id="declineBtn{{ $data->id }}"
+                                        onclick="handleFriendRequest('decline', {{ $data->id }}); return false;">{{ __('Decline') }}</button>
+                                </form>
+                                <div class="notiMsg{{ $data->id }}"
+                                    style="color: #808080; font-weight: bold; transition: opacity 0.3s ease, height 0.3s ease;">
+                                </div>
+                            </div>
+                        </div>
+                    @empty
+                        <p style="color:white;">{{ __('No Friend Requests Found!') }}</p>
+                    @endforelse
+                </div>
+            </div>
+
+            <!-- Suggestions Section -->
+            <div class="suggest-form-container mb-3">
+                <div class="friends-info mb-2">
+                    <div class="friend-requests mb-2">{{ __('Suggested for you') }}</div>
+                    <a href="{{ route('friends.suggestions', ['all' => 1]) }}" class="see-all">{{ __('See all') }}</a>
+                </div>
+                @forelse ($suggestions as $user)
+                    <div class="post-header mb-3">
+                        <div class="request-container mb-2">
+                            <div class="profile mb-0">
+                                <img src="{{ asset($user->profile && $user->profile->image ? 'profiles/' . $user->profile->image : 'images/user_default.png') }}"
+                                    alt="Profile Picture" class="profile-pic">
+                                <div class="profile-info mb-0">
+                                    <div class="profile-name">{{ $user->userName }}</div>
+                                    <div id="successMessage{{ $user->id }}" class="add-fri"
+                                        style="display: none; color: #808080; font-weight: bold;"></div>
+                                </div>
+                            </div>
+                            <div class="buttons">
+                                <form action="{{ route('friendRequests.send', $user->id) }}" method="POST"
+                                    style="display: inline;">
+                                    @csrf
+                                    <button class="accept btn" id="addFriendBtn{{ $user->id }}"
+                                        onclick="sendFriendRequest(event, {{ $user->id }})">
+                                        {{ __('Add Friend') }}
+                                    </button>
+                                </form>
+                                <form action="{{ route('friendRequests.cancel', $user->id) }}" method="POST">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button class="decline btn" id="removeBtn{{ $user->id }}" style="display: none;"
+                                        onclick="declineFriReq(event, {{ $user->id }}); return false;">
+                                        {{ __('Cancel') }}
                                     </button>
                                 </form>
                                 <div id="statusMessage{{ $user->id }}" class="status-message"
