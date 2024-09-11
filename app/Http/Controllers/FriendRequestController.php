@@ -19,12 +19,11 @@ class FriendRequestController extends Controller
             ->limit(5)
             ->get();
 
-        // Fetch sent, received requests, and friends
+        
         $sentRequests = FriendRequest::where('sender_id', auth()->user()->id)->pluck('receiver_id')->toArray();
         $receivedRequests = FriendRequest::where('receiver_id', auth()->user()->id)->pluck('sender_id')->toArray();
         $friends = Friend::where('user_id', auth()->user()->id)->orWhere('friend_id', auth()->user()->id)->pluck('friend_id')->toArray();
 
-        // Exclude these users from suggestions
         $excludedIds = array_merge($sentRequests, $receivedRequests, $friends, [auth()->user()->id]);
 
         $friendsOfFriends = Friend::whereIn('user_id', $friends)
@@ -32,13 +31,11 @@ class FriendRequestController extends Controller
            ->pluck('friend_id')
            ->toArray();
 
-        // Fetch user suggestions
         $suggestions = User::whereIn('id', array_diff($friendsOfFriends, $excludedIds))
             ->inRandomOrder()
             ->limit(5)
             ->get();
 
-        // Pass variables to the view
         return view('friend-requests.index', compact('friendRequests', 'suggestions', 'sentRequests', 'receivedRequests', 'friends'));
     }
 
@@ -137,20 +134,16 @@ class FriendRequestController extends Controller
         $receivedRequests = FriendRequest::where('receiver_id', auth()->user()->id)->pluck('sender_id')->toArray();
         $friends = Friend::where('user_id', auth()->user()->id)->orWhere('friend_id', auth()->user()->id)->pluck('friend_id')->toArray();
 
-        // Fetch friends of the authenticated user's friends
         $friendsOfFriends = Friend::whereIn('user_id', $friends)
                                    ->orWhereIn('friend_id', $friends)
                                    ->pluck('friend_id')
                                    ->toArray();
 
-        // Exclude the authenticated user and their direct friends
         $excludedIds = array_merge($sentRequests, $receivedRequests, $friends, [auth()->user()->id]);
 
         if ($request->has('all')) {
-            // Show all friends of friends excluding the ones in excludedIds
             $suggestions = User::whereIn('id', array_diff($friendsOfFriends, $excludedIds))->get();
         } else {
-            // Show a limited number of suggestions
             $suggestions = User::whereIn('id', array_diff($friendsOfFriends, $excludedIds))
                                ->inRandomOrder()
                                ->limit(5)

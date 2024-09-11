@@ -18,12 +18,9 @@ class FriendSeeder extends Seeder
     {
         $userIds = User::pluck('id')->toArray();
 
-        // Example user_id
         $userId = 1;
 
-        // Create random friends for the user
         for ($i = 0; $i < 5; $i++) {
-            // Get a random friend_id that is not the same as user_id and not already a friend
             do {
                 $friendId = $userIds[array_rand($userIds)];
             } while ($friendId === $userId || Friend::where('user_id', $userId)->where('friend_id', $friendId)->exists());

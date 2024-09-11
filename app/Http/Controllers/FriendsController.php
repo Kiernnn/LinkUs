@@ -99,25 +99,4 @@ class FriendsController extends Controller
 
         return view('friends.index', compact('searchResults', 'friends', 'friendRequests', 'sentRequests'));
     }
-
-    public function suggestions()
-    {
-        $suggestions = User::where('id', '!=', auth()->user()->id);
-                        //    ->inRandomOrder()
-                        //    ->get();
-                        if ($all) {
-                            // Show all suggestions when 'all' is true
-                            $suggestions = $query->get();
-                        } else {
-                            // Show limited suggestions when 'all' is false or not set
-                            $suggestions = $query->inRandomOrder()->get();
-                        }
-
-        return view('friends.suggestions', compact('suggestions'));
-    }
-
-    public function removeSuggestion($id)
-    {
-        return back()->with('success', 'User removed from suggestions.');
-    }
 }

@@ -67,7 +67,7 @@ class CommentController extends Controller
     public function destroy(Comment $comment)
     {
         try {
-            $this->authorize('delete', $comment); // Optional: Add Authorization
+            $this->authorize('delete', $comment);
 
             $comment->delete();
 
