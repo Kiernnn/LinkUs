@@ -20,12 +20,10 @@
                 <textarea name="content" placeholder="What's on your mind?" class="form-control mt-2"></textarea>
                 <div class="form-actions d-flex justify-content-between align-items-center mt-2 position-relative">
                     <div id="add-image-icon" class="attachment-btn btn">
-                        <svg id="upload_svg" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                            viewBox="0 0 24 24" style="fill: #fff;">
-                            <path d="M4 5h13v7h2V5c0-1.103-.897-2-2-2H4c-1.103 0-2 .897-2 2v12c0 1.103.897 2 2 2h8v-2H4V5z">
-                            </path>
-                            <path d="m8 11-3 4h11l-4-6-3 4z"></path>
-                            <path d="M19 14h-2v3h-3v2h3v3h2v-3h3v-2h-3z"></path>
+                        <svg id="upload_svg" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960"
+                            width="24px" fill="#fff">
+                            <path
+                                d="M360-400h400L622-580l-92 120-62-80-108 140Zm-40 160q-33 0-56.5-23.5T240-320v-480q0-33 23.5-56.5T320-880h480q33 0 56.5 23.5T880-800v480q0 33-23.5 56.5T800-240H320Zm0-80h480v-480H320v480ZM160-80q-33 0-56.5-23.5T80-160v-560h80v560h560v80H160Zm160-720v480-480Z" />
                         </svg>
                         <input type="file" id="file-input" name="image" class="file-input" style="display: none;">
                     </div>
