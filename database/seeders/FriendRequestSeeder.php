@@ -11,7 +11,7 @@ class FriendRequestSeeder extends Seeder
 {
     public function run()
     {
-        $receiverId = 23;
+        $receiverId = 1;
         $existingRequests = FriendRequest::where('receiver_id', $receiverId)->count();
 
         if ($existingRequests < 10) {
