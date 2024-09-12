@@ -9,6 +9,8 @@
     <div class="profile-content p-4">
         <div class="profile-box">
             <h5 class="profile mb-2">{{ __('Profile') }}</h5>
+
+            <!-- Profile container Start -->
             <div class="post-form-container card p-4 shadow">
                 <div class="profile-section d-flex mb-0">
                     <div class="profile-info">
@@ -36,7 +38,7 @@
                         <p class="fri-text text-secondary">{{ __('friends') }}</p>
                     </a>
                 </div>
-                <div class="bio mt-0">
+                <div class="bio mt-0 mb-0">
                     <p class="bio-text">
                         @if (auth()->user()->profile)
                             {{ auth()->user()->profile->about }}
@@ -49,6 +51,30 @@
                     <a href="{{ route('profile.edit') }}" class="post-btn btn">{{ __('Edit Profile') }}</a>
                 </div>
             </div>
+            <!-- Profile container End -->
+
+            <!-- Create container Start -->
+            <div class="create-wrapper mt-2">
+                <div class="create-form-container card p-4 shadow mt-2">
+                    <div class="create">
+                        <div class="create-icon">
+                            <svg class="icon" xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 -960 960 960"
+                                width="18px" fill="#fff">
+                                <path
+                                    d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h357l-80 80H200v560h560v-278l80-80v358q0 33-23.5 56.5T760-120H200Zm280-360ZM360-360v-170l367-367q12-12 27-18t30-6q16 0 30.5 6t26.5 18l56 57q11 12 17 26.5t6 29.5q0 15-5.5 29.5T897-728L530-360H360Zm481-424-56-56 56 56ZM440-440h56l232-232-28-28-29-28-231 231v57Zm260-260-29-28 29 28 28 28-28-28Z" />
+                            </svg>
+                        </div>
+                        <p class="create-text mt-2">{{ __('Create Post') }}</p>
+                        <p class="sub-text text-secondary">
+                            {{ __("Say what's on your mind or share a recent highlight.") }}</p>
+                        <div class="buttons" style="display:flex;">
+                            <a href="{{ route('posts.create') }}" class="create-btn btn"
+                                type="submit">{{ __('Create') }}</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Create container End -->
 
             <!-- Post container Start -->
             <div class="post-wrapper mt-2">
