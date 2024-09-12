@@ -2,6 +2,10 @@
     display: none;
 }
 
+.home-content::-webkit-scrollbar {
+    display: none;
+}
+
 .home-content {
     display: flex;
     flex-direction: column;
@@ -254,6 +258,11 @@
 .decline:hover {
     color: #fff;
     border: 1px solid #3e3e3e;
+}
+
+.scorll-search{
+    color: white;
+    text-align: center;
 }
 
 /* Responsive Design */
