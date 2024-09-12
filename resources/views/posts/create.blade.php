@@ -11,8 +11,13 @@
         <a href="{{ route('posts.create') }}" class="new-post mb-2">{{ __('Create New Post') }}</a>
         <div class="post-form-container card p-4 shadow">
             <div class="profile-section d-flex mb-3">
-                <img src="{{ asset('images/user_default.png') }}" alt="Profile Picture"
-                    class="profile-pic rounded-circle me-2">
+                @if (auth()->user()->profile && auth()->user()->profile->image)
+                <img src="{{ asset('profiles/' . auth()->user()->profile->image) }}" alt="Profile Picture"
+                class="profile-pic rounded-circle me-2">
+            @else
+                <img src="{{ asset('images/user_default.png') }} "alt="Profile Picture"
+                class="profile-pic rounded-circle me-2">
+            @endif
                 <div class="profile-name">{{ auth()->user()->userName }}</div>
             </div>
             <form action="{{ route('posts.store') }}" method="POST" class="post-form" enctype="multipart/form-data">

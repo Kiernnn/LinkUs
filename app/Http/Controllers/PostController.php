@@ -14,8 +14,6 @@ class PostController extends Controller
 {
     public function index(Request $request)
     {
-
-
         $posts = Post::orderBy('created_at','desc')
                     ->where('user_id','!=',auth()->user()->id)
                     ->get();
@@ -144,14 +142,12 @@ class PostController extends Controller
     {
         $keyword = $request->search;
 
-        $posts = Post::where('user_id', '!=', auth()->user()->id)
+        $posts = Post::where('content', 'like', '%' .$keyword. '%')
                         ->orderBy('created_at','desc')
-                        ->where('content', 'like', '%' .$keyword. '%')
                         ->get();
         
-        $users = User::where('id', '!=', auth()->user()->id)
+        $users = User::where('userName', 'like', '%' .$keyword. '%')
                         ->orderBy('created_at', 'desc')
-                        ->where('userName', 'like', '%' .$keyword. '%')
                         ->get();
 
         return view('posts.index', compact('posts', 'users', 'keyword'));

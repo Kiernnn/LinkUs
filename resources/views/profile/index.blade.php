@@ -14,64 +14,69 @@
             <div class="post-form-container card p-4 shadow">
                 <div class="profile-section d-flex mb-0">
                     <div class="profile-info">
-                        <div class="profile-name">{{ auth()->user()->userName }}</div>
+                        <div class="profile-name">{{ $viewingUser->userName }}</div>
                         <div class="subname d-flex">
-                            <p class="firstName">{{ auth()->user()->firstName }}</p>
-                            <p class="lastName">{{ auth()->user()->lastName }}</p>
+                            <p class="firstName">{{ $viewingUser->firstName }}</p>
+                            <p class="lastName">{{ $viewingUser->lastName }}</p>
                         </div>
                     </div>
-                    @if (auth()->user()->profile && auth()->user()->profile->image)
-                        <img src="{{ asset('profiles/' . auth()->user()->profile->image) }}"class="profile-pic rounded-circle ms-auto" alt="Profile image">
+                    @if ($viewingUser->profile && $viewingUser->profile->image)
+                        <img src="{{ asset('profiles/' . $viewingUser->profile->image) }}" class="profile-pic rounded-circle ms-auto" alt="Profile image">
                     @else
                         <img src="{{ asset('images/user_default.png') }}" class="profile-pic rounded-circle ms-auto" alt="Profile image">
                     @endif
                 </div>
                 <div class="all mb-0">
                     <div class="all-post">
-                        <p class="post-text">{{ auth()->user()->posts->count() }}</p>
+                        <p class="post-text">{{ $viewingUser->posts->count() }}</p>
                         <p class="post-text text-secondary">{{ __('posts') }}</p>
                     </div>
                     <a href="{{ route('friends.list') }}" class="all-fri">
-                        <p class="fri-text">{{ auth()->user()->friends()->count() }}</p>
+                        <p class="fri-text">{{ $viewingUser->friends()->count() }}</p>
                         <p class="fri-text text-secondary">{{ __('friends') }}</p>
                     </a>
                 </div>
                 <div class="bio mt-0 mb-0">
                     <p class="bio-text">
-                        @if (auth()->user()->profile)
-                            {{ auth()->user()->profile->about }}
+                        @if ($viewingUser->profile)
+                            {{ $viewingUser->profile->about }}
                         @else
                             {{ __('No bio yet') }}
                         @endif
                     </p>
                 </div>
+
                 <div class="profile-footer">
-                    <a href="{{ route('profile.edit') }}" class="post-btn btn">{{ __('Edit Profile') }}</a>
+                    @if (auth()->user()->id === $viewingUser->id)
+                        <a href="{{ route('profile.edit') }}" class="post-btn btn">{{ __('Edit Profile') }}</a>
+                    @endif
                 </div>
             </div>
             <!-- Profile container End -->
 
             <!-- Create container Start -->
-            <div class="create-wrapper mt-2">
-                <div class="create-form-container card p-4 shadow mt-2">
-                    <div class="create">
-                        <div class="create-icon">
-                            <svg class="icon" xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 -960 960 960"
-                                width="18px" fill="#fff">
-                                <path
-                                    d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h357l-80 80H200v560h560v-278l80-80v358q0 33-23.5 56.5T760-120H200Zm280-360ZM360-360v-170l367-367q12-12 27-18t30-6q16 0 30.5 6t26.5 18l56 57q11 12 17 26.5t6 29.5q0 15-5.5 29.5T897-728L530-360H360Zm481-424-56-56 56 56ZM440-440h56l232-232-28-28-29-28-231 231v57Zm260-260-29-28 29 28 28 28-28-28Z" />
-                            </svg>
-                        </div>
-                        <p class="create-text mt-2">{{ __('Create Post') }}</p>
-                        <p class="sub-text text-secondary">
-                            {{ __("Say what's on your mind or share a recent highlight.") }}</p>
-                        <div class="buttons" style="display:flex;">
-                            <a href="{{ route('posts.create') }}" class="create-btn btn"
-                                type="submit">{{ __('Create') }}</a>
+            @if (auth()->user()->id === $viewingUser->id)
+                    <div class="create-wrapper mt-2">
+                    <div class="create-form-container card p-4 shadow mt-2">
+                        <div class="create">
+                            <div class="create-icon">
+                                <svg class="icon" xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 -960 960 960"
+                                    width="18px" fill="#fff">
+                                    <path
+                                        d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h357l-80 80H200v560h560v-278l80-80v358q0 33-23.5 56.5T760-120H200Zm280-360ZM360-360v-170l367-367q12-12 27-18t30-6q16 0 30.5 6t26.5 18l56 57q11 12 17 26.5t6 29.5q0 15-5.5 29.5T897-728L530-360H360Zm481-424-56-56 56 56ZM440-440h56l232-232-28-28-29-28-231 231v57Zm260-260-29-28 29 28 28 28-28-28Z" />
+                                </svg>
+                            </div>
+                            <p class="create-text mt-2">{{ __('Create Post') }}</p>
+                            <p class="sub-text text-secondary">
+                                {{ __("Say what's on your mind or share a recent highlight.") }}</p>
+                            <div class="buttons" style="display:flex;">
+                                <a href="{{ route('posts.create') }}" class="create-btn btn"
+                                    type="submit">{{ __('Create') }}</a>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
+                    </div>
+                @endif
             <!-- Create container End -->
 
             <!-- Post container Start -->
@@ -81,7 +86,7 @@
 
                         <!-- Profile Section Start -->
                         <div class="post-header d-flex">
-                            <img src="{{ asset(auth()->user()->profile && auth()->user()->profile->image ? 'profiles/' . auth()->user()->profile->image : 'images/user_default.png') }}"
+                            <img src="{{ asset($post->user->profile && $post->user->profile->image ? 'profiles/' . $post->user->profile->image : 'images/user_default.png') }}"
                                 alt="Profile Picture" class="post-profile rounded-circle">
                             <div class="post-pf-name ms-0">{{ $post->user->userName }}</div>
                             <div class="post-subtitle mb-2 small text-secondary">

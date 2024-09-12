@@ -17,10 +17,20 @@ class ProfileController extends Controller
 {
     public function index(Request $request)
     {
-        $posts = auth()->user()->posts()->orderBy('created_at', 'desc')->get();
-
-        return view('profile.index', compact('posts'));
+        $viewingUser = auth()->user();
+        if ($viewingUser->id === $request->route('id')) {
+            return redirect()->route('profile.edit');
+        }
+        $posts = $viewingUser->posts;
+        return view('profile.index', compact( 'viewingUser', 'posts'));
     }
+
+    public function show($id) {
+        $viewingUser = User::findOrFail($id);
+        $posts = $viewingUser->posts; 
+
+        return view('profile.index', compact('viewingUser', 'posts'));
+    } 
 
     public function edit()
     {
