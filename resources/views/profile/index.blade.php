@@ -19,11 +19,9 @@
                         </div>
                     </div>
                     @if (auth()->user()->profile && auth()->user()->profile->image)
-                        <img src="{{ asset('profiles/' . auth()->user()->profile->image) }}"
-                            class="profile-pic rounded-circle ms-auto" alt="Profile image">
+                        <img src="{{ asset('profiles/' . auth()->user()->profile->image) }}"class="profile-pic rounded-circle ms-auto" alt="Profile image">
                     @else
-                        <img src="{{ asset('images/user_default.png') }}" class="profile-pic rounded-circle ms-auto"
-                            alt="Profile image">
+                        <img src="{{ asset('images/user_default.png') }}" class="profile-pic rounded-circle ms-auto" alt="Profile image">
                     @endif
                 </div>
                 <div class="all mb-0">

@@ -10,8 +10,11 @@
         <div class="home-content p-4">
             <!-- Search Tab Start -->
             <div class="justify-content-center container">
-                <input type="text" name="text" class="input" placeholder=" Search">
-                <button class="search__btn">
+                <form action="{{ route('posts.search') }}" method="POST" style="display: flex;">
+                    @csrf
+                    <input type="text" name="search" class="input" placeholder="Search Something" value="{{ old('search', $keyword ?? '') }}" style="font-style:italic;" required>
+                </form>
+                <button class="search__btn" type="submit">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="22" height="22">
                         <path
                             d="M18.031 16.6168L22.3137 20.8995L20.8995 22.3137L16.6168 18.031C15.0769 19.263 13.124 20 11 20C6.032 20 2 15.968 2 11C2 6.032 6.032 2 11 2C15.968 2 20 6.032 20 11C20 13.124 19.263 15.0769 18.031 16.6168ZM16.0247 15.8748C17.2475 14.6146 18 12.8956 18 11C18 7.1325 14.8675 4 11 4C7.1325 4 4 7.1325 4 11C4 14.8675 7.1325 18 11 18C12.8956 18 14.6146 17.2475 15.8748 16.0247L16.0247 15.8748Z"
@@ -21,6 +24,61 @@
                 </button>
             </div>
             <!-- Search Tab End -->
+
+            @if(session('error'))
+                <div class="alert alert-danger">
+                    {{ session('error') }}
+                </div>
+            @endif
+
+            {{-- Search Results --}}
+            @if(@isset($keyword))
+                <h5 style="color:white;">Search Result for "{{ $keyword }}"</h5>
+                
+                @if($users->isEmpty())
+                    <p style="color:white;">Not found.</p>
+                @else
+                    <div class="suggest-form-container mb-3">
+                        <div class="search-profile mb-3">
+                            @foreach($users as $user)
+                                <div class="request-container mb-2">
+                                    <div class="searchProfile mb-0">
+                                        <img src="{{ asset($user->profile && $user->profile->image ? 'profiles/' . $user->profile->image : 'images/user_default.png') }}"
+                                        alt="Profile Picture" class="profile-pic">
+                                        <div class="profile-info mb-0">
+                                            <div class="profile-name">{{ $user->userName }}</div>
+                                            <div id="successMessage{{ $user->id }}" class="add-fri"
+                                            style="display: none; color: #808080; font-weight: bold;"></div>
+                                        </div>
+                                    </div>
+                                    {{-- <div class="buttons">
+                                    <form action="{{ route('friendRequests.send', $user->id) }}" method="POST"
+                                        style="display: inline;">
+                                        @csrf
+                                        <button class="accept btn" id="addFriendBtn{{ $user->id }}"
+                                            onclick="sendFriendRequest(event, {{ $user->id }})">
+                                            {{ __('Add Friend') }}
+                                        </button>
+                                    </form>
+                                    <form action="{{ route('friendRequests.cancel', $user->id) }}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button class="decline btn" id="removeBtn{{ $user->id }}" style="display: none;"
+                                            onclick="declineFriReq(event, {{ $user->id }}); return false;">
+                                            {{ __('Cancel') }}
+                                        </button>
+                                    </form>
+                                    <div id="statusMessage{{ $user->id }}" class="status-message"
+                                        style="color: #808080; font-weight: bold; display: none;"></div>
+                                    <div id="successMessage{{ $user->id }}" class="status-message"
+                                        style="color: #808080; font-weight: bold; display: none;"></div>
+                                    </div> --}}
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                @endif
+            @endif
 
             <!-- Post container Start -->
             <div class="post-wrapper">
@@ -39,6 +97,7 @@
                             @else
                                 <img src="{{ asset('images/user_default.png') }}" alt="Profile Picture" class="profile-pic">
                             @endif
+                            {{-- <a href="{{ route('profile.index', $post->user->id)}}" style="text-decoration:none;"></a> --}}
                             <div class="profile-name">{{ $post->user->userName }}</div>
                             <div class="post-subtitle mb-2 small">
                                 {{ timeDiffInHours($post->created_at) }}
@@ -121,4 +180,71 @@
             <!-- Post container End -->
         </div>
     </div>
+@endsection
+
+@section('scripts')
+    <script>
+        // Suggestion(add, remove)
+        function sendFriendRequest(event, userId) {
+            event.preventDefault();
+
+            var addFriendBtn = document.getElementById('addFriendBtn' + userId);
+            var removeBtn = document.getElementById('removeBtn' + userId);
+            var successMessage = document.getElementById('successMessage' + userId);
+            var statusMessage = document.getElementById('statusMessage' + userId);
+            var requestContainer = addFriendBtn.closest('.request-container');
+
+            addFriendBtn.style.display = 'none';
+
+            removeBtn.style.display = 'inline-block';
+            successMessage.style.display = 'block';
+
+            $.ajax({
+                url: "{{ route('friendRequests.send') }}",
+                type: 'POST',
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    receiverId: userId,
+                },
+                success: function(response) {
+                    successMessage.textContent = response.message;
+
+                    setTimeout(() => {
+                        requestContainer.remove();
+                    }, 3000);
+                },
+                error: function(xhr, status, error) {
+                    alert("Error: " + error);
+                }
+            });
+        }
+
+        // Cancel friend Reqest
+        function declineFriReq(event, userId) {
+            event.preventDefault();
+
+            var removeBtn = document.getElementById('removeBtn' + userId);
+            var statusMessage = document.getElementById('statusMessage' + userId);
+            var successMessage = document.getElementById('successMessage' + userId);
+
+            $.ajax({
+                url: "{{ route('friendRequests.cancel', '') }}/" + userId,
+                type: 'DELETE',
+                data: {
+                    _token: "{{ csrf_token() }}"
+                },
+                success: function(response) {
+                    removeBtn.style.display = 'none';
+                    successMessage.style.display = 'none';
+
+                    statusMessage.textContent = "Friend Request Cancelled";
+                    statusMessage.style.display = 'block';
+                },
+                error: function(xhr, status, error) {
+                    statusMessage.textContent = "Error: " + error;
+                    statusMessage.style.display = 'block';
+                }
+            });
+        }
+    </script>
 @endsection

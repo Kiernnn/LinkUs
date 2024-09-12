@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Models\user;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -13,6 +14,8 @@ class PostController extends Controller
 {
     public function index(Request $request)
     {
+
+
         $posts = Post::orderBy('created_at','desc')
                     ->where('user_id','!=',auth()->user()->id)
                     ->get();
@@ -139,18 +142,18 @@ class PostController extends Controller
 
     public function search(Request $request)
     {
-        $query = $request->input('text');
+        $keyword = $request->search;
 
         $posts = Post::where('user_id', '!=', auth()->user()->id)
-                     ->where(function($q) use ($query) {
-                         $q->where('content', 'LIKE', '%' . $query . '%')
-                           ->orWhereHas('user', function($q) use ($query) {
-                               $q->where('userName', 'LIKE', '%' . $query . '%');
-                           });
-                     })
-                     ->orderBy('created_at', 'desc')
-                     ->get();
+                        ->orderBy('created_at','desc')
+                        ->where('content', 'like', '%' .$keyword. '%')
+                        ->get();
+        
+        $users = User::where('id', '!=', auth()->user()->id)
+                        ->orderBy('created_at', 'desc')
+                        ->where('userName', 'like', '%' .$keyword. '%')
+                        ->get();
 
-        return view('posts.search', compact('posts'));
+        return view('posts.index', compact('posts', 'users', 'keyword'));
     }
 }

@@ -1,21 +1,17 @@
-@extends('layouts.app')
+@extends('layouts.sidebar')
+@section('title', 'Searched Posts')
 
 @section('content')
     <div class="container">
         <h1>Search Results</h1>
-
-        @if ($posts->isEmpty())
-            <p>No posts found.</p>
-        @else
-            @foreach ($posts as $post)
-                <div class="post">
-                    <h2>{{ $post->title }}</h2>
-                    <p>{{ $post->content }}</p>
-                    @if ($post->image)
-                        <img src="{{ asset('storage/posts/' . $post->image) }}" alt="Post Image">
-                    @endif
-                </div>
-            @endforeach
-        @endif
+            @if(count($results) > 0)
+                <ul>
+                    @foreach
+                        <li>{{ $result->name }}</li>
+                    @endforeach
+                </ul>
+            @else
+                <p>No results found.</p>
+            @endif
     </div>
 @endsection

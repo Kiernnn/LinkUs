@@ -146,7 +146,6 @@ class FriendRequestController extends Controller
         } else {
             $suggestions = User::whereIn('id', array_diff($friendsOfFriends, $excludedIds))
                                ->inRandomOrder()
-                               ->limit(5)
                                ->get();
         }
         return view('friends.suggestions', compact('suggestions'));

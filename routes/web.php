@@ -27,7 +27,7 @@ Route::group(['middleware' => ['auth']], function () {
          Route::put('update/{post}', 'update')->name('posts.update');
          Route::delete('{post}','destroy')->name('posts.destroy');
          Route::get('{post}','detail')->name('posts.detail');
-         Route::get('search', 'search')->name('posts.search');
+         Route::post('search', 'search')->name('posts.search');
       });
 
       //Comments
@@ -36,6 +36,15 @@ Route::group(['middleware' => ['auth']], function () {
          Route::get('comments/{comment}/edit', 'edit')->name('comments.edit');
          Route::delete('comments/{comment}', 'destroy')->name('comments.destroy');
          Route::put('comments/{comment}', 'update')->name('comments.update');
+      });
+
+      Route::controller(FriendRequestController::class)->group(function () {
+         // Route::get('/', 'index')->name('friendRequests.index');
+         Route::get('requests', 'requests')->name('friendRequests.requests');
+          Route::post('/send', 'sendRequest')->name('friendRequests.send');
+          Route::post('/accept', 'acceptRequest')->name('friendRequests.accept');   
+          Route::delete('/decline/{id}', 'declineRequest')->name('friendRequests.decline');
+          Route::delete('/cancel/{id}', 'cancelRequest')->name('friendRequests.cancel');
       });
    });
          
