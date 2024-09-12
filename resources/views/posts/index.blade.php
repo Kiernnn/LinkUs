@@ -12,47 +12,60 @@
             <form action="{{ route('posts.search') }}" method="POST" style="display: flex;">
                 <div class="justify-content-center container">
                     @csrf
-                    <input type="text" name="search" class="input" placeholder="Search" value="{{ old('search', $keyword ?? '') }}">
+                    <input type="text" name="search" class="input" placeholder="Search"
+                        value="{{ old('search', $keyword ?? '') }}">
                     <button class="search__btn" type="submit">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="22" height="22">
-                            <path d="M18.031 16.6168L22.3137 20.8995L20.8995 22.3137L16.6168 18.031C15.0769 19.263 13.124 20 11 20C6.032 20 2 15.968 2 11C2 6.032 6.032 2 11 2C15.968 2 20 6.032 20 11C20 13.124 19.263 15.0769 18.031 16.6168ZM16.0247 15.8748C17.2475 14.6146 18 12.8956 18 11C18 7.1325 14.8675 4 11 4C7.1325 4 4 7.1325 4 11C4 14.8675 7.1325 18 11 18C12.8956 18 14.6146 17.2475 15.8748 16.0247L16.0247 15.8748Z" fill="#efeff1"></path>
+                            <path
+                                d="M18.031 16.6168L22.3137 20.8995L20.8995 22.3137L16.6168 18.031C15.0769 19.263 13.124 20 11 20C6.032 20 2 15.968 2 11C2 6.032 6.032 2 11 2C15.968 2 20 6.032 20 11C20 13.124 19.263 15.0769 18.031 16.6168ZM16.0247 15.8748C17.2475 14.6146 18 12.8956 18 11C18 7.1325 14.8675 4 11 4C7.1325 4 4 7.1325 4 11C4 14.8675 7.1325 18 11 18C12.8956 18 14.6146 17.2475 15.8748 16.0247L16.0247 15.8748Z"
+                                fill="#efeff1"></path>
                         </svg>
                     </button>
                 </div>
             </form>
             <!-- Search Tab End -->
 
-            @if(session('error'))
+            @if (session('error'))
                 <div class="alert alert-danger">{{ session('error') }}</div>
             @endif
 
             {{-- Search Results --}}
-            @if(isset($keyword))
+            @if (isset($keyword))
                 <h5 style="color:white;">Search Result for "{{ $keyword }}"</h5>
                 <div class="scorll-search">
-                    @if($posts->isEmpty() && $users->isEmpty())
-                        <h5 style="color:white; margin-top:30px;">Search not found.</h5>
+                    @if ($posts->isEmpty() && $users->isEmpty())
+                        <p style="color:white;">Not found.</p>
                     @else
                         @if(!$users->isEmpty()) <h5>Users</h5> 
                             <div class="suggest-form-container mb-3">
-                                <div class="search-profile mb-3">
-                                    @foreach($users as $user)
+                            <div class="search-profile mb-3">
+                                @foreach($users as $user)
+                                    @php
+                                        $postProfile = $user->profile; 
+                                    @endphp
                                     <div class="request-container mb-2">
                                         <div class="searchProfile mb-0">
-                                            <img src="{{ asset($user->profile && $user->profile->image ? 'profiles/' .$user->profile->image : 'images/user_default.png') }}" alt="Profile Picture" class="profile-pic me-3">
+                                            @if ($postProfile && $postProfile->image && file_exists(public_path('profiles/' . $postProfile->image)))
+                                                <img src="{{ asset('profiles/' . $postProfile->image) }}" alt="Profile Picture"
+                                                    class="profile-pic me-3">
+                                            @else
+                                                <img src="{{ asset('images/user_default.png') }}" alt="Profile Picture" class="profile-pic">
+                                            @endif
                                             <div class="profile-info mb-0">
-                                                <a href="{{ route('profile.show', $user->id) }}" style="text-decoration: none; color:white;">{{ $user->userName }}</a>
+                                                <div class="profile-name">
+                                                    <a href="{{ route('profile.show', $user->id) }}" style="text-decoration: none; color:white;">{{ $user->userName }}</a>
+                                                </div>
                                                 <div id="successMessage{{ $user->id }}" class="add-fri" style="display: none; color: #808080; font-weight: bold;"></div>
                                             </div>
                                         </div>
                                     </div>
-                                    @endforeach
-                                </div>
+                                @endforeach
+                            </div>
                             </div>
                         @endif
                     @endif
 
-                    @if(!$posts->isEmpty())
+                    @if (!$posts->isEmpty())
                         <h5>Posts</h5>
                         @foreach ($posts as $post)
                             @php
@@ -64,7 +77,8 @@
                                         <img src="{{ asset('profiles/' . $postProfile->image) }}" alt="Profile Picture"
                                             class="profile-pic me-3">
                                     @else
-                                        <img src="{{ asset('images/user_default.png') }}" alt="Profile Picture" class="profile-pic">
+                                        <img src="{{ asset('images/user_default.png') }}" alt="Profile Picture"
+                                            class="profile-pic">
                                     @endif
                                     <div class="profile-name">
                                         <a href="{{ route('profile.show', $post->user->id) }}" style="text-decoration: none; color:white;">{{ $post->user->userName }}</a>
@@ -75,20 +89,25 @@
                                 <div class="post-content mt-1">
                                     <p class="content ml-10px">{{ $post->content }}</p>
                                     @if ($post->image)
-                                        <img src="{{ asset('posts/' . $post->image) }}" class="post-image" alt="Post image">
+                                        <img src="{{ asset('posts/' . $post->image) }}" class="post-image"
+                                            alt="Post image">
                                     @endif
                                     <div class="post-footer d-flex mt-1">
                                         {{-- <form class="me-0" style="display:inline;"> --}}
                                             <button class="btn">
-                                                <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#fff">
-                                                    <path d="m480-120-58-52q-101-91-167-157T150-447.5Q111-500 95.5-544T80-634q0-94 63-157t157-63q52 0 99 22t81 62q34-40 81-62t99-22q94 0 157 63t63 157q0 46-15.5 90T810-447.5Q771-395 705-329T538-172l-58 52Zm0-108q96-86 158-147.5t98-107q36-45.5 50-81t14-70.5q0-60-40-100t-100-40q-47 0-87 26.5T518-680h-76q-15-41-55-67.5T300-774q-60 0-100 40t-40 100q0 35 14 70.5t50 81q36 45.5 98 107T480-228Zm0-273Z" />
+                                                <svg xmlns="http://www.w3.org/2000/svg" height="20px"
+                                                    viewBox="0 -960 960 960" width="20px" fill="#fff">
+                                                    <path
+                                                        d="m480-120-58-52q-101-91-167-157T150-447.5Q111-500 95.5-544T80-634q0-94 63-157t157-63q52 0 99 22t81 62q34-40 81-62t99-22q94 0 157 63t63 157q0 46-15.5 90T810-447.5Q771-395 705-329T538-172l-58 52Zm0-108q96-86 158-147.5t98-107q36-45.5 50-81t14-70.5q0-60-40-100t-100-40q-47 0-87 26.5T518-680h-76q-15-41-55-67.5T300-774q-60 0-100 40t-40 100q0 35 14 70.5t50 81q36 45.5 98 107T480-228Zm0-273Z" />
                                                 </svg>
                                             </button>
                                         {{-- </form> --}}
                                         <button class="btn">
                                             <a href="{{ route('posts.detail', $post->id) }}" class="card-link">
-                                                <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#fff">
-                                                    <path d="M880-80 720-240H160q-33 0-56.5-23.5T80-320v-480q0-33 23.5-56.5T160-880h640q33 0 56.5 23.5T880-800v720ZM160-320h594l46 45v-525H160v480Zm0 0v-480 480Z" />
+                                                <svg xmlns="http://www.w3.org/2000/svg" height="20px"
+                                                    viewBox="0 -960 960 960" width="20px" fill="#fff">
+                                                    <path
+                                                        d="M880-80 720-240H160q-33 0-56.5-23.5T80-320v-480q0-33 23.5-56.5T160-880h640q33 0 56.5 23.5T880-800v720ZM160-320h594l46 45v-525H160v480Zm0 0v-480 480Z" />
                                                 </svg>
                                             </a>
                                         </button>
@@ -112,7 +131,8 @@
                                 <img src="{{ asset('profiles/' . $postProfile->image) }}" alt="Profile Picture"
                                     class="profile-pic me-3">
                             @else
-                                <img src="{{ asset('images/user_default.png') }}" alt="Profile Picture" class="profile-pic">
+                                <img src="{{ asset('images/user_default.png') }}" alt="Profile Picture"
+                                    class="profile-pic">
                             @endif
                             <div class="profile-name">
                                 <a href="{{ route('profile.show', $post->user->id) }}" style="text-decoration: none; color:white;">{{ $post->user->userName }}</a>
@@ -122,26 +142,34 @@
                             @if (auth()->check() && auth()->user()->id === $post->user_id)
                                 <li class="nav-item">
                                     <a href="" class="nav-link" data-bs-toggle="dropdown">
-                                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#ffffff">
-                                            <path d="M480-160q-33 0-56.5-23.5T400-240q0-33 23.5-56.5T480-320q33 0 56.5 23.5T560-240q0 33-23.5 56.5T480-160Zm0-240q-33 0-56.5-23.5T400-480q0-33 23.5-56.5T480-560q33 0 56.5 23.5T560-480q0 33-23.5 56.5T480-400Zm0-240q-33 0-56.5-23.5T400-720q0-33 23.5-56.5T480-800q33 0 56.5 23.5T560-720q0 33-23.5 56.5T480-640Z" />
+                                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960"
+                                            width="24px" fill="#ffffff">
+                                            <path
+                                                d="M480-160q-33 0-56.5-23.5T400-240q0-33 23.5-56.5T480-320q33 0 56.5 23.5T560-240q0 33-23.5 56.5T480-160Zm0-240q-33 0-56.5-23.5T400-480q0-33 23.5-56.5T480-560q33 0 56.5 23.5T560-480q0 33-23.5 56.5T480-400Zm0-240q-33 0-56.5-23.5T400-720q0-33 23.5-56.5T480-800q33 0 56.5 23.5T560-720q0 33-23.5 56.5T480-640Z" />
                                         </svg>
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-end">
                                         <a href="{{ route('posts.edit', $post->id) }}" class="dropdown-item">
-                                            <svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 -960 960 960" width="18px" fill="#fff">
-                                                <path d="M200-200h57l391-391-57-57-391 391v57Zm-80 80v-170l528-527q12-11 26.5-17t30.5-6q16 0 31 6t26 18l55 56q12 11 17.5 26t5.5 30q0 16-5.5 30.5T817-647L290-120H120Zm640-584-56-56 56 56Zm-141 85-28-29 57 57-29-28Z" />
+                                            <svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 -960 960 960"
+                                                width="18px" fill="#fff">
+                                                <path
+                                                    d="M200-200h57l391-391-57-57-391 391v57Zm-80 80v-170l528-527q12-11 26.5-17t30.5-6q16 0 31 6t26 18l55 56q12 11 17.5 26t5.5 30q0 16-5.5 30.5T817-647L290-120H120Zm640-584-56-56 56 56Zm-141 85-28-29 57 57-29-28Z" />
                                             </svg>
                                             {{ __('Edit post') }}
                                         </a>
                                         <a href="#" class="dropdown-item">
-                                            <svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 -960 960 960" width="18px" fill="#fff">
-                                                <path d="M480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm-40-82v-78q-33 0-56.5-23.5T360-320v-40L168-552q-3 18-5.5 36t-2.5 36q0 121 79.5 212T440-162Zm276-102q20-22 36-47.5t26.5-53q10.5-27.5 16-56.5t5.5-59q0-98-54.5-179T600-776v16q0 33-23.5 56.5T520-680h-80v80q0 17-11.5 28.5T400-560h-80v80h240q17 0 28.5 11.5T600-440v120h40q26 0 47 15.5t29 40.5Z" />
+                                            <svg xmlns="http://www.w3.org/2000/svg" height="18px"
+                                                viewBox="0 -960 960 960" width="18px" fill="#fff">
+                                                <path
+                                                    d="M480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm-40-82v-78q-33 0-56.5-23.5T360-320v-40L168-552q-3 18-5.5 36t-2.5 36q0 121 79.5 212T440-162Zm276-102q20-22 36-47.5t26.5-53q10.5-27.5 16-56.5t5.5-59q0-98-54.5-179T600-776v16q0 33-23.5 56.5T520-680h-80v80q0 17-11.5 28.5T400-560h-80v80h240q17 0 28.5 11.5T600-440v120h40q26 0 47 15.5t29 40.5Z" />
                                             </svg>
                                             {{ __('Edit privacy') }}
                                         </a>
                                         <a href="#" class="dropdown-item">
-                                            <svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 -960 960 960" width="18px" fill="#c31818">
-                                                <path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z" />
+                                            <svg xmlns="http://www.w3.org/2000/svg" height="18px"
+                                                viewBox="0 -960 960 960" width="18px" fill="#c31818">
+                                                <path
+                                                    d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z" />
                                             </svg>
                                             {{ __('Delete post') }}
                                         </a>
@@ -158,15 +186,19 @@
                             <div class="post-footer d-flex mt-1">
                                 <form class="me-0" style="display:inline;">
                                     <button class="btn">
-                                        <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#fff">
-                                            <path d="m480-120-58-52q-101-91-167-157T150-447.5Q111-500 95.5-544T80-634q0-94 63-157t157-63q52 0 99 22t81 62q34-40 81-62t99-22q94 0 157 63t63 157q0 46-15.5 90T810-447.5Q771-395 705-329T538-172l-58 52Zm0-108q96-86 158-147.5t98-107q36-45.5 50-81t14-70.5q0-60-40-100t-100-40q-47 0-87 26.5T518-680h-76q-15-41-55-67.5T300-774q-60 0-100 40t-40 100q0 35 14 70.5t50 81q36 45.5 98 107T480-228Zm0-273Z" />
+                                        <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960"
+                                            width="20px" fill="#fff">
+                                            <path
+                                                d="m480-120-58-52q-101-91-167-157T150-447.5Q111-500 95.5-544T80-634q0-94 63-157t157-63q52 0 99 22t81 62q34-40 81-62t99-22q94 0 157 63t63 157q0 46-15.5 90T810-447.5Q771-395 705-329T538-172l-58 52Zm0-108q96-86 158-147.5t98-107q36-45.5 50-81t14-70.5q0-60-40-100t-100-40q-47 0-87 26.5T518-680h-76q-15-41-55-67.5T300-774q-60 0-100 40t-40 100q0 35 14 70.5t50 81q36 45.5 98 107T480-228Zm0-273Z" />
                                         </svg>
                                     </button>
                                 </form>
                                 <button class="btn">
                                     <a href="{{ route('posts.detail', $post->id) }}" class="card-link">
-                                        <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#fff">
-                                            <path d="M880-80 720-240H160q-33 0-56.5-23.5T80-320v-480q0-33 23.5-56.5T160-880h640q33 0 56.5 23.5T880-800v720ZM160-320h594l46 45v-525H160v480Zm0 0v-480 480Z" />
+                                        <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960"
+                                            width="20px" fill="#fff">
+                                            <path
+                                                d="M880-80 720-240H160q-33 0-56.5-23.5T80-320v-480q0-33 23.5-56.5T160-880h640q33 0 56.5 23.5T880-800v720ZM160-320h594l46 45v-525H160v480Zm0 0v-480 480Z" />
                                         </svg>
                                     </a>
                                 </button>
