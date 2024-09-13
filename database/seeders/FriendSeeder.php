@@ -18,7 +18,7 @@ class FriendSeeder extends Seeder
     {
         $userIds = User::pluck('id')->toArray();
 
-        $userId = 36;
+        $userId = 2;
 
         for ($i = 0; $i < 5; $i++) {
             do {

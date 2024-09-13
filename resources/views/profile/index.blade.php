@@ -31,8 +31,8 @@
                         <p class="post-text">{{ $viewingUser->posts->count() }}</p>
                         <p class="post-text text-secondary">{{ __('posts') }}</p>
                     </div>
-                    <a href="{{ route('friends.list') }}" class="all-fri">
-                        <p class="fri-text">{{ $viewingUser->friends()->count() }}</p>
+                    <a href="{{ route('friends.showUser', $viewingUser->id) }}" class="all-fri">
+                        <p class="fri-text">{{ $viewingUser->totalFriends() }}</p>
                         <p class="fri-text text-secondary">{{ __('friends') }}</p>
                     </a>
                 </div>
@@ -93,10 +93,9 @@
                             </div>
                             <p class="friend-text mt-2">{{ __('Friends') }}</p>
                             <p class="sub-text text-secondary">
-                                {{ auth()->user()->friends()->count() }}{{ __(' friends') }}</p>
+                                {{ $viewingUser->totalFriends() }}{{ __(' friends') }}</p>
                             <div class="buttons" style="display:flex;">
-                                <a href="{{ route('friends.index') }}" class="friend-btn btn"
-                                    type="submit">{{ __('See all') }}</a>
+                                <a href="{{ route('friends.showUser', $viewingUser->id) }}" class="friend-btn btn">{{ __('See all') }}</a>
                             </div>
                         </div>
                     </div>
@@ -137,7 +136,7 @@
                         <div class="post-header d-flex">
                             <img src="{{ asset($post->user->profile && $post->user->profile->image ? 'profiles/' . $post->user->profile->image : 'images/user_default.png') }}"
                                 alt="Profile Picture" class="post-profile rounded-circle">
-                            <div class="post-pf-name ms-0">{{ $post->user->userName }}</div>
+                            <div class="post-pf-name ms-0"><a href="{{ route('profile.show', $post->user->id) }}" style="text-decoration: none; color:white;">{{ $post->user->userName }}</a></div>
                             <div class="post-subtitle mb-2 small text-secondary">
                                 {{ timeDiffInHours($post->created_at) }}
                             </div>

@@ -15,7 +15,7 @@
                 </div>
                 @forelse ($friends as $friend)
                     @php
-                        $friendUser = $friend->user_id == auth()->id() ? $friend->friend : $friend->user;
+                        $friendUser = $friend->user_id == $viewingUser->id ? $friend->friend : $friend->user;
                     @endphp
                     <div class="post-header mb-3">
                         <div class="friends-container mb-2">

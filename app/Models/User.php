@@ -68,10 +68,19 @@ class User extends Authenticatable
         return $this->hasOne(Profile::class);
     }
 
-    // User.php
     public function friends()
     {
-        return $this->hasMany(Friend::class, 'user_id');
+        return $this->belongsToMany(User::class, 'friends', 'user_id', 'friend_id')
+                    ->where(function ($query) {
+                        $query->where('user_id', $this->id)
+                              ->orWhere('friend_id', $this->id);
+                    });
+    }
+
+    public function totalFriends() {
+        return Friend::where('user_id', $this->id)
+         ->orWhere('friend_id', $this->id)
+         ->count();
     }
 
     public function friendRequests()

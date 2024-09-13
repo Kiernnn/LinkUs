@@ -13,25 +13,44 @@ class FriendsController extends Controller
     public function index()
     {
         try {
+            $viewingUser = auth()->user();
+
             $friends = Friend::with(['user', 'friend'])
-                             ->where('user_id', auth()->user()->id)
-                             ->orWhere('friend_id', auth()->user()->id)
+                             ->where('user_id', $viewingUser->id)
+                             ->orWhere('friend_id', $viewingUser->id)
                              ->get();
 
             $friendRequests = FriendRequest::with('sender')
-                                           ->where('receiver_id', auth()->user()->id)
+                                           ->where('receiver_id', $viewingUser->id)
                                            ->orderBy('created_at', 'desc')
                                            ->limit(5)
                                            ->get();
 
-            $sentRequests = FriendRequest::where('sender_id', auth()->user()->id)->pluck('receiver_id')->toArray();
+            $sentRequests = FriendRequest::where('sender_id', $viewingUser->id)->pluck('receiver_id')->toArray();
 
-            $suggestions = User::where('id', '!=', auth()->user()->id)
+            $suggestions = User::where('id', '!=', $viewingUser->id)
                                ->inRandomOrder()
                                ->limit(5)
                                ->get();
 
-            return view('friends.index', compact('friends', 'friendRequests', 'sentRequests', 'suggestions'));
+            return view('friends.index', compact('viewingUser', 'friends', 'friendRequests', 'sentRequests', 'suggestions'));
+        } catch (Exception $e) {
+            return back()->with('error', 'An error occurred while retrieving the friends list: ' . $e->getMessage());
+        }
+    }
+
+    public function showFriends($userId)
+    {
+        try {
+            $viewingUser = User::findOrFail($userId);
+
+            $friends = Friend::with(['user', 'friend'])
+                             ->where('user_id', $userId)
+                             ->orWhere('friend_id', $userId)
+                             ->orderBy('created_at', 'desc')
+                             ->get();
+
+            return view('friends.index', compact('friends', 'viewingUser'));
         } catch (Exception $e) {
             return back()->with('error', 'An error occurred while retrieving the friends list: ' . $e->getMessage());
         }
@@ -61,16 +80,18 @@ class FriendsController extends Controller
         }
     }
 
-    public function list()
+    public function list(Request $request)
     {
         try {
+            $viewingUser = auth()->user();
+
             $friends = Friend::with(['user', 'friend'])
-                             ->where('user_id', auth()->user()->id)
-                             ->orWhere('friend_id', auth()->user()->id)
+                             ->where('user_id', $viewingUser->id )
+                             ->orWhere('friend_id', $viewingUser->id )
                              ->orderBy('created_at', 'desc')
                              ->get();
 
-            return view('friends.index', compact('friends'));
+            return view('friends.index', compact('viewingUser', 'friends'));
         } catch (Exception $e) {
             return back()->with('error', 'An error occurred while retrieving the friends list: ' . $e->getMessage());
         }
@@ -79,24 +100,25 @@ class FriendsController extends Controller
     public function search(Request $request)
     {
         $query = $request->input('query');
+        $viewingUser = auth()->user();
 
         $searchResults = User::where('userName', 'LIKE', "%{$query}%")
-                             ->where('id', '!=', auth()->user()->id)
+                             ->where('id', '!=', $viewingUser->id)
                              ->get();
 
         $friends = Friend::with(['user', 'friend'])
-                         ->where('user_id', auth()->user()->id)
-                         ->orWhere('friend_id', auth()->user()->id)
+                         ->where('user_id', $viewingUser->id)
+                         ->orWhere('friend_id', $viewingUser->id)
                          ->get();
 
         $friendRequests = FriendRequest::with('sender')
-                                       ->where('receiver_id', auth()->user()->id)
+                                       ->where('receiver_id', $viewingUser->id)
                                        ->get();
 
-        $sentRequests = FriendRequest::where('sender_id', auth()->user()->id)
+        $sentRequests = FriendRequest::where('sender_id', $viewingUser->id)
                                      ->pluck('receiver_id')
                                      ->toArray();
 
-        return view('friends.index', compact('searchResults', 'friends', 'friendRequests', 'sentRequests'));
+        return view('friends.index', compact('viewingUser', 'searchResults', 'friends', 'friendRequests', 'sentRequests'));
     }
 }

@@ -18,16 +18,13 @@ class ProfileController extends Controller
     public function index(Request $request)
     {
         $viewingUser = auth()->user();
-        if ($viewingUser->id === $request->route('id')) {
-            return redirect()->route('profile.edit');
-        }
-        $posts = $viewingUser->posts;
+        $posts = $viewingUser->posts()->orderBy('created_at', 'desc')->get();
         return view('profile.index', compact( 'viewingUser', 'posts'));
     }
 
     public function show($id) {
-        $viewingUser = User::findOrFail($id);
-        $posts = $viewingUser->posts; 
+        $viewingUser = User::with('profile')->findOrFail($id);
+        $posts = $viewingUser->posts()->orderBy('created_at', 'desc')->get();
 
         return view('profile.index', compact('viewingUser', 'posts'));
     } 

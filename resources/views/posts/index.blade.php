@@ -10,7 +10,7 @@
         <div class="home-content p-4">
             <!-- Search Tab Start -->
             <form action="{{ route('posts.search') }}" method="POST" style="display: flex;">
-                <div class="justify-content-center container">
+                <div class="justify-content-center container" >
                     @csrf
                     <input type="text" name="search" class="input" placeholder="Search"
                         value="{{ old('search', $keyword ?? '') }}">
@@ -139,6 +139,7 @@
                             </div>
                             <div class="post-subtitle mb-2 small">{{ timeDiffInHours($post->created_at) }}</div>
 
+                            {{-- dropdown section --}}
                             @if (auth()->check() && auth()->user()->id === $post->user_id)
                                 <li class="nav-item">
                                     <a href="" class="nav-link" data-bs-toggle="dropdown">

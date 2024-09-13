@@ -52,6 +52,7 @@ Route::group(['middleware' => ['auth']], function () {
    Route::group(['prefix' => 'friends'], function () {
       Route::controller(FriendsController::class)->group(function () {
          Route::get('/', 'list')->name('friends.index');
+         Route::get('friends/user/{userId}', 'showFriends')->name('friends.showUser');
          Route::delete('unfriend/{friendId}', 'unfriend')->name('friends.unfriend');
          Route::get('list', 'list')->name('friends.list');
          Route::get('suggestions', 'suggestions')->name('friends.suggestions');
@@ -79,7 +80,7 @@ Route::group(['middleware' => ['auth']], function () {
    Route::group(['prefix'=> 'profile'], function () {
       Route::controller(ProfileController::class)->group(function() {
          Route::get('/', 'index')->name('profile.index');
-         Route::get('/{id}', 'show')->name('profile.show');
+         Route::get('/{id}', 'show')->name('profile.show'); 
          Route::get('edit', 'edit')->name('profile.edit');
          Route::put('update', 'update')->name('profile.update');
       });
