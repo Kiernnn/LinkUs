@@ -53,19 +53,20 @@
                             <div class="comment-content">
                                 <div class="profile-name mb-1">{{ $comment->user->userName }}</div>
                                 <p class="content mb-1">{{ $comment->content }}</p>
-                                <div class="comment-sub small">
-                                    <div class="post-subtitle mb-2 small">
-                                        <div class="post-subtitle mb-2 small">
-                                            {{ timeDiffInHours($comment->created_at) }}
-                                        </div>
-                                        @can('delete', $comment)
-                                            <form action="{{ route('comments.destroy', $comment->id) }}" method="POST">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="delete-btn">{{ __('Delete') }}</button>
-                                            </form>
-                                        @endcan
+                            </div>
+                            <div class="comment-sub small">
+                                <div class="post-sub mb-2 small">
+                                    <div class="post-subtitle text-secondary mb-2 small">
+                                        {{ timeDiffInHours($comment->created_at) }}
                                     </div>
+                                    @can('delete', $comment)
+                                        <form action="{{ route('comments.destroy', $comment->id) }}" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit"
+                                                class="delete-btn text-secondary">{{ __('Delete') }}</button>
+                                        </form>
+                                    @endcan
                                 </div>
                             </div>
                         </div>

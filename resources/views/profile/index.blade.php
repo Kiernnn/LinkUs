@@ -21,9 +21,11 @@
                         </div>
                     </div>
                     @if ($viewingUser->profile && $viewingUser->profile->image)
-                        <img src="{{ asset('profiles/' . $viewingUser->profile->image) }}" class="profile-pic rounded-circle ms-auto" alt="Profile image">
+                        <img src="{{ asset('profiles/' . $viewingUser->profile->image) }}"
+                            class="profile-pic rounded-circle ms-auto" alt="Profile image">
                     @else
-                        <img src="{{ asset('images/user_default.png') }}" class="profile-pic rounded-circle ms-auto" alt="Profile image">
+                        <img src="{{ asset('images/user_default.png') }}" class="profile-pic rounded-circle ms-auto"
+                            alt="Profile image">
                     @endif
                 </div>
                 <div class="all mb-0">
@@ -57,33 +59,33 @@
             <div class="sub-container">
                 <!-- Create container Start -->
                 @if (auth()->check() && auth()->user()->id === $viewingUser->id)
-                <div class="create-wrapper mt-2">
-                    <div class="create-form-container card p-4 shadow mt-2">
-                        <div class="create">
-                            <div class="create-icon">
-                                <svg class="icon-btn" xmlns="http://www.w3.org/2000/svg" height="18px"
-                                    viewBox="0 -960 960 960" width="18px" fill="#fff">
-                                    <path
-                                        d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h357l-80 80H200v560h560v-278l80-80v358q0 33-23.5 56.5T760-120H200Zm280-360ZM360-360v-170l367-367q12-12 27-18t30-6q16 0 30.5 6t26.5 18l56 57q11 12 17 26.5t6 29.5q0 15-5.5 29.5T897-728L530-360H360Zm481-424-56-56 56 56ZM440-440h56l232-232-28-28-29-28-231 231v57Zm260-260-29-28 29 28 28 28-28-28Z" />
-                                </svg>
-                            </div>
-                            <p class="create-text mt-2">{{ __('Create Post') }}</p>
-                            <p class="sub-text text-secondary">
-                                {{ __("Say what's on your mind or share a recent highlight.") }}</p>
-                            <div class="buttons" style="display:flex;">
-                                <a href="{{ route('posts.create') }}" class="create-btn btn"
-                                    type="submit">{{ __('Create') }}</a>
-                            </div>
+                    <div class="create-wrapper mt-2">
+                        <div class="create-form-container card p-4 shadow mt-2">
+                            <a href="{{ route('posts.create') }}" class="create">
+                                <div class="create-icon">
+                                    <svg class="icon-btn" xmlns="http://www.w3.org/2000/svg" height="18px"
+                                        viewBox="0 -960 960 960" width="18px" fill="#fff">
+                                        <path
+                                            d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h357l-80 80H200v560h560v-278l80-80v358q0 33-23.5 56.5T760-120H200Zm280-360ZM360-360v-170l367-367q12-12 27-18t30-6q16 0 30.5 6t26.5 18l56 57q11 12 17 26.5t6 29.5q0 15-5.5 29.5T897-728L530-360H360Zm481-424-56-56 56 56ZM440-440h56l232-232-28-28-29-28-231 231v57Zm260-260-29-28 29 28 28 28-28-28Z" />
+                                    </svg>
+                                </div>
+                                <p class="create-text mt-2">{{ __('Create Post') }}</p>
+                                <p class="sub-text text-secondary">
+                                    {{ __("Say what's on your mind or share a recent highlight.") }}</p>
+                                <div class="buttons" style="display:flex;">
+                                    <a href="{{ route('posts.create') }}" class="create-btn btn"
+                                        type="submit">{{ __('Create') }}</a>
+                                </div>
+                            </a>
                         </div>
                     </div>
-                </div>
                 @endif
                 <!-- Create container End -->
 
                 <!-- Friends container Start -->
                 <div class="friend-wrapper mt-2">
                     <div class="friend-form-container card p-4 shadow mt-2">
-                        <div class="friend">
+                        <a href="{{ route('friends.index') }}" class="friend">
                             <div class="friend-icon">
                                 <svg class="icon-btn" xmlns="http://www.w3.org/2000/svg" height="24px"
                                     viewBox="0 -960 960 960" width="24px" fill="#fff">
@@ -98,32 +100,32 @@
                                 <a href="{{ route('friends.index') }}" class="friend-btn btn"
                                     type="submit">{{ __('See all') }}</a>
                             </div>
-                        </div>
+                        </a>
                     </div>
                 </div>
                 <!-- Friends container End -->
 
                 @if (auth()->check() && auth()->user()->id === $viewingUser->id)
-                <div class="create-wrapper mt-2">
-                    <div class="create-form-container card p-4 shadow mt-2">
-                        <div class="create">
-                            <div class="create-icon">
-                                <svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 -960 960 960"
-                                    width="18px" fill="#fff">
-                                    <path
-                                        d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h357l-80 80H200v560h560v-278l80-80v358q0 33-23.5 56.5T760-120H200Zm280-360ZM360-360v-170l367-367q12-12 27-18t30-6q16 0 30.5 6t26.5 18l56 57q11 12 17 26.5t6 29.5q0 15-5.5 29.5T897-728L530-360H360Zm481-424-56-56 56 56ZM440-440h56l232-232-28-28-29-28-231 231v57Zm260-260-29-28 29 28 28 28-28-28Z" />
-                                </svg>
-                            </div>
-                            <p class="create-text mt-2">{{ __('Create Post') }}</p>
-                            <p class="sub-text text-secondary">
-                                {{ __("Say what's on your mind or share a recent highlight.") }}</p>
-                            <div class="buttons" style="display:flex;">
-                                <a href="{{ route('posts.create') }}" class="create-btn btn"
-                                    type="submit">{{ __('Create') }}</a>
-                            </div>
+                    <div class="create-wrapper mt-2">
+                        <div class="create-form-container card p-4 shadow mt-2">
+                            <a href="{{ route('posts.create') }}" class="create">
+                                <div class="create-icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 -960 960 960"
+                                        width="18px" fill="#fff">
+                                        <path
+                                            d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h357l-80 80H200v560h560v-278l80-80v358q0 33-23.5 56.5T760-120H200Zm280-360ZM360-360v-170l367-367q12-12 27-18t30-6q16 0 30.5 6t26.5 18l56 57q11 12 17 26.5t6 29.5q0 15-5.5 29.5T897-728L530-360H360Zm481-424-56-56 56 56ZM440-440h56l232-232-28-28-29-28-231 231v57Zm260-260-29-28 29 28 28 28-28-28Z" />
+                                    </svg>
+                                </div>
+                                <p class="create-text mt-2">{{ __('Create Post') }}</p>
+                                <p class="sub-text text-secondary">
+                                    {{ __("Say what's on your mind or share a recent highlight.") }}</p>
+                                <div class="buttons" style="display:flex;">
+                                    <a href="{{ route('posts.create') }}" class="create-btn btn"
+                                        type="submit">{{ __('Create') }}</a>
+                                </div>
+                            </a>
                         </div>
                     </div>
-                </div>
                 @endif
                 <!-- Friends container End -->
             </div>
