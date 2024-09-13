@@ -48,8 +48,14 @@
                 <div class="comment-sec">
                     @forelse ($post->comments as $comment)
                         <div class="comment-header d-flex mb-3">
-                            <img src="{{ asset('images/user_default.png') }}" alt="Profile Picture"
-                                class="profile-pic mr-2">
+                            @php
+                                $commentProfile = $comment->user->profile;
+                            @endphp
+                            @if ($commentProfile && $commentProfile->image && file_exists(public_path('profiles/' . $commentProfile->image)))
+                                <img src="{{ asset('profiles/' . $commentProfile->image) }}" alt="Profile Picture" class="profile-pic mr-2">
+                            @else
+                                <img src="{{ asset('images/user_default.png') }}" alt="Profile Picture" class="profile-pic mr-2">
+                            @endif
                             <div class="comment-content">
                                 <div class="profile-name mb-1">{{ $comment->user->userName }}</div>
                                 <p class="content mb-1">{{ $comment->content }}</p>
@@ -59,14 +65,16 @@
                                     <div class="post-subtitle text-secondary mb-2 small">
                                         {{ timeDiffInHours($comment->created_at) }}
                                     </div>
-                                    @can('delete', $comment)
+                                    {{-- @can('delete', $comment)  --}}
+                                    @if (auth()->id() === $post->user->id || auth()->user()->can('delete', $comment))
                                         <form action="{{ route('comments.destroy', $comment->id) }}" method="POST">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit"
                                                 class="delete-btn text-secondary">{{ __('Delete') }}</button>
                                         </form>
-                                    @endcan
+                                    @endif
+                                    {{-- @endcan --}}
                                 </div>
                             </div>
                         </div>

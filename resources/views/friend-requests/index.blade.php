@@ -13,7 +13,7 @@
                 <a href="{{ route('friends.index') }}" class="friends mb-3">{{ __('Friends') }}</a>
                 <div class="title-links">
                     <a href="{{ route('friendRequests.requests') }}" class="links">{{ __('Friend requests') }}</a>
-                    <a href="{{ route('friends.suggestions', ['all' => true]) }}" class="links">{{ __('Suggestions') }}</a>
+                    <a href="{{ route('friendRequests.suggestions', ['all' => true]) }}" class="links">{{ __('Suggestions') }}</a>
                     <a href="{{ route('friends.list') }}" class="links">{{ __('Your friends') }}</a>
                 </div>
             </div>
@@ -62,7 +62,7 @@
             <div class="suggest-form-container mb-3">
                 <div class="friends-info mb-2">
                     <div class="friend-requests mb-2">{{ __('Suggested for you') }}</div>
-                    <a href="{{ route('friends.suggestions', ['all' => 1]) }}" class="see-all">{{ __('See all') }}</a>
+                    <a href="{{ route('friendRequests.suggestions') }}" class="see-all">{{ __('See all') }}</a>
                 </div>
                 @forelse ($suggestions as $user)
                     <div class="post-header mb-3">
