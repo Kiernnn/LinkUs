@@ -11,7 +11,11 @@
         <div class="friends-box">
             <div class="fri-form-container mb-3">
                 <div class="friends-info mb-2">
-                    <div class="friend-requests mb-2">{{ 'Your friends' }}</div>
+                    {{-- <div class="friend-requests mb-2">{{ 'Your friends' }}</div> --}}
+                    @php
+                        $friendUser = $friends->isNotEmpty() ? ($friends[0]->user_id == $viewingUser->id ? $friends[0]->friend : $friends[0]->user) : null;
+                    @endphp
+                    <div class="friend-requests mb-2">{{ $viewingUser->id == auth()->id() ? 'Your friends' : $friendUser->userName . " 's friends" }}</div>
                 </div>
                 @forelse ($friends as $friend)
                     @php
@@ -27,12 +31,14 @@
                                 </div>
                             </div>
                             <div class="buttons">
-                                <form action="{{ route('friends.unfriend', ['friendId' => $friendUser->id]) }}"
-                                    method="POST">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="unfriend btn">{{ __('Unfriend') }}</button>
-                                </form>
+                                @if ($viewingUser->id === auth()->id())
+                                    <form action="{{ route('friends.unfriend', ['friendId' => $friendUser->id]) }}"
+                                        method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="unfriend btn">{{ __('Unfriend') }}</button>
+                                    </form>
+                                @endif
                             </div>
                         </div>
                     </div>
