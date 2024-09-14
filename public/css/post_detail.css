@@ -132,6 +132,8 @@
     color: #fff;
     font-size: 13px;
     font-weight: bold;
+    text-decoration: none;
+    margin-left: 0;
     margin-bottom: 5px;
 }
 

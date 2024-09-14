@@ -14,17 +14,15 @@
                     @forelse ($friendRequests as $data)
                         @php $sender = $data->sender; @endphp <!-- Eager load sender -->
                         <div class="request-container mb-2">
-                            <div class="profile mb-0">
+                            <a href="{{ route('profile.show', $sender->id) }}" class="profile mb-0">
                                 <img src="{{ asset($sender->profile && $sender->profile->image ? 'profiles/' . $sender->profile->image : 'images/user_default.png') }}"
                                     alt="Profile Picture" class="profile-pic">
                                 <div class="name-and-subtitle mb-0">
-                                    <div class="profile-name">
-                                        <a href="{{ route('profile.show', $sender->id) }}" style="text-decoration: none; color:white;">{{ $sender->userName }}</a>
-                                    </div>
+                                    <div class="profile-name">{{ $sender->userName }}</div>
                                     <div class="post-subtitle mb-2 small">{{ timeDiffInHours($data->created_at) }}
                                     </div>
                                 </div>
-                            </div>
+                            </a>
 
                             <div class="buttons mb-2">
                                 <button class="accept btn" id="acceptBtn{{ $data->id }}"

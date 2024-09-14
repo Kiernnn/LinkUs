@@ -52,13 +52,15 @@
                                 $commentProfile = $comment->user->profile;
                             @endphp
                             @if ($commentProfile && $commentProfile->image && file_exists(public_path('profiles/' . $commentProfile->image)))
-                                <img src="{{ asset('profiles/' . $commentProfile->image) }}" alt="Profile Picture" class="profile-pic mr-2">
+                                <img src="{{ asset('profiles/' . $commentProfile->image) }}" alt="Profile Picture"
+                                    class="profile-pic mr-2">
                             @else
-                                <img src="{{ asset('images/user_default.png') }}" alt="Profile Picture" class="profile-pic mr-2">
+                                <img src="{{ asset('images/user_default.png') }}" alt="Profile Picture"
+                                    class="profile-pic mr-2">
                             @endif
                             <div class="comment-content">
-                                {{-- <a href="{{ route('profile.show', $comment->user->id) }}" style="text-decoration: none; color:white;">{{ $comment->user->userName }}</a> --}}
-                                <div class="profile-name mb-1">{{ $comment->user->userName }}</div>
+                                <a href="{{ route('profile.show', $comment->user->id) }}"
+                                    class="profile-name mb-1">{{ $comment->user->userName }}</a>
                                 <p class="content mb-1">{{ $comment->content }}</p>
                             </div>
                             <div class="comment-sub small">
