@@ -13,7 +13,8 @@
                 <a href="{{ route('friends.index') }}" class="friends mb-3">{{ __('Friends') }}</a>
                 <div class="title-links">
                     <a href="{{ route('friendRequests.requests') }}" class="links">{{ __('Friend requests') }}</a>
-                    <a href="{{ route('friendRequests.suggestions', ['all' => true]) }}" class="links">{{ __('Suggestions') }}</a>
+                    <a href="{{ route('friendRequests.suggestions', ['all' => true]) }}"
+                        class="links">{{ __('Suggestions') }}</a>
                     <a href="{{ route('friends.list') }}" class="links">{{ __('Your friends') }}</a>
                 </div>
             </div>
@@ -28,16 +29,15 @@
                     @forelse ($friendRequests as $data)
                         @php $sender = $data->sender; @endphp
                         <div class="request-container mb-2">
-                            <div class="profile mb-0">
+                            <a href="{{ route('profile.show', $sender->id) }}" class="profile mb-0">
                                 <img src="{{ asset($sender->profile && $sender->profile->image ? 'profiles/' . $sender->profile->image : 'images/user_default.png') }}"
                                     alt="Profile Picture" class="profile-pic">
                                 <div class="name-and-subtitle mb-0">
                                     <div class="profile-name">
-                                        <a href="{{ route('profile.show', $sender->id) }}" style="text-decoration: none; color:white;">{{ $sender->userName }}</a>
-                                    </div>
+                                        {{ $sender->userName }}</div>
                                     <div class="post-subtitle mb-2 small">{{ timeDiffInHours($data->created_at) }}</div>
                                 </div>
-                            </div>
+                            </a>
 
                             <div class="buttons mb-2">
                                 <button class="accept btn" id="acceptBtn{{ $data->id }}"
@@ -69,17 +69,15 @@
                 @forelse ($suggestions as $user)
                     <div class="post-header mb-3">
                         <div class="request-container mb-2">
-                            <div class="profile mb-0">
+                            <a href="{{ route('profile.show', $user->id) }}" class="profile mb-0">
                                 <img src="{{ asset($user->profile && $user->profile->image ? 'profiles/' . $user->profile->image : 'images/user_default.png') }}"
                                     alt="Profile Picture" class="profile-pic">
                                 <div class="profile-info mb-0">
-                                    <div class="profile-name">
-                                        <a href="{{ route('profile.show', $user->id) }}" style="text-decoration: none; color:white;">{{ $user->userName }}</a>
-                                    </div>
+                                    <div class="profile-name">{{ $user->userName }}</div>
                                     <div id="successMessage{{ $user->id }}" class="add-fri"
                                         style="display: none; color: #808080; font-weight: bold;"></div>
                                 </div>
-                            </div>
+                            </a>
                             <div class="buttons">
                                 <form action="{{ route('friendRequests.send', $user->id) }}" method="POST"
                                     style="display: inline;">

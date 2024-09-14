@@ -13,9 +13,15 @@
                 <div class="friends-info mb-2">
                     {{-- <div class="friend-requests mb-2">{{ 'Your friends' }}</div> --}}
                     @php
-                        $friendUser = $friends->isNotEmpty() ? ($friends[0]->user_id == $viewingUser->id ? $friends[0]->friend : $friends[0]->user) : null;
+                        $friendUser = $friends->isNotEmpty()
+                            ? ($friends[0]->user_id == $viewingUser->id
+                                ? $friends[0]->friend
+                                : $friends[0]->user)
+                            : null;
                     @endphp
-                    <div class="friend-requests mb-2">{{ $viewingUser->id == auth()->id() ? 'Your friends' : $friendUser->userName . " 's friends" }}</div>
+                    <div class="friend-requests mb-2">
+                        {{ $viewingUser->id == auth()->id() ? 'Your friends' : $friendUser->userName . " 's friends" }}
+                    </div>
                 </div>
                 @forelse ($friends as $friend)
                     @php
@@ -23,15 +29,13 @@
                     @endphp
                     <div class="post-header mb-3">
                         <div class="friends-container mb-2">
-                            <div class="profile mb-0">
+                            <a href="{{ route('profile.show', $friendUser->id) }}" class="profile mb-0">
                                 <img src="{{ asset($friendUser->profile && $friendUser->profile->image ? 'profiles/' . $friendUser->profile->image : 'images/user_default.png') }}"
                                     alt="Profile Picture" class="profile-pic">
                                 <div class="profile-info mb-0">
-                                    <div class="profile-name">
-                                        <a href="{{ route('profile.show', $friendUser->id) }}" style="text-decoration: none; color:white;">{{ $friendUser->userName }}</a>
-                                    </div>
+                                    <div class="profile-name">{{ $friendUser->userName }}</div>
                                 </div>
-                            </div>
+                            </a>
                             <div class="buttons">
                                 @if ($viewingUser->id === auth()->id())
                                     <form action="{{ route('friends.unfriend', ['friendId' => $friendUser->id]) }}"

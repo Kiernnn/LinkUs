@@ -16,17 +16,15 @@
                 @forelse ($suggestions as $user)
                     <div class="post-header mb-3">
                         <div class="request-container mb-2">
-                            <div class="profile mb-0">
+                            <a href="{{ route('profile.show', $user->id) }}" class="profile mb-0">
                                 <img src="{{ asset($user->profile && $user->profile->image ? 'profiles/' . $user->profile->image : 'images/user_default.png') }}"
                                     alt="Profile Picture" class="profile-pic">
                                 <div class="profile-info mb-0">
-                                    <div class="profile-name">
-                                        <a href="{{ route('profile.show', $user->id) }}" style="text-decoration: none; color:white;">{{ $user->userName }}</a>
-                                    </div>
+                                    <div class="profile-name">{{ $user->userName }}</div>
                                     <div id="successMessage{{ $user->id }}" class="add-fri"
                                         style="display: none; color: #808080; font-weight: bold;"></div>
                                 </div>
-                            </div>
+                            </a>
                             <div class="buttons">
                                 <form action="{{ route('friendRequests.send', $user->id) }}" method="POST"
                                     style="display: inline;">
@@ -45,9 +43,9 @@
                                     </button>
                                 </form>
                                 <div id="statusMessage{{ $user->id }}" class="status-message"
-                                style="color: #808080; font-weight: bold; display: none;"></div>
+                                    style="color: #808080; font-weight: bold; display: none;"></div>
                                 <div id="successMessage{{ $user->id }}" class="status-message"
-                                style="color: #808080; font-weight: bold; display: none;"></div>
+                                    style="color: #808080; font-weight: bold; display: none;"></div>
                             </div>
                         </div>
                     </div>

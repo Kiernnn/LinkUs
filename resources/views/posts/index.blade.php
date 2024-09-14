@@ -10,7 +10,7 @@
         <div class="home-content p-4">
             <!-- Search Tab Start -->
             <form action="{{ route('posts.search') }}" method="POST" style="display: flex;">
-                <div class="justify-content-center container" >
+                <div class="justify-content-center container">
                     @csrf
                     <input type="text" name="search" class="input" placeholder="Search"
                         value="{{ old('search', $keyword ?? '') }}">
@@ -36,31 +36,32 @@
                     @if ($posts->isEmpty() && $users->isEmpty())
                         <p style="color:white;">Not found.</p>
                     @else
-                        @if(!$users->isEmpty()) <h5>Users</h5> 
+                        @if (!$users->isEmpty())
+                            <h5>Users</h5>
                             <div class="suggest-form-container mb-3">
-                            <div class="search-profile mb-3">
-                                @foreach($users as $user)
-                                    @php
-                                        $postProfile = $user->profile; 
-                                    @endphp
-                                    <div class="request-container mb-2">
-                                        <div class="searchProfile mb-0">
-                                            @if ($postProfile && $postProfile->image && file_exists(public_path('profiles/' . $postProfile->image)))
-                                                <img src="{{ asset('profiles/' . $postProfile->image) }}" alt="Profile Picture"
-                                                    class="profile-pic me-3">
-                                            @else
-                                                <img src="{{ asset('images/user_default.png') }}" alt="Profile Picture" class="profile-pic">
-                                            @endif
-                                            <div class="profile-info mb-0">
-                                                <div class="profile-name">
-                                                    <a href="{{ route('profile.show', $user->id) }}" style="text-decoration: none; color:white;">{{ $user->userName }}</a>
+                                <div class="search-profile mb-3">
+                                    @foreach ($users as $user)
+                                        @php
+                                            $postProfile = $user->profile;
+                                        @endphp
+                                        <div class="request-container mb-2">
+                                            <a href="{{ route('profile.show', $user->id) }}" class="searchProfile mb-0">
+                                                @if ($postProfile && $postProfile->image && file_exists(public_path('profiles/' . $postProfile->image)))
+                                                    <img src="{{ asset('profiles/' . $postProfile->image) }}"
+                                                        alt="Profile Picture" class="profile-pic me-3">
+                                                @else
+                                                    <img src="{{ asset('images/user_default.png') }}" alt="Profile Picture"
+                                                        class="profile-pic">
+                                                @endif
+                                                <div class="profile-info mb-0">
+                                                    <div class="profile-name">{{ $user->userName }}</div>
+                                                    <div id="successMessage{{ $user->id }}" class="add-fri"
+                                                        style="display: none; color: #808080; font-weight: bold;"></div>
                                                 </div>
-                                                <div id="successMessage{{ $user->id }}" class="add-fri" style="display: none; color: #808080; font-weight: bold;"></div>
-                                            </div>
+                                            </a>
                                         </div>
-                                    </div>
-                                @endforeach
-                            </div>
+                                    @endforeach
+                                </div>
                             </div>
                         @endif
                     @endif
@@ -72,7 +73,7 @@
                                 $postProfile = $post->user->profile;
                             @endphp
                             <div class="post-container mb-3 shadow-sm p-4 rounded-4 text-light">
-                                <div class="post-header d-flex">
+                                <a href="{{ route('profile.show', $post->user->id) }}" class="post-header d-flex">
                                     @if ($postProfile && $postProfile->image && file_exists(public_path('profiles/' . $postProfile->image)))
                                         <img src="{{ asset('profiles/' . $postProfile->image) }}" alt="Profile Picture"
                                             class="profile-pic me-3">
@@ -80,11 +81,9 @@
                                         <img src="{{ asset('images/user_default.png') }}" alt="Profile Picture"
                                             class="profile-pic">
                                     @endif
-                                    <div class="profile-name">
-                                        <a href="{{ route('profile.show', $post->user->id) }}" style="text-decoration: none; color:white;">{{ $post->user->userName }}</a>
-                                    </div>
+                                    <div class="profile-name">{{ $post->user->userName }}</div>
                                     <div class="post-subtitle mb-2 small">{{ timeDiffInHours($post->created_at) }}</div>
-                                </div>
+                                </a>
 
                                 <div class="post-content mt-1">
                                     <p class="content ml-10px">{{ $post->content }}</p>
@@ -94,13 +93,13 @@
                                     @endif
                                     <div class="post-footer d-flex mt-1">
                                         {{-- <form class="me-0" style="display:inline;"> --}}
-                                            <button class="btn">
-                                                <svg xmlns="http://www.w3.org/2000/svg" height="20px"
-                                                    viewBox="0 -960 960 960" width="20px" fill="#fff">
-                                                    <path
-                                                        d="m480-120-58-52q-101-91-167-157T150-447.5Q111-500 95.5-544T80-634q0-94 63-157t157-63q52 0 99 22t81 62q34-40 81-62t99-22q94 0 157 63t63 157q0 46-15.5 90T810-447.5Q771-395 705-329T538-172l-58 52Zm0-108q96-86 158-147.5t98-107q36-45.5 50-81t14-70.5q0-60-40-100t-100-40q-47 0-87 26.5T518-680h-76q-15-41-55-67.5T300-774q-60 0-100 40t-40 100q0 35 14 70.5t50 81q36 45.5 98 107T480-228Zm0-273Z" />
-                                                </svg>
-                                            </button>
+                                        <button class="btn">
+                                            <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960"
+                                                width="20px" fill="#fff">
+                                                <path
+                                                    d="m480-120-58-52q-101-91-167-157T150-447.5Q111-500 95.5-544T80-634q0-94 63-157t157-63q52 0 99 22t81 62q34-40 81-62t99-22q94 0 157 63t63 157q0 46-15.5 90T810-447.5Q771-395 705-329T538-172l-58 52Zm0-108q96-86 158-147.5t98-107q36-45.5 50-81t14-70.5q0-60-40-100t-100-40q-47 0-87 26.5T518-680h-76q-15-41-55-67.5T300-774q-60 0-100 40t-40 100q0 35 14 70.5t50 81q36 45.5 98 107T480-228Zm0-273Z" />
+                                            </svg>
+                                        </button>
                                         {{-- </form> --}}
                                         <button class="btn">
                                             <a href="{{ route('posts.detail', $post->id) }}" class="card-link">
@@ -126,7 +125,7 @@
                         $postProfile = $post->user->profile;
                     @endphp
                     <div class="post-container mb-3 shadow-sm p-4 rounded-4 text-light">
-                        <div class="post-header d-flex">
+                        <a href="{{ route('profile.show', $post->user->id) }}" class="post-header d-flex">
                             @if ($postProfile && $postProfile->image && file_exists(public_path('profiles/' . $postProfile->image)))
                                 <img src="{{ asset('profiles/' . $postProfile->image) }}" alt="Profile Picture"
                                     class="profile-pic me-3">
@@ -134,9 +133,7 @@
                                 <img src="{{ asset('images/user_default.png') }}" alt="Profile Picture"
                                     class="profile-pic">
                             @endif
-                            <div class="profile-name">
-                                <a href="{{ route('profile.show', $post->user->id) }}" style="text-decoration: none; color:white;">{{ $post->user->userName }}</a>
-                            </div>
+                            <div class="profile-name">{{ $post->user->userName }}</div>
                             <div class="post-subtitle mb-2 small">{{ timeDiffInHours($post->created_at) }}</div>
 
                             {{-- dropdown section --}}
@@ -177,7 +174,7 @@
                                     </div>
                                 </li>
                             @endif
-                        </div>
+                        </a>
 
                         <div class="post-content mt-1">
                             <p class="content ml-10px">{{ $post->content }}</p>
