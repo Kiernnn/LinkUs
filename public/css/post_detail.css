@@ -123,8 +123,8 @@
     margin-bottom: -20px;
     width: 510px;
     height: 60px;
-    background-color: #333;
-    border: 1px;
+    background-color: #292929;
+    border: 1px solid #3e3e3e;
     border-radius: 12px;
 }
 
@@ -275,48 +275,111 @@
 
 /* Responsive Styles */
 
-/* For devices with a width of 600px or less */
-@media (max-width: 600px) {
+/* For devices with a width between 769px and 1024px */
+@media (max-width: 1024px) {
     .post-container {
-        width: 100%;
+        width: 80%;
+        padding: 20px;
+    }
+
+    .post-header .profile-pic {
+        width: 35px;
+        height: 35px;
+    }
+
+    .post-content {
+        margin-left: 30px;
+    }
+
+    .post-image {
+        max-width: 350px;
+        max-height: 250px;
+    }
+
+    .comment-header .profile-pic {
+        width: 28px;
+        height: 28px;
+    }
+
+    .comment-content {
+        width: 90%;
+    }
+
+    .comment-content .profile-name,
+    .comment-content .content {
+        font-size: 13px;
+    }
+}
+
+/* For devices with a width between 481px and 768px */
+@media (max-width: 768px) {
+    .post-container {
+        width: 90%;
         padding: 15px;
     }
 
     .post-header .profile-pic {
+        width: 35px;
+        height: 35px;
+    }
+
+    .post-content {
+        margin-left: 35px;
+    }
+
+    .footer-info {
+        margin-left: 25px;
+        margin-top: -10px;
+    }
+
+    .post-image {
+        max-width: 320px;
+        max-height: 220px;
+    }
+
+    .comment-header .profile-pic {
         width: 30px;
         height: 30px;
     }
 
-    .post-content {
-        margin-left: 20px;
-    }
-
-    .post-image {
-        max-width: 100%;
-        max-height: 200px;
-    }
-
-    .comment-header .profile-pic {
-        width: 25px;
-        height: 25px;
+    .comment-content {
+        width: 85%;
     }
 
     .comment-content .profile-name,
     .comment-content .content {
         font-size: 12px;
     }
+
+    .comment-sub {
+        margin-left: 49px;
+    }
 }
 
-/* For devices with a width between 601px and 1024px */
-@media (min-width: 601px) and (max-width: 1024px) {
+/* For devices with a width of 480px or less */
+@media (max-width: 480px) {
     .post-container {
-        width: 80%;
-        padding: 20px;
+        width: 100%;
+        padding: 10px;
+    }
+
+    .post-header .profile-pic {
+        width: 35px;
+        height: 35px;
+    }
+
+    .post-content {
+        margin-left: 35px;
+    }
+
+    .footer-info {
+        margin-left: 23px;
+        margin-top: -10px;
     }
 
     .post-image {
-        max-width: 400px;
-        max-height: 250px;
+        max-width: 100%;
+        max-height: 180px;
     }
 
     .comment-header .profile-pic {
@@ -324,19 +387,20 @@
         height: 30px;
     }
 
+    .comment-content {
+        width: calc(100% - 40px); /* Ensure it fits inside the container */
+        margin-left: 40px; /* Add left margin to center */
+        padding: 8px;
+    }
+
     .comment-content .profile-name,
     .comment-content .content {
-        font-size: 14px;
+        font-size: 12px;
+    }
+
+    .comment-sub {
+        margin-left: 49px; /* Adjust margin for better alignment */
     }
 }
 
-/* For devices with a width of 1025px or more */
-@media (min-width: 1025px) {
-    .post-container {
-        width: 600px;
-    }
 
-    .post-image {
-        max-width: 300px;
-    }
-}

@@ -8,7 +8,7 @@
 @section('content')
     <div class="profile-content p-4">
         <div class="profile-box">
-            <h5 class="profile mb-2">{{ __('Profile') }}</h5>
+            <a href="{{ route('profile.index') }}" class="profile mb-2">{{ __('Profile') }}</a>
 
             <!-- Profile container Start -->
             <div class="post-form-container card p-4 shadow">
@@ -97,7 +97,8 @@
                             <p class="sub-text text-secondary">
                                 {{ $viewingUser->totalFriends() }}{{ __(' friends') }}</p>
                             <div class="buttons" style="display:flex;">
-                                <a href="{{ route('friends.showUser', $viewingUser->id) }}" class="friend-btn btn">{{ __('See all') }}</a>
+                                <a href="{{ route('friends.showUser', $viewingUser->id) }}"
+                                    class="friend-btn btn">{{ __('See all') }}</a>
                             </div>
                         </a>
                     </div>
@@ -138,7 +139,8 @@
                         <div class="post-header d-flex">
                             <img src="{{ asset($post->user->profile && $post->user->profile->image ? 'profiles/' . $post->user->profile->image : 'images/user_default.png') }}"
                                 alt="Profile Picture" class="post-profile rounded-circle">
-                            <div class="post-pf-name ms-0"><a href="{{ route('profile.show', $post->user->id) }}" style="text-decoration: none; color:white;">{{ $post->user->userName }}</a></div>
+                            <div class="post-pf-name ms-0"><a href="{{ route('profile.show', $post->user->id) }}"
+                                    style="text-decoration: none; color:white;">{{ $post->user->userName }}</a></div>
                             <div class="post-subtitle mb-2 small text-secondary">
                                 {{ timeDiffInHours($post->created_at) }}
                             </div>
