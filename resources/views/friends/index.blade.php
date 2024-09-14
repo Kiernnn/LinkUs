@@ -11,11 +11,10 @@
         <div class="friends-box">
             <div class="fri-form-container mb-3">
                 <div class="friends-info mb-2">
-                    {{-- <div class="friend-requests mb-2">{{ 'Your friends' }}</div> --}}
                     @php
                         $friendUser = $friends->isNotEmpty() ? ($friends[0]->user_id == $viewingUser->id ? $friends[0]->friend : $friends[0]->user) : null;
                     @endphp
-                    <div class="friend-requests mb-2">{{ $viewingUser->id == auth()->id() ? 'Your friends' : $friendUser->userName . " 's friends" }}</div>
+                    <div class="friend-requests mb-2">{{ $viewingUser->id == auth()->id() ? 'Your friends' : $viewingUser->userName . " 's friends" }}</div>
                 </div>
                 @forelse ($friends as $friend)
                     @php
