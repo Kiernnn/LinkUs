@@ -20,7 +20,9 @@
                                 <img src="{{ asset($user->profile && $user->profile->image ? 'profiles/' . $user->profile->image : 'images/user_default.png') }}"
                                     alt="Profile Picture" class="profile-pic">
                                 <div class="profile-info mb-0">
-                                    <div class="profile-name">{{ $user->userName }}</div>
+                                    <div class="profile-name">
+                                        <a href="{{ route('profile.show', $user->id) }}" style="text-decoration: none; color:white;">{{ $user->userName }}</a>
+                                    </div>
                                     <div id="successMessage{{ $user->id }}" class="add-fri"
                                         style="display: none; color: #808080; font-weight: bold;"></div>
                                 </div>

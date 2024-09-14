@@ -32,7 +32,9 @@
                                 <img src="{{ asset($sender->profile && $sender->profile->image ? 'profiles/' . $sender->profile->image : 'images/user_default.png') }}"
                                     alt="Profile Picture" class="profile-pic">
                                 <div class="name-and-subtitle mb-0">
-                                    <div class="profile-name">{{ $sender->userName }}</div>
+                                    <div class="profile-name">
+                                        <a href="{{ route('profile.show', $sender->id) }}" style="text-decoration: none; color:white;">{{ $sender->userName }}</a>
+                                    </div>
                                     <div class="post-subtitle mb-2 small">{{ timeDiffInHours($data->created_at) }}</div>
                                 </div>
                             </div>
@@ -71,7 +73,9 @@
                                 <img src="{{ asset($user->profile && $user->profile->image ? 'profiles/' . $user->profile->image : 'images/user_default.png') }}"
                                     alt="Profile Picture" class="profile-pic">
                                 <div class="profile-info mb-0">
-                                    <div class="profile-name">{{ $user->userName }}</div>
+                                    <div class="profile-name">
+                                        <a href="{{ route('profile.show', $user->id) }}" style="text-decoration: none; color:white;">{{ $user->userName }}</a>
+                                    </div>
                                     <div id="successMessage{{ $user->id }}" class="add-fri"
                                         style="display: none; color: #808080; font-weight: bold;"></div>
                                 </div>

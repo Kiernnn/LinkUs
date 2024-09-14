@@ -57,6 +57,7 @@
                                 <img src="{{ asset('images/user_default.png') }}" alt="Profile Picture" class="profile-pic mr-2">
                             @endif
                             <div class="comment-content">
+                                {{-- <a href="{{ route('profile.show', $comment->user->id) }}" style="text-decoration: none; color:white;">{{ $comment->user->userName }}</a> --}}
                                 <div class="profile-name mb-1">{{ $comment->user->userName }}</div>
                                 <p class="content mb-1">{{ $comment->content }}</p>
                             </div>

@@ -27,7 +27,9 @@
                                 <img src="{{ asset($friendUser->profile && $friendUser->profile->image ? 'profiles/' . $friendUser->profile->image : 'images/user_default.png') }}"
                                     alt="Profile Picture" class="profile-pic">
                                 <div class="profile-info mb-0">
-                                    <div class="profile-name">{{ $friendUser->userName }}</div>
+                                    <div class="profile-name">
+                                        <a href="{{ route('profile.show', $friendUser->id) }}" style="text-decoration: none; color:white;">{{ $friendUser->userName }}</a>
+                                    </div>
                                 </div>
                             </div>
                             <div class="buttons">
