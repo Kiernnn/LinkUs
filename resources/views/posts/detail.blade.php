@@ -42,7 +42,7 @@
                         </svg>
                     </button>
                 </div>
-                <hr style="color:white;">
+                <hr style="color:white; margin-top: 0px;">
 
                 <!-- Existing comments -->
                 <div class="comment-sec">
