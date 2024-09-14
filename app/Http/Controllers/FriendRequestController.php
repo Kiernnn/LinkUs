@@ -139,6 +139,8 @@ class FriendRequestController extends Controller
                                    ->pluck('friend_id')
                                    ->toArray();
 
+        $friendsOfFriends = array_merge($friendsOfFriends, Friend::whereIn('friend_id', $friends)->pluck('user_id')->toArray());
+
         $excludedIds = array_merge($sentRequests, $receivedRequests, $friends, [auth()->user()->id]);
 
         if ($request->has('all')) {
@@ -148,6 +150,6 @@ class FriendRequestController extends Controller
                                ->inRandomOrder()
                                ->get();
         }
-        return view('friends.suggestions', compact('suggestions'));
+        return view('friend-requests.suggestions', compact('suggestions'));
     }
 }

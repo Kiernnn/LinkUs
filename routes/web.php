@@ -55,13 +55,13 @@ Route::group(['middleware' => ['auth']], function () {
          Route::get('friends/user/{userId}', 'showFriends')->name('friends.showUser');
          Route::delete('unfriend/{friendId}', 'unfriend')->name('friends.unfriend');
          Route::get('list', 'list')->name('friends.list');
-         Route::get('suggestions', 'suggestions')->name('friends.suggestions');
-         Route::delete('/remove-suggestion/{id}', 'removeSuggestion')->name('friends.removeSuggestion');
+         // Route::get('suggestions', 'suggestions')->name('friends.suggestions');
+         // Route::delete('/remove-suggestion/{id}', 'removeSuggestion')->name('friends.removeSuggestion');x
          Route::get('search', 'search')->name('friends.search');
       });   
-      Route::controller(FriendRequestController::class)->group(function () {
-         Route::get('suggestions', 'suggestions')->name('friends.suggestions');
-      });
+      // Route::controller(FriendRequestController::class)->group(function () {
+      //    Route::get('suggestions', 'suggestions')->name('friends.suggestions');
+      // });
    });
 
    // Friend Requests
@@ -73,6 +73,8 @@ Route::group(['middleware' => ['auth']], function () {
           Route::post('/accept', 'acceptRequest')->name('friendRequests.accept');   
           Route::delete('/decline/{id}', 'declineRequest')->name('friendRequests.decline');
           Route::delete('/cancel/{id}', 'cancelRequest')->name('friendRequests.cancel');
+          Route::get('suggestions', 'suggestions')->name('friendRequests.suggestions');
+
       });
    });
 
