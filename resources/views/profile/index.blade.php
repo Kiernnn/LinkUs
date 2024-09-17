@@ -3,6 +3,7 @@
 
 @section('style')
     <link href="{{ asset('css/profile.css') }}" rel="stylesheet">
+    {{-- <link href="{{ asset('css/friends_index.css') }}" rel="stylesheet"> --}}
 @endsection
 
 @section('content')
@@ -42,16 +43,51 @@
                     <p class="bio-text">
                         @if ($viewingUser->profile)
                             {{ $viewingUser->profile->about }}
-                        @else
-                            {{ __('No bio yet') }}
                         @endif
                     </p>
                 </div>
 
-                <div class="profile-footer">
+                <div class="profile-footer" >
                     @if (auth()->check() && auth()->user()->id === $viewingUser->id)
                         <a href="{{ route('profile.edit') }}" class="post-btn btn">{{ __('Edit Profile') }}</a>
                     @endif
+
+                    <div class="buttons">
+                        @if (auth()->check() && auth()->user()->id !== $viewingUser->id)
+                            @if (auth()->user()->isFriendWith($viewingUser)) 
+                                <form action="{{ route('friends.unfriend', $viewingUser->id) }}" method="POST" style="display: inline;">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button class="unfriend btn" type="submit">{{ __('Unfriend') }}</button>
+                                </form>
+                            @elseif (auth()->user()->sentFriendRequests()->where('receiver_id', $viewingUser->id)->exists())
+                                <form action="{{ route('friendRequests.cancel', $viewingUser->id) }}" method="POST" style="display: inline;">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button class="decline btn" type="submit">{{ __('Cancel') }}</button>
+                                </form>
+                            @elseif ($friendRequests->where('sender_id', $viewingUser->id)->isNotEmpty() && auth()->user()->id !== $viewingUser->id)
+                                @foreach ($friendRequests as $request) <!-- Iterate over friend requests -->
+                                    <form action="{{ route('friendRequests.accept') }}" method="POST" style="display: inline;">
+                                        @csrf
+                                        <input type="hidden" name="reqId" value="{{ $request->id }}"> <!-- Now this is defined -->
+                                        <button class="accept btn" type="submit">{{ __('Accept') }}</button>
+                                    </form>
+                                    <form action="{{ route('friendRequests.decline', $request->id) }}" method="POST" style="display: inline;">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button class="decline btn" type="submit">{{ __('Decline') }}</button>
+                                    </form>
+                                @endforeach
+                            @else
+                                <form action="{{ route('friendRequests.send') }}" method="POST" style="display: inline;">
+                                    @csrf
+                                    <input type="hidden" name="receiverId" value="{{ $viewingUser->id }}">
+                                    <button class="accept btn" type="submit">{{ __('Add Friend') }}</button>
+                                </form>
+                            @endif
+                        @endif
+                    </div>
                 </div>
             </div>
             <!-- Profile container End -->
@@ -79,7 +115,6 @@
                             </a>
                         </div>
                     </div>
-                @endif
                 <!-- Create container End -->
 
                 <!-- Friends container Start -->
@@ -133,8 +168,6 @@
                     </div>
                 </div>
                 <!-- Friends container End -->
-
-                @if (auth()->check() && auth()->user()->id === $viewingUser->id)
                     <div class="create-wrapper mt-2">
                         <div class="create-form-container card p-4 shadow mt-2">
                             <a href="{{ route('posts.create') }}" class="create">
@@ -156,6 +189,7 @@
                         </div>
                     </div>
                 @endif
+
                 <!-- Friends container End -->
             </div>
 
@@ -168,8 +202,11 @@
                         <div class="post-header d-flex">
                             <img src="{{ asset($post->user->profile && $post->user->profile->image ? 'profiles/' . $post->user->profile->image : 'images/user_default.png') }}"
                                 alt="Profile Picture" class="post-profile rounded-circle">
-                            <div class="post-pf-name ms-0"><a href="{{ route('profile.show', $post->user->id) }}"
-                                    style="text-decoration: none; color:white;">{{ $post->user->userName }}</a></div>
+                            <div class="post-pf-name ms-0">
+                                <a href="{{ route('profile.show', $post->user->id) }}"
+                                    style="text-decoration: none; color:white;">{{ $post->user->userName }}
+                                </a>
+                            </div>
                             <div class="post-subtitle mb-2 small text-secondary">
                                 {{ timeDiffInHours($post->created_at) }}
                             </div>

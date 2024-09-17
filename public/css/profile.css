@@ -74,6 +74,50 @@
     font-size: 14px;
 }
 
+.accept, .decline {
+    /* display: flex; */
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+    width: 100px;
+    height: 40px;
+    padding: 0 16px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 16px;
+    margin: 0;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.accept {
+    color: #000;
+    background-color: #fff;
+    border: 1px solid #3e3e3e;
+}
+
+.accept:hover {
+    color: #000;
+    background-color: #cccccc;
+    border: 1px solid #3e3e3e;
+}
+
+.decline, .unfriend {
+    color: #fff;
+    background-color: #292929;
+    border: 1px solid #3e3e3e;
+}
+
+.decline:hover {
+    color: #fff;
+    border: 1px solid #3e3e3e;
+}
+
+.unfriend:hover {
+    color: #fff;
+    border: 1px solid #3e3e3e;
+}
+
 .sub-container {
     display: flex;
     flex-direction: row;

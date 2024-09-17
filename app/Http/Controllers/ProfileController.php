@@ -6,6 +6,7 @@ use App\Models\Profile;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Post;
+use App\Models\FriendRequest;
 use App\helpers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -18,15 +19,22 @@ class ProfileController extends Controller
     public function index(Request $request)
     {
         $viewingUser = auth()->user();
+        $friendRequests = FriendRequest::where('receiver_id', $viewingUser->id)
+        ->where('status', 'pending')
+        ->get(); // Fetch friend requests for the authenticated user
         $posts = $viewingUser->posts()->orderBy('created_at', 'desc')->get();
-        return view('profile.index', compact( 'viewingUser', 'posts'));
+        // return view('profile.index', compact( 'viewingUser', 'posts'));
+        return view('profile.index', compact('viewingUser', 'friendRequests', 'posts'));
     }
 
     public function show($id) {
         $viewingUser = User::with('profile')->findOrFail($id);
+        $friendRequests = FriendRequest::where('receiver_id', $viewingUser->id)
+        ->where('status', 'pending')
+        ->get();
         $posts = $viewingUser->posts()->orderBy('created_at', 'desc')->get();
 
-        return view('profile.index', compact('viewingUser', 'posts'));
+        return view('profile.index', compact('viewingUser', 'friendRequests', 'posts'));
     } 
 
     public function edit()
@@ -42,18 +50,20 @@ class ProfileController extends Controller
             'about' => 'nullable|string|max:255',
         ]);
 
-        $user = auth()->user(); 
-        $user->userName = $request->userName;
-        $user->save(); 
-
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator->errors());
         }
 
-        $profile = auth()->user()->profile;
-        if (!$profile) {
-            $profile = new Profile();
-        }
+        $user = auth()->user(); 
+        $user->userName = $request->userName;
+        $user->save(); 
+
+        // $profile = auth()->user()->profile;
+        // if (!$profile) {
+        //     $profile = new Profile();
+        // }
+
+        $profile = $user->profile ?? new Profile(['user_id' => $user->id]);
 
         try {
             $profile->update([

@@ -51,6 +51,10 @@ class FriendRequestController extends Controller
 
     public function sendRequest(Request $request)
     {
+        $request->validate([
+            'receiverId' => 'required|exists:users,id', 
+        ]);
+
         try {
             $existingRequest = FriendRequest::where('sender_id', auth()->user()->id)
                 ->where('receiver_id', $request->receiverId)
@@ -81,6 +85,15 @@ class FriendRequestController extends Controller
                 ->firstOrFail();
 
             $friendRequest->delete();
+
+            $receivedRequest = FriendRequest::where('sender_id', $id)
+                ->where('receiver_id', auth()->user()->id)
+                ->where('status', 'pending')
+                ->first();
+
+            if ($receivedRequest) {
+                $receivedRequest->delete();
+            }
 
             return response()->json(['message' => 'Friend Request Cancelled'], 200);
         } catch (Exception $e) {

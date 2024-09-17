@@ -28,6 +28,7 @@ Route::group(['middleware' => ['auth']], function () {
          Route::delete('{post}','destroy')->name('posts.destroy');
          Route::get('{post}','detail')->name('posts.detail');
          Route::post('search', 'search')->name('posts.search');
+         Route::post('/{post}/toggle-love', 'toggleLove')->name('posts.toggleLove');
       });
 
       //Comments
@@ -83,8 +84,19 @@ Route::group(['middleware' => ['auth']], function () {
       Route::controller(ProfileController::class)->group(function() {
          Route::get('/', 'index')->name('profile.index');
          Route::get('/{id}', 'show')->name('profile.show'); 
-         Route::get('edit', 'edit')->name('profile.edit');
-         Route::put('update', 'update')->name('profile.update');
+         Route::get('/edit', 'edit')->name('profile.edit');
+         Route::put('/update', 'update')->name('profile.update');
+      });
+
+      Route::controller(FriendsController::class)->group(function() {
+         Route::delete('unfriend/{friendId}', 'unfriend')->name('friends.unfriend');
+      });
+
+      Route::controller(FriendRequestController::class)->group(function() {
+         Route::post('/send', 'sendRequest')->name('friendRequests.send');
+         Route::delete('/cancel{id}', 'cancelRequest')->name('friendRequests.cancel');
+         Route::post('/accept', 'acceptRequest')->name('friendRequests.accept');   
+          Route::delete('/decline/{id}', 'declineRequest')->name('friendRequests.decline');
       });
    });
 });

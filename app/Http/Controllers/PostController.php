@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
-use App\Models\user;
+use App\Models\User;
+use App\Models\Love;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -151,5 +152,18 @@ class PostController extends Controller
                         ->get();
 
         return view('posts.index', compact('posts', 'users', 'keyword'));
+    }
+
+    public function toggleLove(Request $request, Post $post)
+    {
+        $love = $post->loves()->where('user_id', auth()->id())->first();
+
+        if ($love) {
+            $love->delete(); // Unlove
+        } else {
+            $post->loves()->create(['user_id' => auth()->id()]); // Love
+        }
+
+        return back();
     }
 }

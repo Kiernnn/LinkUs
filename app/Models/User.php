@@ -77,10 +77,20 @@ class User extends Authenticatable
                     });
     }
 
+    public function isFriendWith(User $user)
+    {
+        return $this->friends()->where('friends.friend_id', $user->id)->exists();
+    }
+
     public function totalFriends() {
         return Friend::where('user_id', $this->id)
          ->orWhere('friend_id', $this->id)
          ->count();
+    }
+
+    public function sentFriendRequests()
+    {
+        return $this->hasMany(FriendRequest::class, 'sender_id');
     }
 
     public function friendRequests()
