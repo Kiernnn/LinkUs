@@ -106,10 +106,11 @@
 
 .comment-header .profile-pic {
     border-radius: 50%;
-    width: 30px;
-    height: 30px;
+    width: 33px;
+    height: 33px;
     margin-right: -40px;
     margin-top: 15px;
+    margin-bottom: -5px;
 }
 
 .comment-content {
