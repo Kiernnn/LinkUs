@@ -287,14 +287,12 @@
                         <a href="{{ route('posts.index') }}" data-tooltip="Home"
                             class="d-flex align-items-center nav-link{{ Request::routeIs('posts.index') ? ' active' : '' }}">
                             @if (Request::routeIs('posts.index'))
-                                <!-- Filled house icon -->
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                     fill="currentColor" class="bi bi-house-door-fill" viewBox="0 0 16 16">
                                     <path
                                         d="M6.5 14.5v-3.505c0-.245.25-.495.5-.495h2c.25 0 .5.25.5.5v3.5a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5" />
                                 </svg>
                             @else
-                                <!-- Regular house icon -->
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                     fill="currentColor" class="bi bi-house-door" viewBox="0 0 16 16">
                                     <path
@@ -305,13 +303,11 @@
                     </li>
                     <!-- Home Page End -->
 
-
                     <!-- Friends Page Start -->
                     <li class="content">
                         <a href="{{ route('friendRequests.index') }}" data-tooltip="Friends"
                             class="d-flex align-items-center nav-link{{ Request::routeIs('friendRequests.index') ? ' active' : '' }}">
                             @if (Request::routeIs('friendRequests.index'))
-                                <!-- Filled person add icon -->
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                     fill="currentColor" class="bi bi-person-fill-add" viewBox="0 0 16 16">
                                     <path
@@ -320,7 +316,6 @@
                                         d="M2 13c0 1 1 1 1 1h5.256A4.5 4.5 0 0 1 8 12.5a4.5 4.5 0 0 1 1.544-3.393Q8.844 9.002 8 9c-5 0-6 3-6 4" />
                                 </svg>
                             @else
-                                <!-- Regular person add icon -->
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                     fill="currentColor" class="bi bi-person-add" viewBox="0 0 16 16">
                                     <path
@@ -333,20 +328,17 @@
                     </li>
                     <!-- Friends Page End -->
 
-
                     <!-- Post Create Page Start -->
                     <li class="content">
-                        <a href="{{ route('posts.create') }}" data-tooltip="Add"
+                        <a href="{{ route('posts.create') }}" data-tooltip="Create"
                             class="d-flex align-items-center nav-link{{ Request::routeIs('posts.create') ? ' active' : '' }}">
                             @if (Request::routeIs('posts.create'))
-                                <!-- Filled plus square icon -->
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                     fill="currentColor" class="bi bi-plus-square-fill" viewBox="0 0 16 16">
                                     <path
                                         d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm6.5 4.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3a.5.5 0 0 1 1 0" />
                                 </svg>
                             @else
-                                <!-- Regular plus square icon -->
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                     fill="currentColor" class="bi bi-plus-square" viewBox="0 0 16 16">
                                     <path
@@ -364,13 +356,11 @@
                         <a href="{{ route('profile.index') }}" data-tooltip="Profile"
                             class="d-flex align-items-center nav-link{{ Request::routeIs('profile.index') ? ' active' : '' }}">
                             @if (Request::routeIs('profile.index'))
-                                <!-- Filled person icon -->
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                     fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
                                     <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6" />
                                 </svg>
                             @else
-                                <!-- Regular person icon -->
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                     fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
                                     <path
@@ -380,7 +370,6 @@
                         </a>
                     </li>
                     <!-- Profile Page End -->
-
 
                     <!-- Logout Section Start -->
                     <li class="logout">
