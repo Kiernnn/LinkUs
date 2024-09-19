@@ -22,7 +22,13 @@ class FriendRequestController extends Controller
 
         $sentRequests = FriendRequest::where('sender_id', auth()->user()->id)->pluck('receiver_id')->toArray();
         $receivedRequests = FriendRequest::where('receiver_id', auth()->user()->id)->pluck('sender_id')->toArray();
-        $friends = Friend::where('user_id', auth()->user()->id)->orWhere('friend_id', auth()->user()->id)->pluck('friend_id')->toArray();
+
+        $friends = Friend::where('user_id', auth()->user()->id)
+            ->orWhere('friend_id', auth()->user()->id)
+            ->pluck('friend_id')
+            ->toArray();
+
+        // if(!empty($friends))
 
         $excludedIds = array_merge($sentRequests, $receivedRequests, $friends, [auth()->user()->id]);
 
@@ -31,10 +37,17 @@ class FriendRequestController extends Controller
            ->pluck('friend_id')
            ->toArray();
 
-        $suggestions = User::whereIn('id', array_diff($friendsOfFriends, $excludedIds))
-            ->inRandomOrder()
-            ->limit(5)
-            ->get();
+        if(empty($friendsOfFriends)) {
+            $suggestions = User::whereNotIn('id', $excludedIds)
+                ->inRandomOrder()
+                ->limit(5)
+                ->get();
+        } else {
+            $suggestions = User::whereIn('id', array_diff($friendsOfFriends, $excludedIds))
+                ->inRandomOrder()
+                ->limit(5)
+                ->get();
+        }
 
         return view('friend-requests.index', compact('friendRequests', 'suggestions', 'sentRequests', 'receivedRequests', 'friends'));
     }
@@ -147,22 +160,34 @@ class FriendRequestController extends Controller
         $receivedRequests = FriendRequest::where('receiver_id', auth()->user()->id)->pluck('sender_id')->toArray();
         $friends = Friend::where('user_id', auth()->user()->id)->orWhere('friend_id', auth()->user()->id)->pluck('friend_id')->toArray();
 
-        $friendsOfFriends = Friend::whereIn('user_id', $friends)
-                                   ->orWhereIn('friend_id', $friends)
-                                   ->pluck('friend_id')
-                                   ->toArray();
+        if(!empty($friends)) {
+            $friendsOfFriends = Friend::whereIn('user_id', $friends)
+                                       ->orWhereIn('friend_id', $friends)
+                                       ->pluck('friend_id')
+                                       ->toArray();
 
-        $friendsOfFriends = array_merge($friendsOfFriends, Friend::whereIn('friend_id', $friends)->pluck('user_id')->toArray());
-
+            $friendsOfFriends = array_merge($friendsOfFriends, Friend::whereIn('friend_id', $friends)->pluck('user_id')->toArray());
+        } else {
+            $friendsOfFriends = [];
+        }
+        
         $excludedIds = array_merge($sentRequests, $receivedRequests, $friends, [auth()->user()->id]);
 
-        if ($request->has('all')) {
-            $suggestions = User::whereIn('id', array_diff($friendsOfFriends, $excludedIds))->get();
+        if(empty($friendsOfFriends)) {
+            $suggestions = User::whereNotIn('id', $excludedIds)
+               ->inRandomOrder()
+               ->limit(10)
+               ->get();
         } else {
-            $suggestions = User::whereIn('id', array_diff($friendsOfFriends, $excludedIds))
-                               ->inRandomOrder()
-                               ->get();
+            if ($request->has('all')) {
+                $suggestions = User::whereIn('id', array_diff($friendsOfFriends, $excludedIds))->get();
+            } else {
+                $suggestions = User::whereIn('id', array_diff($friendsOfFriends, $excludedIds))
+                                   ->inRandomOrder()
+                                   ->get();
+            }
         }
+        
         return view('friend-requests.suggestions', compact('suggestions'));
     }
 }

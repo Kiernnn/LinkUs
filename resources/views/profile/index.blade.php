@@ -154,6 +154,9 @@
                                 <p class="friend-text mt-2">{{ __('Friends') }}</p>
                                 <p class="sub-text text-secondary">{{ $viewingUser->totalFriends() }}{{ __('friends') }}</p>
 
+                                <div class="buttons" style="display:flex;">
+                                    <a href="{{ route('friendRequests.suggestions') }}" class="friend-btn btn">{{ __('Find Friends')}}</a>
+                                </div>
                             </div>
                         @endif
                     </div>
