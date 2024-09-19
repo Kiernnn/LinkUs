@@ -29,6 +29,10 @@ class FriendRequestSeeder extends Seeder
                           ->where('friend_id', $senderId);
                 })->exists();
 
+                if ($friendsWith) {
+                    continue; 
+                }
+
                 $exists = FriendRequest::where('sender_id', $senderId)
                                         ->where('receiver_id', $receiverId)
                                         ->exists();

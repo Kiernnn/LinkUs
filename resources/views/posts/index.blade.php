@@ -93,16 +93,25 @@
                                             alt="Post image">
                                     @endif
                                     <div class="post-footer d-flex mt-1">
-                                        <form action="{{ route('posts.toggleLove', $post->id) }}" method="POST" class="me-0" style="display:inline;">
-                                            @csrf
-                                            <button class="btn {{ $hasLoved ? 'text-danger' : ''}}" type="submit">
-                                                <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960"
-                                                    width="20px" fill="#fff">
-                                                    <path
-                                                        d="m480-120-58-52q-101-91-167-157T150-447.5Q111-500 95.5-544T80-634q0-94 63-157t157-63q52 0 99 22t81 62q34-40 81-62t99-22q94 0 157 63t63 157q0 46-15.5 90T810-447.5Q771-395 705-329T538-172l-58 52Zm0-108q96-86 158-147.5t98-107q36-45.5 50-81t14-70.5q0-60-40-100t-100-40q-47 0-87 26.5T518-680h-76q-15-41-55-67.5T300-774q-60 0-100 40t-40 100q0 35 14 70.5t50 81q36 45.5 98 107T480-228Zm0-273Z" />
-                                                </svg>
-                                            </button>
-                                        </form>
+                                        @if ($hasLoved)
+                                            <form action="{{ route('posts.toggleLove', $post->id) }}" method="POST" class="me-0" style="display:inline;">
+                                                @csrf
+                                                <button class="btn text-danger">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
+                                                        <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314"/>
+                                                    </svg>    
+                                                </button>
+                                            </form>
+                                        @else
+                                            <form action="{{ route('posts.toggleLove', $post->id) }}" method="POST" class="me-0" style="display:inline;">
+                                                @csrf
+                                                <button class="btn">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
+                                                        <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15"/>
+                                                    </svg>   
+                                                </button>
+                                            </form>
+                                        @endif
                                         <button class="btn">
                                             <a href="{{ route('posts.detail', $post->id) }}" class="card-link">
                                                 <svg xmlns="http://www.w3.org/2000/svg" height="20px"
@@ -186,36 +195,15 @@
                                 <img src="{{ asset('posts/' . $post->image) }}" class="post-image" alt="Post image">
                             @endif
                             <div class="post-footer d-flex mt-1">
-                                {{-- <form action="{{ route('posts.toggleLove', $post->id) }}" method="POST" class="me-0" style="display:inline;">
+                                <form action="{{ route('posts.toggleLove', $post->id) }}" method="POST" class="me-0" style="display:inline;">
                                     @csrf
-                                    <button class="btn {{ $hasLoved ? 'text-danger' : ''}}">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
-                                            <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314"/>
-                                        </svg>    
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
-                                            <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15"/>
-                                          </svg>   
+                                    <button class="btn {{ $hasLoved ? 'text-danger' : '' }}">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" class="bi {{ $hasLoved ? 'bi-heart-fill' : 'bi-heart' }}" viewBox="0 0 16 16">
+                                            <path fill-rule="evenodd" d="{{ $hasLoved ? 'M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314' : 'm8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15' }}">
+                                            </path>
+                                        </svg>
                                     </button>
-                                </form> --}}
-                                @if ($hasLoved)
-                                    <form action="{{ route('posts.toggleLove', $post->id) }}" method="POST" class="me-0" style="display:inline;">
-                                        @csrf
-                                        <button class="btn text-danger">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
-                                                <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314"/>
-                                            </svg>    
-                                        </button>
-                                    </form>
-                                @else
-                                    <form action="{{ route('posts.toggleLove', $post->id) }}" method="POST" class="me-0" style="display:inline;">
-                                        @csrf
-                                        <button class="btn">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
-                                                <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15"/>
-                                            </svg>   
-                                        </button>
-                                    </form>
-                                @endif
+                                </form>
                                 <button class="btn">
                                     <a href="{{ route('posts.detail', $post->id) }}" class="card-link">
                                         <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960"
