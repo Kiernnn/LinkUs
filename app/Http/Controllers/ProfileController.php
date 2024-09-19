@@ -39,7 +39,13 @@ class ProfileController extends Controller
 
     public function edit()
     {
-        return view('profile.edit');
+        // return view('profile.edit');
+
+        if (auth()->check()) {
+            return view('profile.edit');
+        } else {
+            return redirect()->route('login');  // Redirect to login if not authenticated
+        }
     }
 
     public function update(Request $request)

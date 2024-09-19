@@ -108,7 +108,7 @@ class PostController extends Controller
                 $post->save();
             }
     
-            return redirect()->route('posts.index')->with('success', 'Post updated successfully.');
+            return redirect()->route('profile.index')->with('success', 'Post updated successfully.');
         } catch (\Exception $e) {
             dd($e);
             return redirect()->back()->with('error', 'An error occurred while creating the post.');
