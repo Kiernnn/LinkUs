@@ -25,6 +25,7 @@ Route::group(['middleware' => ['auth']], function () {
          Route::get('edit/{post}', 'edit')->name('posts.edit');
          Route::post('{post}/love', 'love')->name('posts.love');
          Route::put('update/{post}', 'update')->name('posts.update');
+         Route::put('/{post}/updatePrivacy', 'updatePrivacy')->name('posts.updatePrivacy');
          Route::delete('{post}','destroy')->name('posts.destroy');
          Route::get('{post}','detail')->name('posts.detail');
          Route::post('search', 'search')->name('posts.search');
@@ -40,7 +41,6 @@ Route::group(['middleware' => ['auth']], function () {
       });
 
       Route::controller(FriendRequestController::class)->group(function () {
-         // Route::get('/', 'index')->name('friendRequests.index');
          Route::get('requests', 'requests')->name('friendRequests.requests');
           Route::post('/send', 'sendRequest')->name('friendRequests.send');
           Route::post('/accept', 'acceptRequest')->name('friendRequests.accept');   
@@ -56,13 +56,8 @@ Route::group(['middleware' => ['auth']], function () {
          Route::get('friends/user/{userId}', 'showFriends')->name('friends.showUser');
          Route::delete('unfriend/{friendId}', 'unfriend')->name('friends.unfriend');
          Route::get('list', 'list')->name('friends.list');
-         // Route::get('suggestions', 'suggestions')->name('friends.suggestions');
-         // Route::delete('/remove-suggestion/{id}', 'removeSuggestion')->name('friends.removeSuggestion');x
          Route::get('search', 'search')->name('friends.search');
-      });   
-      // Route::controller(FriendRequestController::class)->group(function () {
-      //    Route::get('suggestions', 'suggestions')->name('friends.suggestions');
-      // });
+      });
    });
 
    // Friend Requests
@@ -83,9 +78,9 @@ Route::group(['middleware' => ['auth']], function () {
    Route::group(['prefix'=> 'profile'], function () {
       Route::controller(ProfileController::class)->group(function() {
          Route::get('/', 'index')->name('profile.index');
-         Route::get('/{id}', 'show')->name('profile.show'); 
          Route::get('/edit', 'edit')->name('profile.edit');
          Route::put('/update', 'update')->name('profile.update');
+         Route::get('/{id}', 'show')->name('profile.show'); 
       });
 
       Route::controller(FriendsController::class)->group(function() {

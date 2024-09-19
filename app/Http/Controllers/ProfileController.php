@@ -19,33 +19,32 @@ class ProfileController extends Controller
     public function index(Request $request)
     {
         $viewingUser = auth()->user();
+        $profile = $viewingUser->profile;
+        
         $friendRequests = FriendRequest::where('receiver_id', $viewingUser->id)
         ->where('status', 'pending')
-        ->get(); // Fetch friend requests for the authenticated user
+        ->get(); 
         $posts = $viewingUser->posts()->orderBy('created_at', 'desc')->get();
-        // return view('profile.index', compact( 'viewingUser', 'posts'));
-        return view('profile.index', compact('viewingUser', 'friendRequests', 'posts'));
+
+        return view('profile.index', compact('viewingUser', 'friendRequests', 'posts', 'profile'));
     }
 
     public function show($id) {
         $viewingUser = User::with('profile')->findOrFail($id);
+        $profile = $viewingUser->id;
         $friendRequests = FriendRequest::where('receiver_id', $viewingUser->id)
         ->where('status', 'pending')
         ->get();
         $posts = $viewingUser->posts()->orderBy('created_at', 'desc')->get();
 
-        return view('profile.index', compact('viewingUser', 'friendRequests', 'posts'));
+        return view('profile.index', compact('viewingUser', 'friendRequests', 'posts', 'profile'));
     } 
 
     public function edit()
     {
-        // return view('profile.edit');
+        $profile = auth()->user()->profile;
 
-        if (auth()->check()) {
-            return view('profile.edit');
-        } else {
-            return redirect()->route('login');  // Redirect to login if not authenticated
-        }
+        return view('profile.edit', compact('profile'));
     }
 
     public function update(Request $request)
@@ -64,10 +63,10 @@ class ProfileController extends Controller
         $user->userName = $request->userName;
         $user->save(); 
 
-        // $profile = auth()->user()->profile;
-        // if (!$profile) {
-        //     $profile = new Profile();
-        // }
+        $profile = auth()->user()->profile;
+        if (!$profile) {
+            $profile = new Profile();
+        }
 
         $profile = $user->profile ?? new Profile(['user_id' => $user->id]);
 
