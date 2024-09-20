@@ -237,6 +237,15 @@
     margin-right: 5px;
 }
 
+.fri-sub {
+    color: #808080;
+    font-size: 14px;
+}
+
+.fri-sub:hover {
+    color: #fff;
+}
+
 .form-control {
     width: 100%;
     height: 80px;

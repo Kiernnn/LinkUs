@@ -36,7 +36,7 @@
                     </div>
                     <a href="{{ route('friends.showUser', $viewingUser->id) }}" class="all-fri">
                         <p class="fri-text">{{ $viewingUser->totalFriends() }}</p>
-                        <p class="fri-text text-secondary">{{ __('friends') }}</p>
+                        <p class="fri-sub">{{ __('friends') }}</p>
                     </a>
                 </div>
                 <div class="bio mt-0 mb-0">
