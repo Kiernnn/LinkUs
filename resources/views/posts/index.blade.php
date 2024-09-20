@@ -108,6 +108,11 @@
                                                     </svg>
                                                 </button>
                                             </form>
+                                            @if ($post->loves->count())
+                                                <p class="love-count">{{ $post->loves->count() }}</p>
+                                            @else
+                                                <p hidden></p>
+                                            @endif
                                             <button class="btn">
                                                 <a href="{{ route('posts.detail', $post->id) }}" class="card-link">
                                                     <svg xmlns="http://www.w3.org/2000/svg" height="20px"
@@ -117,6 +122,11 @@
                                                     </svg>
                                                 </a>
                                             </button>
+                                            @if ($post->comments->count())
+                                                <p class="cmt-count">{{ $post->comments->count() }}</p>
+                                            @else
+                                                <p hidden></p>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>
@@ -204,7 +214,11 @@
                                         </svg>
                                     </button>
                                 </form>
-                                <p class="love-count">{{ $post->loves->count() }}</p>
+                                @if ($post->loves->count())
+                                    <p class="love-count">{{ $post->loves->count() }}</p>
+                                @else
+                                    <p hidden></p>
+                                @endif
                                 <button class="btn">
                                     <a href="{{ route('posts.detail', $post->id) }}" class="card-link">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
@@ -214,7 +228,11 @@
                                         </svg>
                                     </a>
                                 </button>
-                                <p class="cmt-count">{{ $post->comments->count() }}</p>
+                                @if ($post->comments->count())
+                                    <p class="cmt-count">{{ $post->comments->count() }}</p>
+                                @else
+                                    <p hidden></p>
+                                @endif
                             </div>
                         </div>
                     </div>

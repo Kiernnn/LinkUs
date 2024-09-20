@@ -300,7 +300,11 @@
                                         </svg>
                                     </a>
                                 </button>
-                                <p class="cmt-count">{{ $post->comments->count() }}</p>
+                                @if ($post->comments->count())
+                                    <p class="cmt-count">{{ $post->comments->count() }}</p>
+                                @else
+                                    <p hidden></p>
+                                @endif
                             </div>
                         </div>
                         <!-- Post Content Section End -->
