@@ -43,7 +43,8 @@ class CommentController extends Controller
     public function edit(Comment $comment)
     {
         try {
-            return view('posts.cmDetail', compact('comment'));
+            $postId = $comment->post_id;
+            return view('posts.cmDetail', compact('comment', 'postId'));
         } catch (Exception $e) {
             return redirect()->route('posts.detail', $comment->post_id)->with('error', 'Failed to retrieve comment: ' . $e->getMessage());
         }
@@ -56,7 +57,10 @@ class CommentController extends Controller
                 'content' => 'required|string|max:255',
             ]);
 
-            $comment->update($request->only('content'));
+            if (auth()->id() === $comment->user_id) {
+                $comment->update($request->only('content'));
+                return redirect()->route('posts.detail', $comment->post_id)->with('success', 'Comment edited successfully.');
+            }
 
             return redirect()->route('posts.detail', $comment->post_id)->with('success', 'Comment edited successfully.');
         } catch (Exception $e) {

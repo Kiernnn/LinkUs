@@ -71,7 +71,7 @@
                 <!-- Existing comments -->
                 <div class="comment-sec">
                     @forelse ($post->comments as $comment)
-                        <div class="comment-header d-flex mb-3">
+                        <div class="comment-header d-flex mb-1">
                             @php
                                 $commentProfile = $comment->user->profile;
                             @endphp
@@ -92,7 +92,6 @@
                                     <div class="post-subtitle text-secondary mb-2 small">
                                         {{ timeDiffInHours($comment->created_at) }}
                                     </div>
-                                    {{-- @can('delete', $comment)  --}}
                                     @if (auth()->id() === $post->user->id || auth()->user()->can('delete', $comment))
                                         <form action="{{ route('comments.destroy', $comment->id) }}" method="POST">
                                             @csrf
@@ -100,7 +99,6 @@
                                             <button type="submit" class="delete-btn">{{ __('Delete') }}</button>
                                         </form>
                                     @endif
-                                    {{-- @endcan --}}
                                 </div>
                             </div>
                         </div>

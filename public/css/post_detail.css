@@ -114,7 +114,7 @@
 }
 
 .comment-content {
-    display: flex;
+    display: block;
     flex-direction: column;
     align-items: flex-start;
     justify-content: flex-start;
@@ -177,6 +177,8 @@
     border: none;
     cursor: pointer;
 }
+
+
 
 .delete-btn:hover {
     color: #dc3545;
