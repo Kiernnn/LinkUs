@@ -23,7 +23,8 @@ Route::group(['middleware' => ['auth']], function () {
          Route::get('create', 'create')->name('posts.create');
          Route::post('store', 'store')->name('posts.store');
          Route::get('edit/{post}', 'edit')->name('posts.edit');
-         Route::post('{post}/love', 'love')->name('posts.love');
+         // Route::post('{post}/love', 'love')->name('posts.love');
+         Route::post('/{post}/toggle-love', 'toggleLove')->name('posts.toggleLove');
          Route::put('update/{post}', 'update')->name('posts.update');
          Route::put('/{post}/updatePrivacy', 'updatePrivacy')->name('posts.updatePrivacy');
          Route::delete('{post}','destroy')->name('posts.destroy');
