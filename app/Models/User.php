@@ -84,8 +84,8 @@ class User extends Authenticatable
 
     public function totalFriends() {
         return Friend::where('user_id', $this->id)
-         ->orWhere('friend_id', $this->id)
-         ->count();
+                ->orWhere('friend_id', $this->id)
+                ->count();
     }
 
     public function sentFriendRequests()

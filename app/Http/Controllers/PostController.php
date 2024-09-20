@@ -159,9 +159,9 @@ class PostController extends Controller
         $love = $post->loves()->where('user_id', auth()->id())->first();
 
         if ($love) {
-            $love->delete(); // Unlove
+            $love->delete(); 
         } else {
-            $post->loves()->create(['user_id' => auth()->id()]); // Love
+            $post->loves()->create(['user_id' => auth()->id()]);
         }
 
         return back();

@@ -124,7 +124,6 @@
                             </a>
                         </div>
                     </div>
-
                     <div class="friend-wrapper mt-2">
                         <div class="friend-form-container card p-4 shadow mt-2">
                             @if ($viewingUser->totalFriends())
@@ -287,11 +286,11 @@
                                         </svg>
                                     </button>
                                 </form>
-                                {{-- @if ($post->loves > 0) --}}
-                                <p class="love-count">{{ $post->loves->count() }}</p>
-                                {{-- @else --}}
-                                {{-- <p hidden></p> --}}
-                                {{-- @endif --}}
+                                @if ($post->loves->count())
+                                    <p class="love-count">{{ $post->loves->count() }}</p>
+                                @else
+                                    <p hidden></p>
+                                @endif
                                 <button class="btn">
                                     <a href="{{ route('posts.detail', $post->id) }}" class="card-link">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
@@ -301,7 +300,11 @@
                                         </svg>
                                     </a>
                                 </button>
-                                <p class="cmt-count">{{ $post->comments->count() }}</p>
+                                @if ($post->comments->count())
+                                    <p class="cmt-count">{{ $post->comments->count() }}</p>
+                                @else
+                                    <p hidden></p>
+                                @endif
                             </div>
                         </div>
                         <!-- Post Content Section End -->

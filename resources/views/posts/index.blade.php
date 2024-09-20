@@ -24,107 +24,119 @@
                 </div>
             </form>
             <!-- Search Tab End -->
-
-            @if (session('error'))
-                <div class="alert alert-danger">{{ session('error') }}</div>
-            @endif
-
-            {{-- Search Results --}}
-            @if (isset($keyword))
-                <h5 style="color:white;">Search Result for "{{ $keyword }}"</h5>
-                <div class="scorll-search">
-                    @if ($posts->isEmpty() && $users->isEmpty())
-                        <p style="color:white;">Not found.</p>
-                    @else
-                        @if (!$users->isEmpty())
-                            <h5>Users</h5>
-                            <div class="suggest-form-container mb-3">
-                                <div class="search-profile mb-3">
-                                    @foreach ($users as $user)
-                                        @php
-                                            $postProfile = $user->profile;
-                                        @endphp
-                                        <div class="request-container mb-2">
-                                            <a href="{{ route('profile.show', $user->id) }}" class="searchProfile mb-0">
-                                                @if ($postProfile && $postProfile->image && file_exists(public_path('profiles/' . $postProfile->image)))
-                                                    <img src="{{ asset('profiles/' . $postProfile->image) }}"
-                                                        alt="Profile Picture" class="profile-pic me-3">
-                                                @else
-                                                    <img src="{{ asset('images/user_default.png') }}" alt="Profile Picture"
-                                                        class="profile-pic">
-                                                @endif
-                                                <div class="profile-info mb-0">
-                                                    <div class="profile-name">{{ $user->userName }}</div>
-                                                    <div id="successMessage{{ $user->id }}" class="add-fri"
-                                                        style="display: none; color: #808080; font-weight: bold;"></div>
-                                                </div>
-                                            </a>
-                                        </div>
-                                    @endforeach
-                                </div>
-                            </div>
-                        @endif
-                    @endif
-
-                    @if (!$posts->isEmpty())
-                        <h5>Posts</h5>
-                        @foreach ($posts as $post)
-                            @php
-                                $postProfile = $post->user->profile;
-                                $hasLoved = $post->loves()->where('user_id', auth()->id())->exists();
-                            @endphp
-                            <div class="post-container mb-3 shadow-sm p-4 rounded-4 text-light">
-                                <a href="{{ route('profile.show', $post->user->id) }}" class="post-header d-flex">
-                                    @if ($postProfile && $postProfile->image && file_exists(public_path('profiles/' . $postProfile->image)))
-                                        <img src="{{ asset('profiles/' . $postProfile->image) }}" alt="Profile Picture"
-                                            class="profile-pic me-3">
-                                    @else
-                                        <img src="{{ asset('images/user_default.png') }}" alt="Profile Picture"
-                                            class="profile-pic">
-                                    @endif
-                                    <div class="profile-name">{{ $post->user->userName }}</div>
-                                    <div class="post-subtitle mb-2 small">{{ timeDiffInHours($post->created_at) }}</div>
-                                </a>
-
-                                <div class="post-content mt-1">
-                                    <p class="content ml-10px">{{ $post->content }}</p>
-                                    @if ($post->image)
-                                        <img src="{{ asset('posts/' . $post->image) }}" class="post-image"
-                                            alt="Post image">
-                                    @endif
-                                    <div class="post-footer d-flex mt-1">
-                                        <form action="{{ route('posts.toggleLove', $post->id) }}" method="POST"
-                                            class="me-0" style="display:inline;">
-                                            @csrf
-                                            <button class="btn">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px"
-                                                    fill="{{ $hasLoved ? '#dc3545' : '#fff' }}"
-                                                    class="bi {{ $hasLoved ? 'bi-heart-fill' : 'bi-heart' }}"
-                                                    viewBox="0 0 16 16">
-                                                    <path fill-rule="evenodd"
-                                                        d="{{ $hasLoved ? 'M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314' : 'm8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15' }}" />
-                                                </svg>
-                                            </button>
-                                        </form>
-                                        <button class="btn">
-                                            <a href="{{ route('posts.detail', $post->id) }}" class="card-link">
-                                                <svg xmlns="http://www.w3.org/2000/svg" height="20px"
-                                                    viewBox="0 -960 960 960" width="20px" fill="#fff">
-                                                    <path
-                                                        d="M880-80 720-240H160q-33 0-56.5-23.5T80-320v-480q0-33 23.5-56.5T160-880h640q33 0 56.5 23.5T880-800v720ZM160-320h594l46 45v-525H160v480Zm0 0v-480 480Z" />
-                                                </svg>
-                                            </a>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        @endforeach
-                    @endif
-                </div>
-            @endif
-
+            
             <!-- Post container Start -->
             <div class="post-wrapper">
+                {{-- display errors --}}
+                @if (session('error'))
+                    <div class="alert alert-danger">{{ session('error') }}</div>
+                @endif
+
+                {{-- Search Results start --}}
+                @if (isset($keyword))
+                    <h5 style="color:white;">Search Result for "{{ $keyword }}"</h5>
+                    <div class="scorll-search">
+                        {{-- search users --}}
+                        @if ($posts->isEmpty() && $users->isEmpty())
+                            <p style="color:white;">Not found.</p>
+                        @else
+                            @if (!$users->isEmpty())
+                                <h5>Users</h5>
+                                <div class="suggest-form-container mb-3">
+                                    <div class="search-profile mb-3">
+                                        @foreach ($users as $user)
+                                            @php
+                                                $postProfile = $user->profile;
+                                            @endphp
+                                            <div class="request-container mb-2">
+                                                <a href="{{ route('profile.show', $user->id) }}" class="searchProfile mb-0">
+                                                    @if ($postProfile && $postProfile->image && file_exists(public_path('profiles/' . $postProfile->image)))
+                                                        <img src="{{ asset('profiles/' . $postProfile->image) }}"
+                                                            alt="Profile Picture" class="profile-pic me-3">
+                                                    @else
+                                                        <img src="{{ asset('images/user_default.png') }}" alt="Profile Picture"
+                                                            class="profile-pic">
+                                                    @endif
+                                                    <div class="profile-info mb-0">
+                                                        <div class="profile-name">{{ $user->userName }}</div>
+                                                        <div id="successMessage{{ $user->id }}" class="add-fri"
+                                                            style="display: none; color: #808080; font-weight: bold;"></div>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            @endif
+                        @endif
+
+                        {{-- search posts --}}
+                        @if (!$posts->isEmpty())
+                            <h5>Posts</h5>
+                            @foreach ($posts as $post)
+                                @php
+                                    $postProfile = $post->user->profile;
+                                    $hasLoved = $post->loves()->where('user_id', auth()->id())->exists();
+                                @endphp
+                                <div class="post-container mb-3 shadow-sm p-4 rounded-4 text-light">
+                                    <a href="{{ route('profile.show', $post->user->id) }}" class="post-header d-flex">
+                                        @if ($postProfile && $postProfile->image && file_exists(public_path('profiles/' . $postProfile->image)))
+                                            <img src="{{ asset('profiles/' . $postProfile->image) }}" alt="Profile Picture"
+                                                class="profile-pic me-3">
+                                        @else
+                                            <img src="{{ asset('images/user_default.png') }}" alt="Profile Picture"
+                                                class="profile-pic">
+                                        @endif
+                                        <div class="profile-name">{{ $post->user->userName }}</div>
+                                        <div class="post-subtitle mb-2 small">{{ timeDiffInHours($post->created_at) }}</div>
+                                    </a>
+
+                                    <div class="post-content mt-1">
+                                        <p class="content ml-10px">{{ $post->content }}</p>
+                                        @if ($post->image)
+                                            <img src="{{ asset('posts/' . $post->image) }}" class="post-image"
+                                                alt="Post image">
+                                        @endif
+                                        <div class="post-footer d-flex mt-1">
+                                            <form action="{{ route('posts.toggleLove', $post->id) }}" method="POST" class="me-0" style="display:inline;">
+                                                @csrf
+                                                <button class="btn">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px"
+                                                        fill="{{ $hasLoved ? '#dc3545' : '#fff' }}" class="bi {{ $hasLoved ? 'bi-heart-fill' : 'bi-heart' }}" viewBox="0 0 16 16">
+                                                        <path fill-rule="evenodd"
+                                                            d="{{ $hasLoved ? 'M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314' : 'm8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15' }}" />
+                                                    </svg>
+                                                </button>
+                                            </form>
+                                            @if ($post->loves->count())
+                                                <p class="love-count">{{ $post->loves->count() }}</p>
+                                            @else
+                                                <p hidden></p>
+                                            @endif
+                                            <button class="btn">
+                                                <a href="{{ route('posts.detail', $post->id) }}" class="card-link">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" height="20px"
+                                                        viewBox="0 -960 960 960" width="20px" fill="#fff">
+                                                        <path
+                                                            d="M880-80 720-240H160q-33 0-56.5-23.5T80-320v-480q0-33 23.5-56.5T160-880h640q33 0 56.5 23.5T880-800v720ZM160-320h594l46 45v-525H160v480Zm0 0v-480 480Z" />
+                                                    </svg>
+                                                </a>
+                                            </button>
+                                            @if ($post->comments->count())
+                                                <p class="cmt-count">{{ $post->comments->count() }}</p>
+                                            @else
+                                                <p hidden></p>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        @endif
+                    </div>
+                @endif
+                {{-- Search Results end --}}
+
+                {{-- posts --}}
                 @foreach ($posts as $post)
                     @php
                         $postProfile = $post->user->profile;
@@ -202,7 +214,11 @@
                                         </svg>
                                     </button>
                                 </form>
-                                <p class="love-count">{{ $post->loves->count() }}</p>
+                                @if ($post->loves->count())
+                                    <p class="love-count">{{ $post->loves->count() }}</p>
+                                @else
+                                    <p hidden></p>
+                                @endif
                                 <button class="btn">
                                     <a href="{{ route('posts.detail', $post->id) }}" class="card-link">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
@@ -212,7 +228,11 @@
                                         </svg>
                                     </a>
                                 </button>
-                                <p class="cmt-count">{{ $post->comments->count() }}</p>
+                                @if ($post->comments->count())
+                                    <p class="cmt-count">{{ $post->comments->count() }}</p>
+                                @else
+                                    <p hidden></p>
+                                @endif
                             </div>
                         </div>
                     </div>
