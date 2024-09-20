@@ -179,13 +179,17 @@
 }
 
 .post-footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
     padding: 10px;
     margin-left: -20px;
     margin-top: 0;
     margin-bottom: 0;
 }
 
-.post-footer button {
+.post-footer .btn {
     background: none;
     border: none;
     padding: 5px 10px;
@@ -193,8 +197,12 @@
     cursor: pointer;
 }
 
-.post-footer button:hover {
+.post-footer .btn:hover {
     background-color: #1a1a1a;
+}
+
+.post-footer .love-count, .cmt-count {
+    margin-bottom: 0;
 }
 
 .search-profile{
