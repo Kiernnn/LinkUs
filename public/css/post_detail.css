@@ -178,8 +178,6 @@
     cursor: pointer;
 }
 
-
-
 .delete-btn:hover {
     color: #dc3545;
 }
@@ -208,6 +206,11 @@
 
 .love-count, .cmt-count {
     margin-bottom: 0;
+}
+
+.cmt-svg {
+    width: 20px;
+    height: 20px;
 }
 
 .comment-box {

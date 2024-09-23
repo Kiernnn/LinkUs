@@ -3,7 +3,6 @@
 
 @section('style')
     <link href="{{ asset('css/post_create.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/post_edit.css') }}" rel="stylesheet">
 @endsection
 
 @section('content')
@@ -11,8 +10,13 @@
         <h5 class="new-post mb-2">{{ __('Edit Post') }}</h5>
         <div class="post-form-container card p-4 shadow">
             <div class="profile-section d-flex mb-3">
-                <img src="{{ asset('images/user_default.png') }}" alt="Profile Picture"
-                    class="profile-pic rounded-circle me-2">
+                @if (auth()->user()->profile && auth()->user()->profile->image)
+                    <img src="{{ asset('profiles/' . auth()->user()->profile->image) }}" alt="Profile Picture"
+                        class="profile-pic rounded-circle me-2">
+                @else
+                    <img src="{{ asset('images/user_default.png') }} "alt="Profile Picture"
+                        class="profile-pic rounded-circle me-2">
+                @endif
                 <div class="profile-name">{{ auth()->user()->userName }}</div>
             </div>
             <form action="{{ route('posts.update', $post->id) }}" method="POST" class="post-form"
@@ -23,45 +27,21 @@
                 <textarea name="content" class="form-control mt-2">{{ $post->content }}</textarea>
                 <div class="form-actions d-flex justify-content-between align-items-center mt-2 position-relative">
                     <div id="add-image-icon" class="attachment-btn btn" style="display: none;">
-                        <svg id="upload_svg" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                            viewBox="0 0 24 24" style="fill: #fff;">
-                            <path d="M4 5h13v7h2V5c0-1.103-.897-2-2-2H4c-1.103 0-2 .897-2 2v12c0 1.103.897 2 2 2h8v-2H4V5z">
-                            </path>
-                            <path d="m8 11-3 4h11l-4-6-3 4z"></path>
-                            <path d="M19 14h-2v3h-3v2h3v3h2v-3h3v-2h-3z"></path>
+                        <svg id="upload_svg" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960"
+                            width="24px" fill="#fff">
+                            <path
+                                d="M360-400h400L622-580l-92 120-62-80-108 140Zm-40 160q-33 0-56.5-23.5T240-320v-480q0-33 23.5-56.5T320-880h480q33 0 56.5 23.5T880-800v480q0 33-23.5 56.5T800-240H320Zm0-80h480v-480H320v480ZM160-80q-33 0-56.5-23.5T80-160v-560h80v560h560v80H160Zm160-720v480-480Z" />
                         </svg>
                         <input type="file" id="file-input" name="image" class="file-input">
                     </div>
                     <div class="image-container">
                         <img class="preview-img" id="image-preview" src="{{ asset('posts/' . $post->image) }}"
-                            alt="Preview Image">
+                            alt="">
                         <button type="button" id="remove-image" class="delete-btn">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 69 14"
-                                class="svgIcon bin-top">
-                                <g clip-path="url(#clip0_35_24)">
-                                    <path fill="black"
-                                        d="M20.8232 2.62734L19.9948 4.21304C19.8224 4.54309 19.4808 4.75 19.1085 4.75H4.92857C2.20246 4.75 0 6.87266 0 9.5C0 12.1273 2.20246 14.25 4.92857 14.25H64.0714C66.7975 14.25 69 12.1273 69 9.5C69 6.87266 66.7975 4.75 64.0714 4.75H49.8915C49.5192 4.75 49.1776 4.54309 49.0052 4.21305L48.1768 2.62734C47.3451 1.00938 45.6355 0 43.7719 0H25.2281C23.3645 0 21.6549 1.00938 20.8232 2.62734ZM64.0023 20.0648C64.0397 19.4882 63.5822 19 63.0044 19H5.99556C5.4178 19 4.96025 19.4882 4.99766 20.0648L8.19375 69.3203C8.44018 73.0758 11.6746 76 15.5712 76H53.4288C57.3254 76 60.5598 73.0758 60.8062 69.3203L64.0023 20.0648Z">
-                                    </path>
-                                </g>
-                                <defs>
-                                    <clipPath id="clip0_35_24">
-                                        <rect fill="white" height="14" width="69"></rect>
-                                    </clipPath>
-                                </defs>
-                            </svg>
-
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 69 57"
-                                class="svgIcon bin-bottom">
-                                <g clip-path="url(#clip0_35_22)">
-                                    <path fill="black"
-                                        d="M20.8232 -16.3727L19.9948 -14.787C19.8224 -14.4569 19.4808 -14.25 19.1085 -14.25H4.92857C2.20246 -14.25 0 -12.1273 0 -9.5C0 -6.8727 2.20246 -4.75 4.92857 -4.75H64.0714C66.7975 -4.75 69 -6.8727 69 -9.5C69 -12.1273 66.7975 -14.25 64.0714 -14.25H49.8915C49.5192 -14.25 49.1776 -14.4569 49.0052 -14.787L48.1768 -16.3727C47.3451 -17.9906 45.6355 -19 43.7719 -19H25.2281C23.3645 -19 21.6549 -17.9906 20.8232 -16.3727ZM64.0023 1.0648C64.0397 0.4882 63.5822 0 63.0044 0H5.99556C5.4178 0 4.96025 0.4882 4.99766 1.0648L8.19375 50.3203C8.44018 54.0758 11.6746 57 15.5712 57H53.4288C57.3254 57 60.5598 54.0758 60.8062 50.3203L64.0023 1.0648Z">
-                                    </path>
-                                </g>
-                                <defs>
-                                    <clipPath id="clip0_35_22">
-                                        <rect fill="white" height="57" width="69"></rect>
-                                    </clipPath>
-                                </defs>
+                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
+                                fill="#e8eaed">
+                                <path
+                                    d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
                             </svg>
                         </button>
                     </div>
@@ -104,22 +84,24 @@
 @endsection
 
 @section('script')
-
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const addImageIcon = document.getElementById('add-image-icon');
-            const imagePreview = document.getElementById('image-preview');
-            const removeImageButton = document.getElementById('remove-image');
-            const fileInput = document.getElementById('file-input');
-            const uploadSvg = document.getElementById('upload_svg');
+            var addImageIcon = document.getElementById('add-image-icon');
+            var imagePreview = document.getElementById('image-preview');
+            var removeImageButton = document.getElementById('remove-image');
+            var fileInput = document.getElementById('file-input');
+            var uploadSvg = document.getElementById('upload_svg');
 
             function updateImageState() {
-                if (imagePreview.src != '') {
-                    addImageIcon.style.display = 'none'; // Hide the entire button
+                if (imagePreview && imagePreview.src && imagePreview.src !== window.location.href && imagePreview
+                    .src.trim() !== '') {
+                    addImageIcon.style.display = 'block';
                     imagePreview.style.display = 'block';
+                    removeImageButton.style.display = 'none';
                 } else {
-                    addImageIcon.style.display = 'block'; // Show the entire button
+                    addImageIcon.style.display = 'block';
                     imagePreview.style.display = 'none';
+                    removeImageButton.style.display = 'none';
                 }
             }
             updateImageState();
@@ -129,28 +111,28 @@
             });
 
             removeImageButton.addEventListener('click', function() {
-                fileInput.value = null;
+                fileInput.value = '';
                 imagePreview.src = '';
-
-                imagePreview.style.display = 'none';
-                addImageIcon.style.display = 'block';
-                uploadSvg.style.display = 'block'; // Ensure SVG is visible again
+                uploadSvg.style.display = 'block';
+                updateImageState();
             });
 
             fileInput.addEventListener('change', function(event) {
-                let file = event.target.files[0];
+                var file = event.target.files[0];
                 if (file) {
-                    let reader = new FileReader();
+                    var reader = new FileReader();
                     reader.onload = function(e) {
                         imagePreview.src = e.target.result;
-                        imagePreview.style.display = 'block';
-                        addImageIcon.style.display = 'none'; // Hide entire button when image is present
-                    }
+                        uploadSvg.style.display = 'block';
+                        updateImageState();
+                    };
                     reader.readAsDataURL(file);
                 } else {
-                    uploadSvg.style.display = 'block'; // Show SVG when no file is selected
+                    uploadSvg.style.display = 'block';
+                    updateImageState();
                 }
             });
+            updateImageState();
         });
     </script>
 @endsection
