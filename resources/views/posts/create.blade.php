@@ -49,8 +49,10 @@
                         <select name="privacy" class="form-select">
                             @foreach (\App\Enums\PostStatus::cases() as $status)
                                 <option value="{{ $status->value }}"
-                                    {{ $status === \App\Enums\PostStatus::PUBLIC ? 'selected' : '' }}>
-                                    {{ $status->name }}
+                                    {{-- {{ $status === \App\Enums\PostStatus::PUBLIC ? 'selected' : '' }}>
+                                    {{ $status->name }} --}}
+                                    {{ old('privacy', \App\Enums\PostStatus::PUBLIC->value) === $status->value ? 'selected' : '' }}>
+                                    {{ ucfirst(strtolower($status->name)) }}
                                 </option>
                             @endforeach
                         </select>

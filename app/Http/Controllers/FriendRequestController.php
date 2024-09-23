@@ -22,13 +22,11 @@ class FriendRequestController extends Controller
 
         $sentRequests = FriendRequest::where('sender_id', auth()->user()->id)->pluck('receiver_id')->toArray();
         $receivedRequests = FriendRequest::where('receiver_id', auth()->user()->id)->pluck('sender_id')->toArray();
-
+        
         $friends = Friend::where('user_id', auth()->user()->id)
             ->orWhere('friend_id', auth()->user()->id)
             ->pluck('friend_id')
             ->toArray();
-
-        // if(!empty($friends))
 
         $excludedIds = array_merge($sentRequests, $receivedRequests, $friends, [auth()->user()->id]);
 

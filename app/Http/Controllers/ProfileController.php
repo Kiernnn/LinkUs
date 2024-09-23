@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\PostStatus;
 use App\Models\Profile;
 use App\Http\Controllers\Controller;
 use App\Models\User;
@@ -35,7 +36,24 @@ class ProfileController extends Controller
         $friendRequests = FriendRequest::where('receiver_id', $viewingUser->id)
         ->where('status', 'pending')
         ->get();
-        $posts = $viewingUser->posts()->orderBy('created_at', 'desc')->get();
+
+        $posts = $viewingUser->posts()
+        ->where('user_id','!=',auth()->user()->id)
+        ->where(function ($query) {
+            $query->where('status', PostStatus::PUBLIC->value)
+                  ->orWhere(function ($query) {
+                      $query->where('status', PostStatus::FRIENDS->value)
+                            ->whereHas('user', function ($query) {
+                                $query->whereHas('friends', function ($query) {
+                                    $query->where('friend_id', auth()->user()->id)
+                                          ->orWhere('user_id', auth()->user()->id);
+                                });
+                            });
+                  });
+                //   ->orWhere('user_id', auth()->user()->id); 
+        })
+        ->orderBy('created_at', 'desc')
+        ->get();
 
         return view('profile.index', compact('viewingUser', 'friendRequests', 'posts', 'profile'));
     } 

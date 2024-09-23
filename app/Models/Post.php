@@ -8,15 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Post extends Model
 {
     use HasFactory;
+    
     protected $guarded = [];
     protected $table = 'posts';
-
-    public function run()
-    {
-        Post::factory()
-            ->count(20)
-            ->create();
-    }
 
     protected $fillable = [
         'user_id',

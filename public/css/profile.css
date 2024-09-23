@@ -398,6 +398,13 @@
     margin-top: 10px;
 }
 
+.privacy {
+    color: #fff;
+    font-weight: bold;
+    margin-top: 10px;
+    margin-right: 350px;
+}
+
 .nav-item {
     display: flex;
     align-items: center;

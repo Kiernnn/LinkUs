@@ -3,7 +3,7 @@
 
 @section('style')
     <link href="{{ asset('css/profile.css') }}" rel="stylesheet">
-    {{-- <link href="{{ asset('css/friends_index.css') }}" rel="stylesheet"> --}}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 @endsection
 
 @section('content')
@@ -29,6 +29,9 @@
                             alt="Profile image">
                     @endif
                 </div>
+
+                
+
                 <div class="all mb-0">
                     <div class="all-post">
                         <p class="post-text">{{ $viewingUser->posts->count() }}</p>
@@ -189,13 +192,28 @@
                             <img src="{{ asset($post->user->profile && $post->user->profile->image ? 'profiles/' . $post->user->profile->image : 'images/user_default.png') }}"
                                 alt="Profile Picture" class="post-profile rounded-circle">
                             <div class="post-pf-name ms-0">
-                                <a href="{{ route('profile.show', $post->user->id) }}"
+                                <a href="{{ route('profile.index', $post->user->id) }}"
                                     style="text-decoration: none; color:white;">{{ $post->user->userName }}
                                 </a>
+                                {{-- <div style="text-decoration: none; color:white;">{{ $post->user->userName }}</div> --}}
                             </div>
                             <div class="post-subtitle mb-2 small text-secondary">
                                 {{ timeDiffInHours($post->created_at) }}
                             </div>
+
+                            <p class="privacy">
+                                <strong>
+                                    @if($post->status === 'public')
+                                        <i class="fas fa-globe" title="Public"></i>
+                                    @elseif($post->status === 'friends')
+                                        <i class="fas fa-user-friends" title="Friends"></i>
+                                    @elseif($post->status === 'me')
+                                        <i class="fas fa-lock" title="Me"></i>
+                                    @else
+                                        <i class="fas fa-question" title="Unknown"></i>
+                                    @endif
+                                </strong>
+                            </p>
 
                             <!-- Dropdown Section Start -->
                             @if (auth()->check() && auth()->user()->id === $post->user_id)
