@@ -14,20 +14,7 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-    protected $table = "users";
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
-
-     public function run()
-     {
-         User::factory()
-                 ->count(20)
-                 ->hasPosts(1)
-                 ->create();
-     }
+    // protected $table = "users";
 
     protected $fillable = [
         'firstName',
@@ -70,22 +57,29 @@ class User extends Authenticatable
 
     public function friends()
     {
-        return $this->belongsToMany(User::class, 'friends', 'user_id', 'friend_id')
-                    ->where(function ($query) {
-                        $query->where('user_id', $this->id)
-                              ->orWhere('friend_id', $this->id);
-                    });
+        return $this->belongsToMany(User::class, 'friends', 'user_id', 'friend_id');
+                    // ->where(function ($query) {
+                    //     $query->where('user_id', $this->id)
+                    //           ->orWhere('friend_id', $this->id);
+                    // });
+    }
+
+    public function friendOf()
+    {
+        return $this->belongsToMany(User::class, 'friends', 'friend_id', 'user_id');
     }
 
     public function isFriendWith(User $user)
     {
-        return $this->friends()->where('friends.friend_id', $user->id)->exists();
+        return $this->friends()->where('friend_id', $user->id)->exists() ||
+               $user->friends()->where('friend_id', $this->id)->exists();
     }
 
     public function totalFriends() {
-        return Friend::where('user_id', $this->id)
-                ->orWhere('friend_id', $this->id)
-                ->count();
+        // return Friend::where('user_id', $this->id)
+        //         ->orWhere('friend_id', $this->id)
+        //         ->count();
+        return $this->friends()->count() + $this->friendOf()->count();
     }
 
     public function sentFriendRequests()
@@ -93,9 +87,14 @@ class User extends Authenticatable
         return $this->hasMany(FriendRequest::class, 'sender_id');
     }
 
-    public function friendRequests()
+    public function receivedFriendRequests()
     {
         return $this->hasMany(FriendRequest::class, 'receiver_id');
     }
+
+    // public function friendRequests()
+    // {
+    //     return $this->hasMany(FriendRequest::class, 'receiver_id');
+    // }
 
 }

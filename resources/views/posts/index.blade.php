@@ -3,6 +3,7 @@
 
 @section('style')
     <link href="{{ asset('css/post_index.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 @endsection
 
 @section('content')
@@ -89,6 +90,20 @@
                                         @endif
                                         <div class="profile-name">{{ $post->user->userName }}</div>
                                         <div class="post-subtitle mb-2 small">{{ timeDiffInHours($post->created_at) }}</div>
+
+                                        <p class="privacy">
+                                            <strong>
+                                                @if($post->status === 'public')
+                                                    <i class="fas fa-globe" title="Public"></i>
+                                                @elseif($post->status === 'friends')
+                                                    <i class="fas fa-user-friends" title="Friends"></i>
+                                                @elseif($post->status === 'me')
+                                                    <i class="fas fa-lock" title="Me"></i>
+                                                @else
+                                                    <i class="fas fa-question" title="Unknown"></i>
+                                                @endif
+                                            </strong>
+                                        </p>
                                     </a>
 
                                     <div class="post-content mt-1">
@@ -152,8 +167,24 @@
                                 <img src="{{ asset('images/user_default.png') }}" alt="Profile Picture"
                                     class="profile-pic">
                             @endif
+
                             <div class="profile-name">{{ $post->user->userName }}</div>
+                            
                             <div class="post-subtitle mb-2 small">{{ timeDiffInHours($post->created_at) }}</div>
+
+                            <p class="privacy">
+                                <strong>
+                                    @if($post->status === 'public')
+                                        <i class="fas fa-globe" title="Public"></i>
+                                    @elseif($post->status === 'friends')
+                                        <i class="fas fa-user-friends" title="Friends"></i>
+                                    @elseif($post->status === 'me')
+                                        <i class="fas fa-lock" title="Me"></i>
+                                    @else
+                                        <i class="fas fa-question" title="Unknown"></i>
+                                    @endif
+                                </strong>
+                            </p>
 
                             {{-- dropdown section --}}
                             @if (auth()->check() && auth()->user()->id === $post->user_id)

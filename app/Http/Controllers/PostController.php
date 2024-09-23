@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\PostStatus;
 use App\Models\Post;
 use App\Models\User;
 use App\Models\Love;
@@ -16,8 +17,26 @@ class PostController extends Controller
     public function index(Request $request)
     {
         $posts = Post::orderBy('created_at','desc')
-                    ->where('user_id','!=',auth()->user()->id)
-                    ->get();
+        ->where('user_id','!=',auth()->user()->id)
+        ->where(function ($query) {
+            $query->where('status', PostStatus::PUBLIC->value)
+                  ->orWhere(function ($query) {
+                      $query->where('status', PostStatus::FRIENDS->value)
+                            ->whereHas('user', function ($query) {
+                                $query->whereHas('friends', function ($query) {
+                                    $query->where('friend_id', auth()->user()->id)
+                                          ->orWhere('user_id', auth()->user()->id);
+                                });
+                            });
+                  })
+                  ->orWhere('user_id', auth()->user()->id);
+        })
+        ->orderBy('created_at', 'desc')
+        ->get();
+
+        foreach ($posts as $post) {
+            $post->hasLoved = $post->loves()->where('user_id', auth()->id())->exists();
+        }
     
         return view('posts.index', compact('posts'));
     }
@@ -80,7 +99,6 @@ class PostController extends Controller
 
     public function update(Request $request, Post $post)
     {
-        
         $validator = Validator::make($request->all(), [
             'privacy' => 'required|in:public,friends,me',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', //2M
@@ -93,7 +111,7 @@ class PostController extends Controller
 
         try {
             $post->update([
-                'privacy' => $request->privacy,
+                'status' => $request->privacy,
                 'content' => $request->content,
             ]);
     
@@ -103,7 +121,6 @@ class PostController extends Controller
                     deleteFile($post->image, 'posts');
                 }
                 $image = uploadFile($file, 'posts');
-    
                 $post->image = $image ?? NULL;
                 $post->save();
             }
@@ -143,9 +160,26 @@ class PostController extends Controller
     {
         $keyword = $request->search;
 
+        // $posts = Post::where('content', 'like', '%' .$keyword. '%')
+        //                 ->orderBy('created_at','desc')
+        //                 ->get();
+
         $posts = Post::where('content', 'like', '%' .$keyword. '%')
-                        ->orderBy('created_at','desc')
-                        ->get();
+                    ->where(function ($query) {
+                        $query->where('status', PostStatus::PUBLIC->value)
+                            ->orWhere(function ($query) {
+                                $query->where('status', PostStatus::FRIENDS->value)
+                                        ->whereHas('user', function ($query) {
+                                            $query->whereHas('friends', function ($query) {
+                                                $query->where('friend_id', auth()->user()->id)
+                                                    ->orWhere('user_id', auth()->user()->id);
+                                            });
+                                        });
+                            })
+                            ->orWhere('user_id', auth()->user()->id); 
+                    })
+                    ->orderBy('created_at','desc')
+                    ->get();
         
         $users = User::where('userName', 'like', '%' .$keyword. '%')
                         ->orderBy('created_at', 'desc')
@@ -156,6 +190,8 @@ class PostController extends Controller
 
     public function toggleLove(Request $request, Post $post)
     {
+        \Log::info('Toggle love for post ID: ' . $post->id);
+
         $love = $post->loves()->where('user_id', auth()->id())->first();
 
         if ($love) {

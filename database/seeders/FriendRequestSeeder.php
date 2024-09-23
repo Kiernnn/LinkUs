@@ -17,7 +17,7 @@ class FriendRequestSeeder extends Seeder
 
         if ($existingRequests < 10) {
             $remainingRequests = 10 - $existingRequests;
-
+            
             for ($i = 0; $i < $remainingRequests; $i++) {
                 $senderId = User::where('id', '!=', $receiverId)->inRandomOrder()->first()->id;
 
