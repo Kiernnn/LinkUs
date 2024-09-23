@@ -11,14 +11,13 @@
         <!-- Login Section Start -->
         <div class="left">
             <div class="title">
-                <h1 class="text-center mb-1" style="color: #000000">
+                <h1 class="text-center mb-4" style="color: #000000">
                     {{ __('Welcome to') }}
                     <img class="logo text-center mb-1" src="images/icon.png" alt="">
                 </h1>
             </div>
             <form method="POST" action="{{ route('login') }}">
                 @csrf
-
                 <!-- Email Section -->
                 <div data-mdb-input-init class="form-outline mb-4">
                     <input type="email" id="email" placeholder="{{ __('Email or Phone') }}"

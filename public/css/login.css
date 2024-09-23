@@ -12,8 +12,11 @@ body {
 
 .container {
     display: flex;
-    max-width: 1200px;
-    max-height: 1200px;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row;
+    width: 900px;
+    height: auto;
     background-color: #fff;
     border-radius: 20px;
     overflow: hidden;
@@ -23,24 +26,13 @@ body {
 .left, .right {
     padding: 40px;
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
 }
 
 .left {
     flex: 1;
-}
-
-.right {
-    flex: 1;
-    background-size: contain;
-    background-position: center;
-    background-repeat: no-repeat;
-    color: #fff;
-    position: relative;
-    width: 100%;
-    height: auto;
 }
 
 .left .title {
@@ -48,33 +40,15 @@ body {
 }
 
 .left h1 {
-    max-width: auto;
-    height: 100px;
     font-size: 40px;
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    font-weight: bold;
 }
 
 .left .logo {
     width: 40px;
     height: auto;
-    margin-left: 15px;
-    display: inline-block;
+    margin-left: 5px;
     vertical-align: middle;
-    align-items: center;
-    justify-self: center;
-    text-align: center;
-}
-
-.left .para {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: start;
-    margin-top: 0;
-    margin-right: 80px;
 }
 
 .left form {
@@ -90,7 +64,7 @@ body {
     width: 100%;
     padding-right: 2.5rem;
     padding: 0.875rem;
-    font-size: 1rem;
+    font-size: 16px;
     border: 1px solid #000;
     border-radius: 0.5rem;
     box-shadow: 2.5px 3px 0 #000;
@@ -158,6 +132,7 @@ body {
     color: #fff;
     background: #000;
     padding: 10px 20px;
+    font-size: 16px;
     font-weight: bold;
     border: 1px solid #292929;
     border-radius: 0.5rem;
@@ -177,96 +152,102 @@ body {
     top: 20px;
 }
 
+.right {
+    flex: 1;
+    background-size: contain;
+    background-repeat: no-repeat;
+    color: #fff;
+    width: 100%;
+    height: auto;
+}
+
 /* Responsive Styles */
 
-/* For devices with a width of 600px or less */
-@media (max-width: 600px) {
+/* Max-width 1024px */
+@media (max-width: 1024px) {
     .container {
         width: 100%;
-        flex-direction: column;
-        padding: 20px;
-    }
-
-    .right {
-        display: none;
-    }
-
-    .left {
-        width: 100%;
-        padding: 20px;
-    }
-
-    .submit {
-        margin: 20px 0;
-    }
-
-    .left h1 {
-        font-size: 24px;
-    }
-
-    .left form input {
-        font-size: 0.875rem;
-        padding: 0.975rem;
-    }
-}
-
-/* For devices with a width between 601px and 1024px */
-@media (min-width: 601px) and (max-width: 1024px) {
-    .container {
-        width: 90%;
-        flex-direction: column;
-        padding: 0 30px;
-    }
-
-    .right {
-        display: none;
-    }
-
-    .left {
-        width: 100%;
-        padding: 30px;
-    }
-
-    .submit {
-        margin: 25px 0;
-    }
-
-    .left h1 {
-        font-size: 30px;
-    }
-
-    .left form input {
-        font-size: 1rem;
-        padding: 0.875rem;
-    }
-}
-
-/* For devices with a width of 1025px or more */
-@media (min-width: 1025px) {
-    .container {
-        width: 70%;
+        max-width: 760px;
         flex-direction: row;
     }
 
+    .left,
     .right {
-        width: 50%;
-        padding: 50px;
-    }
-
-    .left {
-        width: 50%;
-    }
-
-    .submit {
-        margin: 35px 0;
+        padding: 30px;
     }
 
     .left h1 {
-        font-size: 40px;
+        font-size: 35px;
+    }
+
+    .submit {
+        height: 45px;
+        font-size: 15px;
+    }
+}
+
+/* Max-width 768px */
+@media (max-width: 768px) {
+    .container {
+        width: 100%;
+        flex-direction: row;
+    }
+
+    .left,
+    .right {
+        padding: 20px;
+    }
+
+    .left h1 {
+        font-size: 25px;
     }
 
     .left form input {
-        font-size: 1rem;
-        padding: 0.875rem;
+        padding: 0.75rem;
+        font-size: 14px;
+    }
+
+    .toggle-password {
+        top: 98px;
+        right: 20px;
+    }
+
+    .submit {
+        height: 40px;
+        font-size: 14px;
+    }
+}
+
+/* Max-width 480px */
+@media (max-width: 480px) {
+    .container {
+        width: 100%;
+        max-width: 95%;
+        flex-direction: row;
+    }
+
+    .left,
+    .right {
+        padding: 15px;
+    }
+
+    .left h1 {
+        font-size: 22px;
+    }
+
+    .left form input {
+        padding: 0.5rem;
+        font-size: 12px;
+    }
+
+    .toggle-password {
+        top: 80px;
+        right: 20px;
+    }
+
+    .submit {
+        height: 35px;
+        font-size: 12px;
+        margin: 20px 0;
     }
 }

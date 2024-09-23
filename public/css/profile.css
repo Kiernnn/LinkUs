@@ -468,6 +468,11 @@
     margin-bottom: 0;
 }
 
+.cmt-svg {
+    width: 18px;
+    height: 18px;
+}
+
 /* Responsive for tablets */
 @media (max-width: 1024px) {
     .profile-content {

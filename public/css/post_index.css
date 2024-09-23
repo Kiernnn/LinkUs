@@ -298,6 +298,11 @@
     text-align: center;
 }
 
+.cmt-svg {
+    width: 18px;
+    height: 18px;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
 
@@ -306,7 +311,7 @@
     }
 
     .input {
-        width: 100%;
+        width: 80%;
         font-size: 12px;
     }
 
@@ -315,7 +320,7 @@
     }
 
     .post-container {
-        width: 90%;
+        width: 80%;
         padding: 15px;
     }
 
