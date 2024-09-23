@@ -40,7 +40,7 @@
                             </div>
                         </div>
                     @empty
-                        <p style="color:white;">{{ __('No Friend Requests Found!') }}</p>
+                        <p style="color: #808080;">{{ __('No Friend Requests Found!') }}</p>
                     @endforelse
                 </div>
             </div>

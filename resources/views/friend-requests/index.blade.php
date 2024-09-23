@@ -55,7 +55,7 @@
                             </div>
                         </div>
                     @empty
-                        <p style="color:white;">{{ __('No Friend Requests.') }}</p>
+                        <p style="color: #808080;">{{ __('No Friend Requests.') }}</p>
                     @endforelse
                 </div>
             </div>
@@ -103,7 +103,7 @@
                         </div>
                     </div>
                 @empty
-                    <p style="color: white">No Suggestions.</p>
+                    <p style="color: #808080">No Suggestions.</p>
                 @endforelse
             </div>
         </div>
