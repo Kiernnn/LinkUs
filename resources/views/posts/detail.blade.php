@@ -3,6 +3,7 @@
 
 @section('style')
     <link href="{{ asset('css/post_detail.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 @endsection
 
 @section('content')
@@ -26,6 +27,20 @@
                     <div class="post-subtitle mb-2 small">
                         {{ timeDiffInHours($post->created_at) }}
                     </div>
+
+                    <p class="privacy">
+                        <strong>
+                            @if($post->status === 'public')
+                                <i class="fas fa-globe" title="Public"></i>
+                            @elseif($post->status === 'friends')
+                                <i class="fas fa-user-friends" title="Friends"></i>
+                            @elseif($post->status === 'me')
+                                <i class="fas fa-lock" title="Me"></i>
+                            @else
+                                <i class="fas fa-question" title="Unknown"></i>
+                            @endif
+                        </strong>
+                    </p>
                 </div>
                 <div class="post-content mb-0">
                     <p class="content">{{ $post->content }}</p>

@@ -29,8 +29,12 @@ Route::group(['middleware' => ['auth']], function () {
          Route::put('/{post}/updatePrivacy', 'updatePrivacy')->name('posts.updatePrivacy');
          Route::delete('{post}','destroy')->name('posts.destroy');
          Route::get('{post}','detail')->name('posts.detail');
-         Route::post('search', 'search')->name('posts.search');
          Route::post('/{post}/toggle-love', 'toggleLove')->name('posts.toggleLove');
+
+         // Search functionality
+         Route::post('search', 'search')->name('posts.search'); // Make sure you're using GET for search
+         Route::get('search-users/{keyword}', 'searchUsers')->name('posts.searchUsers');
+         Route::get('search-posts/{keyword}', 'searchPosts')->name('posts.searchPosts');
       });
 
       //Comments

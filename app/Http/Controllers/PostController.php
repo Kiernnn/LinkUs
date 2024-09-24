@@ -160,9 +160,9 @@ class PostController extends Controller
     {
         $keyword = $request->search;
 
-        // $posts = Post::where('content', 'like', '%' .$keyword. '%')
-        //                 ->orderBy('created_at','desc')
-        //                 ->get();
+        if (!$keyword) {
+            return redirect()->back()->with('error', 'Please enter a keyword to search.');
+        }
 
         $posts = Post::where('content', 'like', '%' .$keyword. '%')
                     ->where(function ($query) {
@@ -179,13 +179,46 @@ class PostController extends Controller
                             ->orWhere('user_id', auth()->user()->id); 
                     })
                     ->orderBy('created_at','desc')
+                    ->limit(5)
                     ->get();
         
         $users = User::where('userName', 'like', '%' .$keyword. '%')
                         ->orderBy('created_at', 'desc')
+                        ->limit(5)
                         ->get();
 
         return view('posts.index', compact('posts', 'users', 'keyword'));
+    }
+
+    public function searchUsers($keyword)
+    {
+        $users = User::where('userName', 'like', '%' .$keyword. '%')
+        ->orderBy('created_at', 'desc')
+        ->get();
+
+        return view('posts.search-users', compact('users', 'keyword'));
+    }
+
+    public function searchPosts($keyword)
+    {
+        $posts = Post::where('content', 'like', '%' .$keyword. '%')
+        ->where(function ($query) {
+            $query->where('status', PostStatus::PUBLIC->value)
+                ->orWhere(function ($query) {
+                    $query->where('status', PostStatus::FRIENDS->value)
+                            ->whereHas('user', function ($query) {
+                                $query->whereHas('friends', function ($query) {
+                                    $query->where('friend_id', auth()->user()->id)
+                                        ->orWhere('user_id', auth()->user()->id);
+                                });
+                            });
+                })
+                ->orWhere('user_id', auth()->user()->id); 
+        })
+        ->orderBy('created_at','desc')
+        ->get();
+
+        return view('posts.search-posts', compact('posts', 'keyword'));
     }
 
     public function toggleLove(Request $request, Post $post)

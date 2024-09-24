@@ -228,8 +228,6 @@
                                         <i class="fas fa-user-friends" title="Friends"></i>
                                     @elseif($post->status === 'me')
                                         <i class="fas fa-lock" title="Me"></i>
-                                    @else
-                                        <i class="fas fa-question" title="Unknown"></i>
                                     @endif
                                 </strong>
                             </p>
