@@ -68,7 +68,6 @@
 
                         {{-- search posts --}}
                         @if (!$posts->isEmpty())
-                            {{-- <h5>Posts</h5> --}}
                             @foreach ($posts as $post)
                                 @php
                                     $postProfile = $post->user->profile;
