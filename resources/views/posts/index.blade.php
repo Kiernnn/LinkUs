@@ -10,10 +10,9 @@
     <div class="container-fluid scrollable-container">
         <div class="home-content p-4">
             <!-- Search Tab Start -->
-            <form action="{{ route('posts.search') }}" +style="display: flex;">
+            <form action="{{ route('posts.search') }}" method="POST" style="display: flex;">
                 <div class="justify-content-center container">
                     @csrf
-                    @method('GET')
                     <input type="text" name="search" class="input" placeholder="Search"
                         value="{{ old('search', $keyword ?? '') }}">
                     <button class="search__btn" type="submit">

@@ -32,7 +32,7 @@ Route::group(['middleware' => ['auth']], function () {
          Route::post('/{post}/toggle-love', 'toggleLove')->name('posts.toggleLove');
 
          // Search functionality
-         Route::post('search', 'search')->name('posts.search'); // Make sure you're using GET for search
+         Route::post('search', 'search')->name('posts.search'); 
          Route::get('search-users/{keyword}', 'searchUsers')->name('posts.searchUsers');
          Route::get('search-posts/{keyword}', 'searchPosts')->name('posts.searchPosts');
       });
