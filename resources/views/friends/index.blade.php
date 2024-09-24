@@ -48,7 +48,7 @@
                         </div>
                     </div>
                 @empty
-                    <p style="color: white">{{ __('You have no friends.') }}</p>
+                    <p style="color: #808080;">{{ __('You have no friends.') }}</p>
                 @endforelse
             </div>
         </div>

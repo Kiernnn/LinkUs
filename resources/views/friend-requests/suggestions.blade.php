@@ -50,7 +50,7 @@
                         </div>
                     </div>
                 @empty
-                    <p style="color: white">{{ __('No Suggestions Found!') }}</p>
+                    <p style="color: #808080;">{{ __('No Suggestions Found!') }}</p>
                 @endforelse
             </div>
         </div>

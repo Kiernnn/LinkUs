@@ -12,7 +12,7 @@
         <div class="left">
             <div class="title">
                 <h1 class="text-center mb-4" style="color: #000000">
-                    {{ __('Welcome to') }}
+                    {{ __('Welcome back') }}
                     <img class="logo text-center mb-1" src="images/icon.png" alt="">
                 </h1>
             </div>
