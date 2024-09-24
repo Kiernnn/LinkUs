@@ -89,7 +89,7 @@
                         <p hidden></p>
                     @endif
                 </div>
-                <hr style="color:white; margin-top: 0px;">
+                <hr>
 
                 <!-- Existing comments -->
                 <div class="comment-sec">
