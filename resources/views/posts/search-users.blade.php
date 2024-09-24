@@ -31,7 +31,6 @@
                     <div class="friends-container mb-3 mt-3">
                         <div class="friends mb-3">Search Result for " {{ $keyword }} "</div>
                         <div class="title-links">
-                            {{-- <a href="{{ route('posts.search', $keyword) }}" class="links {{ Request::is('posts/search') ? 'active' : '' }}">{{ __('All') }}</a> --}}
                             <a href="{{ route('posts.searchUsers', $keyword)}}"
                                 class="links {{ Request::is('posts/search-users') ? 'active' : '' }}">{{ __('Users') }}</a>
                             <a href="{{ route('posts.searchPosts', $keyword) }}" class="links {{ Request::is('posts/search-posts') ? 'active' : '' }}">{{ __('Posts') }}</a>
@@ -41,7 +40,6 @@
                     @if ($users->isEmpty())
                         <p class="friends">Not found.</p>
                     @else
-                        {{-- <h5>Users</h5> --}}
                         <div class="suggest-form-container mb-3">
                             <div class="search-profile mb-3">
                                 @foreach ($users as $user)
