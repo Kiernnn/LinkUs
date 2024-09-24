@@ -28,11 +28,23 @@
 
             <!-- Post container Start -->
             <div class="post-wrapper">
+                @if (isset($keyword))
+                    <div class="friends-container mb-3 mt-3">
+                        <div class="friends mb-3">Search Result for " {{ $keyword }} "</div>
+                        <div class="title-links">
+                            {{-- <a href="{{ route('posts.search', $keyword) }}" class="links {{ Request::is('posts/search') ? 'active' : '' }}">{{ __('All') }}</a> --}}
+                            <a href="{{ route('posts.searchUsers', $keyword)}}"
+                                class="links {{ Request::is('posts/search-users') ? 'active' : '' }}">{{ __('Users') }}</a>
+                            <a href="{{ route('posts.searchPosts', $keyword) }}" class="links {{ Request::is('posts/search-posts') ? 'active' : '' }}">{{ __('Posts') }}</a>
+                        </div>
+                    </div>
+                @endif
                 {{-- display errors --}}
                 @if (session('error'))
                     <div class="alert alert-danger">{{ session('error') }}</div>
                 @endif
 
+<<<<<<< HEAD
                 {{-- Search Results start --}}
                 @if (isset($keyword))
                     @if (!$posts->isEmpty() || !$users->isEmpty())
@@ -167,6 +179,8 @@
                 @endif
                 {{-- Search Results end --}}
 
+=======
+>>>>>>> f105567ce79dffa7f56c7b645f51a1942adbfbbe
                 {{-- posts --}}
                 @foreach ($posts as $post)
                     @php
