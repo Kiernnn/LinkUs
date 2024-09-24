@@ -35,14 +35,15 @@
 
                 {{-- Search Results start --}}
                 @if (isset($keyword))
-                    @if((!$posts->isEmpty()) || (!$users->isEmpty()))
+                    @if (!$posts->isEmpty() || !$users->isEmpty())
                         <div class="friends-container mb-3 mt-3">
                             <div class="friends mb-3">Search Result for " {{ $keyword }} "</div>
                             <div class="title-links">
                                 {{-- <a href="{{ route('posts.search', ['search' => $keyword]) }}" class="links {{ Request::is('posts/searchResults') ? 'active' : '' }}">{{ __('All') }}</a> --}}
-                                <a href="{{ route('posts.searchUsers', $keyword)}}"
+                                <a href="{{ route('posts.searchUsers', $keyword) }}"
                                     class="links {{ Request::is('posts/search-users') ? 'active' : '' }}">{{ __('Users') }}</a>
-                                <a href="{{ route('posts.searchPosts', $keyword) }}" class="links {{ Request::is('posts/search-posts') ? 'active' : '' }}">{{ __('Posts') }}</a>
+                                <a href="{{ route('posts.searchPosts', $keyword) }}"
+                                    class="links {{ Request::is('posts/search-posts') ? 'active' : '' }}">{{ __('Posts') }}</a>
                             </div>
                         </div>
                     @endif
@@ -60,7 +61,8 @@
                                                 $postProfile = $user->profile;
                                             @endphp
                                             <div class="request-container mb-2">
-                                                <a href="{{ route('profile.show', $user->id) }}" class="searchProfile mb-0">
+                                                <a href="{{ route('profile.show', $user->id) }}"
+                                                    class="searchProfile mb-0">
                                                     @if ($postProfile && $postProfile->image && file_exists(public_path('profiles/' . $postProfile->image)))
                                                         <img src="{{ asset('profiles/' . $postProfile->image) }}"
                                                             alt="Profile Picture" class="profile-pic me-3">
@@ -173,7 +175,7 @@
                         // dd($hasLoved);
                     @endphp
                     <div class="post-container mb-3 shadow-sm p-4 rounded-4 text-light">
-                        
+
                         {{-- Profile section start --}}
                         <a href="{{ route('profile.show', $post->user->id) }}" class="post-header d-flex">
                             @if ($postProfile && $postProfile->image && file_exists(public_path('profiles/' . $postProfile->image)))
@@ -185,8 +187,8 @@
                             @endif
 
                             <div class="profile-name">{{ $post->user->userName }}</div>
-
                             <div class="post-subtitle mb-2 small">{{ timeDiffInHours($post->created_at) }}</div>
+
                             <div class="privacy">
                                 @if ($post->status === 'public')
                                     <svg class="status-svg" xmlns="http://www.w3.org/2000/svg" height="24px"
