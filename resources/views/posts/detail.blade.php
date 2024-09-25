@@ -89,7 +89,7 @@
                         <p hidden></p>
                     @endif
                 </div>
-                <hr>
+                <hr class="hr">
 
                 <!-- Existing comments -->
                 <div class="comment-sec">
@@ -112,7 +112,7 @@
                             </div>
                             <div class="comment-sub small">
                                 <div class="post-sub mb-2 small">
-                                    <div class="post-subtitle text-secondary mb-2 small">
+                                    <div class="post-subtitle small">
                                         {{ timeDiffInHours($comment->created_at) }}
                                     </div>
                                     @if (auth()->id() === $post->user->id || auth()->user()->can('delete', $comment))
