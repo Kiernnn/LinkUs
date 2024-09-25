@@ -246,12 +246,12 @@
     margin-right: 5px;
 }
 
-.fri-sub {
+.post-sub, .fri-sub {
     color: #808080;
     font-size: 14px;
 }
 
-.fri-sub:hover {
+.post-sub:hover, .fri-sub:hover {
     color: #fff;
 }
 
@@ -508,8 +508,8 @@
     }
 
     .create-form-container, .friend-form-container {
-        width: 160px;
-        height: 160px;
+        width: 245px;
+        height: auto;
     }
 
     .sub-text {
@@ -571,8 +571,8 @@
     }
 
     .create-form-container, .friend-form-container {
-        width: 120px;
-        height: 120px;
+        width: 195px;
+        height: auto;
     }
 
     .post-form-container {
@@ -618,8 +618,8 @@
     }
 
     .create-form-container, .friend-form-container {
-        width: 95px;
-        height: 95px;
+        width: 145px;
+        height: auto;
     }
 
     .post-form-container {

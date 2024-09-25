@@ -35,7 +35,7 @@
                 <div class="all mb-0">
                     <div class="all-post">
                         <p class="post-text">{{ $viewingUser->posts->count() }}</p>
-                        <p class="post-text text-secondary">{{ __('posts') }}</p>
+                        <p class="post-sub">{{ __('posts') }}</p>
                     </div>
                     <a href="{{ route('friends.showUser', $viewingUser->id) }}" class="all-fri">
                         <p class="fri-text">{{ $viewingUser->totalFriends() }}</p>
@@ -185,7 +185,7 @@
                         $postProfile = $post->user->profile;
                         $hasLoved = $post->loves()->where('user_id', auth()->id())->exists();
                     @endphp
-                    <div class="post-form-container card p-4 shadow mt-2">
+                    <div class="post-form-container card p-4 shadow mt-1">
 
                         <!-- Profile Section Start -->
                         <div class="post-header d-flex">
