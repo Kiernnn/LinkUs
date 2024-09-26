@@ -15,16 +15,14 @@
     padding-bottom: 2%;
 }
 
-.friends-container {
+.request-form-container,
+.suggest-form-container {
     background-color: #141414;
     border: 1px solid #333;
     border-radius: 20px;
     padding: 20px;
     width: 600px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
 }
 
 .friends {
@@ -38,6 +36,7 @@
 .title-links {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     width: 100%;
 }
 
@@ -49,25 +48,21 @@
     text-align: center;
     color: #fff;
     font-size: 14px;
-    font-weight: bold;
     background-color: #333;
+    width: 180px;
     height: 40px;
-    border-radius: 20px;
+    border-radius: 10px;
     padding: 0 20px;
+    margin-top: 20px;
 }
 
 .links:hover {
     background-color: #3e3e3e;
 }
 
-.request-form-container,
-.suggest-form-container {
-    background-color: #141414;
-    border: 1px solid #333;
-    border-radius: 20px;
-    padding: 20px;
-    width: 600px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+.hr {
+    color: #808080;
+    width: 100%;
 }
 
 .friends-info {

@@ -9,18 +9,16 @@
 
     <div class="friends-content p-4">
         <div class="friends-box">
-            <div class="friends-container mb-3 mt-3">
+            <!-- Friend Requests Section -->
+            <div class="request-form-container mb-3">
                 <a href="{{ route('friends.index') }}" class="friends mb-3">{{ __('Friends') }}</a>
-                <div class="title-links">
+                <div class="title-links mb-4">
                     <a href="{{ route('friendRequests.requests') }}" class="links">{{ __('Friend requests') }}</a>
                     <a href="{{ route('friendRequests.suggestions', ['all' => true]) }}"
                         class="links">{{ __('Suggestions') }}</a>
                     <a href="{{ route('friends.list') }}" class="links">{{ __('Your friends') }}</a>
                 </div>
-            </div>
-
-            <!-- Friend Requests Section -->
-            <div class="request-form-container mb-3">
+                <hr class="hr">
                 <div class="friends-info mb-2">
                     <div class="friends mb-2">{{ __('Friend requests') }}</div>
                     <a href="{{ route('friendRequests.requests') }}" class="see-all">{{ __('See all') }}</a>
@@ -58,10 +56,9 @@
                         <p style="color: #808080;">{{ __('No Friend Requests.') }}</p>
                     @endforelse
                 </div>
-            </div>
+                <hr class="hr">
 
-            <!-- Suggestions Section -->
-            <div class="suggest-form-container mb-3">
+                <!-- Suggestions Section -->
                 <div class="friends-info mb-2">
                     <div class="friend-requests mb-2">{{ __('Suggested for you') }}</div>
                     <a href="{{ route('friendRequests.suggestions') }}" class="see-all">{{ __('See all') }}</a>

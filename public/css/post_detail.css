@@ -39,12 +39,12 @@
     margin-bottom: 10px;
 }
 
-.post-header, .comment-header {
+.post-header {
     display: flex;
     align-items: center;
     justify-content: flex-start;
     flex-direction: row;
-    margin-bottom: -10px;
+    margin-top: 0;
 }
 
 .post-header .profile-pic{
@@ -92,7 +92,7 @@
     color: #fff;
     padding: 10px;
     margin-left: 40px;
-    margin-bottom: -20px;
+    margin-top: -10px;
 }
 
 .post-content .content {
@@ -205,7 +205,7 @@
     align-items: center;
     flex-direction: row;
     padding: 10px;
-    margin-top: 0;
+    margin-top: -20px;
     margin-bottom: 0;
     margin-left: 30px;
 }
@@ -216,6 +216,7 @@
     padding: 5px 10px;
     border-radius: 5px;
     cursor: pointer;
+    margin-top: 0;
 }
 
 .footer-info button:hover {
@@ -233,8 +234,8 @@
 
 .hr {
     color: #808080;
-    width: 600px;
-    margin-left: -25px;
+    width: 100%;
+    margin-top: 0;
 }
 
 .comment-box {

@@ -37,12 +37,12 @@ class PostController extends Controller
         foreach ($posts as $post) {
             $post->hasLoved = $post->loves()->where('user_id', auth()->id())->exists();
         }
-    
+
         return view('posts.index', compact('posts'));
     }
-    
+
     public function create()
-    {       
+    {
         return view('posts.create');
     }
 
@@ -114,26 +114,26 @@ class PostController extends Controller
                 'status' => $request->privacy,
                 'content' => $request->content,
             ]);
-    
+
             if ($request->hasFile('image')) {
                 $file = $request->file('image');
-                if($post->image) {            
+                if($post->image) {
                     deleteFile($post->image, 'posts');
                 }
                 $image = uploadFile($file, 'posts');
                 $post->image = $image ?? NULL;
                 $post->save();
             }
-    
+
             return redirect()->route('profile.index')->with('success', 'Post updated successfully.');
         } catch (\Exception $e) {
             dd($e);
             return redirect()->back()->with('error', 'An error occurred while creating the post.');
         }
-        
+
     }
 
-    // Comment 
+    // Comment
     public function detail(Post $post)
     {
         return view('posts.detail', compact('post'));
@@ -176,12 +176,12 @@ class PostController extends Controller
                                             });
                                         });
                             })
-                            ->orWhere('user_id', auth()->user()->id); 
+                            ->orWhere('user_id', auth()->user()->id);
                     })
                     ->orderBy('created_at','desc')
                     ->limit(5)
                     ->get();
-        
+
         $users = User::where('userName', 'like', '%' .$keyword. '%')
                         ->orderBy('created_at', 'desc')
                         ->limit(5)
@@ -213,7 +213,7 @@ class PostController extends Controller
                                 });
                             });
                 })
-                ->orWhere('user_id', auth()->user()->id); 
+                ->orWhere('user_id', auth()->user()->id);
         })
         ->orderBy('created_at','desc')
         ->get();
@@ -224,13 +224,19 @@ class PostController extends Controller
     public function toggleLove(Request $request, Post $post)
     {
         $love = $post->loves()->where('user_id', auth()->id())->first();
+        $hasLoved = false;
 
         if ($love) {
-            $love->delete(); 
-        } else {
+            $love->delete();
+        }   else {
             $post->loves()->create(['user_id' => auth()->id()]);
+            $hasLoved = true;
         }
 
-        return back();
+        return response()->json([
+            'success' => true,
+            'hasLoved' => $hasLoved,
+            'loveCount' => $post->loves()->count(),
+        ]);
     }
 }
