@@ -223,8 +223,6 @@ class PostController extends Controller
 
     public function toggleLove(Request $request, Post $post)
     {
-        \Log::info('Toggle love for post ID: ' . $post->id);
-
         $love = $post->loves()->where('user_id', auth()->id())->first();
 
         if ($love) {
