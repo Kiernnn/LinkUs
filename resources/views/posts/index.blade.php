@@ -45,12 +45,13 @@
                                 <a href="{{ route('posts.searchPosts', $keyword) }}"
                                     class="links {{ Request::is('posts/search-posts') ? 'active' : '' }}">{{ __('Posts') }}</a>
                             </div>
+                            <hr class="hr">
                             {{-- Search Results for Users --}}
                             @if ($posts->isEmpty() && $users->isEmpty())
                                 <p style="color: #808080;">Not found.</p>
                             @else
                                 @if (!$users->isEmpty())
-                                    <div class="search-profile mt-3">
+                                    <div class="search-profile mt-0">
                                         @foreach ($users as $user)
                                             @php
                                                 $postProfile = $user->profile;
@@ -84,7 +85,7 @@
                             @endif
                             {{-- Search Results for Posts --}}
                             @if (!$posts->isEmpty())
-                                <div class="searchPost d-block mt-3">
+                                <div class="searchPost d-block mt-0">
                                     <div class="postSec mb-3">
                                         @foreach ($posts as $post)
                                             @php
@@ -187,10 +188,12 @@
                                                         alt="Post image">
                                                 @endif
                                                 <div class="post-footer d-flex mt-1">
-                                                    <form action="{{ route('posts.toggleLove', $post->id) }}"
+                                                    <form id="loveForm-{{ $post->id }}"
+                                                        action="{{ route('posts.toggleLove', $post->id) }}"
                                                         method="POST" class="me-0" style="display:inline;">
                                                         @csrf
-                                                        <button class="btn">
+                                                        <button type="button" data-post-id="{{ $post->id }}"
+                                                            class="love-btn">
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="20px"
                                                                 height="20px"
                                                                 fill="{{ $hasLoved ? '#dc3545' : '#fff' }}"
@@ -334,10 +337,11 @@
                                 <img src="{{ asset('posts/' . $post->image) }}" class="post-image" alt="Post image">
                             @endif
                             <div class="post-footer d-flex mt-1">
-                                <form action="{{ route('posts.toggleLove', $post->id) }}" method="POST" class="me-0"
+                                <form id="loveForm-{{ $post->id }}"
+                                    action="{{ route('posts.toggleLove', $post->id) }}" method="POST" class="love-form"
                                     style="display:inline;">
                                     @csrf
-                                    <button class="btn">
+                                    <button type="button" class="btn love-btn" data-post-id="{{ $post->id }}">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px"
                                             fill="{{ $hasLoved ? '#dc3545' : '#fff' }}"
                                             class="bi {{ $hasLoved ? 'bi-heart-fill' : 'bi-heart' }}"
@@ -378,4 +382,41 @@
         <!-- Post, Search Results container End -->
     </div>
     </div>
+@endsection
+
+@section('script')
+    <script>
+        document.querySelectorAll('.love-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                let postId = this.getAttribute('data-post-id');
+                let form = document.getElementById(`loveForm-${postId}`);
+                let formData = new FormData(form);
+
+                // Make the AJAX request to toggle the love
+                fetch(form.action, {
+                        method: 'POST',
+                        body: formData,
+                        headers: {
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')
+                                .getAttribute('content')
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            // Update the heart icon and love count dynamically
+                            let svg = this.querySelector('svg');
+                            svg.classList.toggle('bi-heart');
+                            svg.classList.toggle('bi-heart-fill');
+                            svg.setAttribute('fill', data.hasLoved ? '#dc3545' : '#fff');
+
+                            // Update the love count dynamically
+                            let loveCount = this.closest('form').nextElementSibling;
+                            loveCount.textContent = data.loveCount;
+                        }
+                    })
+                    .catch(error => console.error('Error:', error));
+            });
+        });
+    </script>
 @endsection
