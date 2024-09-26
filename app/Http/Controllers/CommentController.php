@@ -34,9 +34,9 @@ class CommentController extends Controller
             $comment->user_id = auth()->id();
             $comment->save();
 
-            return redirect()->route('posts.detail', $post->id)->with('success', 'Comment added successfully.');
+            return response()->json(['success' => true, 'comment' => $comment]);
         } catch (Exception $e) {
-            return redirect()->route('posts.detail', $post->id)->with('error', 'Write something to comment!');
+            return response()->json(['success' => false, 'error' => 'Write something to comment!']);
         }
     }
 

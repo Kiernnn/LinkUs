@@ -94,7 +94,7 @@
                 <!-- Existing comments -->
                 <div class="comment-sec">
                     @forelse ($post->comments as $comment)
-                        <div class="comment-header d-flex mb-1">
+                        <div id="commentsSection" class="comment-header d-flex mb-1">
                             @php
                                 $commentProfile = $comment->user->profile;
                             @endphp
@@ -138,12 +138,12 @@
 
                     <!-- Add comment -->
                     <div class="post-footer">
-                        <form action="{{ route('comments.store', $post->id) }}" method="POST">
+                        <form id="commentForm" action="{{ route('comments.store', $post->id) }}" method="POST">
                             @csrf
                             <div class="comment-box">
-                                <input type="text" name="content" placeholder="Write a comment..."
+                                <input type="text" name="content" id="commentContent" placeholder="Write a comment..."
                                     class="comment-input" />
-                                <button class="send-btn" type="submit">
+                                <button class="send-btn" type="submit" id="submitComment">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 664 663">
                                         <path fill="none"
                                             d="M646.293 331.888L17.7538 17.6187L155.245 331.888M646.293 331.888L17.753 646.157L155.245 331.888M646.293 331.888L318.735 330.228L155.245 331.888">
@@ -174,20 +174,38 @@
 
     @section('scripts')
         <script>
-            $(document).on('click', '.love-button', function(e) {
-                e.preventDefault();
-                var form = $(this).closest('form');
-                $.ajax({
-                    url: form.attr('action'),
-                    method: form.attr('method'),
-                    data: form.serialize(),
-                    success: function(response) {
-                        // Handle successful response, maybe update the love icon dynamically
-                    },
-                    error: function(response) {
-                        // Handle error
-                    }
-                });
+            document.getElementById('commentForm').addEventListener('submit', function(e) {
+                e.preventDefault(); // Prevent form from reloading the page
+
+                let content = document.getElementById('commentContent').value;
+                let postId = "{{ $post->id }}"; // Get the post ID from the view
+                let token = document.querySelector('input[name="_token"]').value; // Get CSRF token
+
+                fetch(`/comments/store/${postId}`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': token
+                        },
+                        body: JSON.stringify({
+                            content: content
+                        })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            // Append the new comment to the comments section
+                            let commentSection = document.getElementById('commentsSection');
+                            let newComment = `<div class="comment">${data.comment.content}</div>`;
+                            commentSection.innerHTML += newComment;
+
+                            // Clear the input field
+                            document.getElementById('commentContent').value = '';
+                        } else {
+                            alert('Error adding comment');
+                        }
+                    })
+                    .catch(error => console.error('Error:', error));
             });
         </script>
     @endsection
