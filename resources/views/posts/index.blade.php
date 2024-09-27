@@ -13,14 +13,14 @@
             <form action="{{ route('posts.search') }}" method="POST" style="display: flex;">
                 <div class="justify-content-center container">
                     @csrf
-                    <input type="text" name="search" class="input" placeholder="Search"
+                    <input type="text" name="search" oninput="toggleClearButton()" class="input" placeholder="Search"
                         value="{{ old('search', $keyword ?? '') }}">
                     <!-- Clear Button -->
-                    {{-- <button type="button" class="clearBtn" onclick="clearSearch()">
+                    <button type="button" class="clearBtn" onclick="clearSearch()">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
                             <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z"/>
                         </svg>
-                    </button> --}}
+                    </button>
                     <button class="search__btn" type="submit">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="22" height="22">
                             <path
@@ -349,17 +349,21 @@
 @section('script')
     <script>
         // clear search 
-        // function clearSearch() {
-        //     const searchInput = document.querySelector('input[name="search"]');
-        //     searchInput.value = '';
-        //     toggleClearButton();
-        // }
+        function clearSearch() {
+            const searchInput = document.querySelector('input[name="search"]');
+            searchInput.value = '';
+            toggleClearButton();
+        }
 
-        // function toggleClearButton() {
-        //     const searchInput = document.querySelector('input[name="search"]');
-        //     const clearButton = document.querySelector('.clearBtn');
-        //     clearButton.style.display = searchInput.value ? 'inline-block' : 'none';
-        // }
+        function toggleClearButton() {
+            const searchInput = document.querySelector('input[name="search"]');
+            const clearButton = document.querySelector('.clearBtn');
+            clearButton.style.display = searchInput.value ? 'inline-block' : 'none';
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            toggleClearButton();
+        });
 
         document.querySelectorAll('.love-btn').forEach(button => {
             button.addEventListener('click', function() {

@@ -49,8 +49,8 @@ class ProfileController extends Controller
                                           ->orWhere('user_id', auth()->user()->id);
                                 });
                             });
-                  });
-                //   ->orWhere('user_id', auth()->user()->id); 
+                  })
+                  ->orWhere('user_id', auth()->user()->id); 
         })
         ->orderBy('created_at', 'desc')
         ->get();

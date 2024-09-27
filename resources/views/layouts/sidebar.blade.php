@@ -529,18 +529,16 @@
                     $('#friend-request-count').text(count);
 
                     if (count > 0) {
-                        $('#friend-request-count').show(); // Show badge
+                        $('#friend-request-count').show();
                     } else {
-                        $('#friend-request-count').hide(); // Hide badge
+                        $('#friend-request-count').hide();
                     }
                 }
             });
         }
 
-        // Fetch friend request count every 5 seconds (5000 milliseconds)
         setInterval(fetchFriendRequestCount, 2000);
 
-        // Optionally call it immediately on page load
         $(document).ready(function() {
             fetchFriendRequestCount();
         });
