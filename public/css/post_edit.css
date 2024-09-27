@@ -28,8 +28,8 @@
 
 .delete-btn {
     position: absolute;
-    top: 12%;
-    left: 93%;
+    top: 50%;
+    left: 50%;
     transform: translate(-50%, -50%);
     background-color: rgb(20, 20, 20);
     border: none;
