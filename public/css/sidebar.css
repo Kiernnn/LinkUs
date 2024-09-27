@@ -79,7 +79,8 @@ body {
     color: #fff;
     border-radius: 12px;
     transition: background 0.3s ease;
-    position: relative; /* Required for the tooltip positioning */
+    position: relative;
+    z-index: 1;
 }
 
 .sidebar ul .content a:hover,
@@ -88,9 +89,9 @@ body {
 }
 
 .sidebar ul .content a::after {
-    content: attr(data-tooltip); /* The tooltip text from the data attribute */
+    content: attr(data-tooltip);
     position: absolute;
-    bottom: 20%; /* Position above the icon */
+    bottom: 20%;
     left: 170%;
     transform: translateX(-50%);
     background-color: #141414;
@@ -120,6 +121,24 @@ body {
 .sidebar ul .content a:hover svg path,
 .sidebar ul .content a:focus svg path {
     fill: #fff;
+}
+
+.badge {
+    content: "";
+    position: absolute;
+    display: flex;
+    top: 8px;
+    right: 3px;
+    height: 12px;
+    width: 12px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    background-color: #dc3545;
+    color: #fff;
+    font-size: 8px;
+    z-index: 999;
+    transition: all 0.2s;
 }
 
 .sidebar ul .content a.active {
