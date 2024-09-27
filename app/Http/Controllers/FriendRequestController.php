@@ -122,6 +122,11 @@ class FriendRequestController extends Controller
                 'user_id' => $friendRequest->receiver_id,
                 'friend_id' => $friendRequest->sender_id,
             ]);
+            
+            Friend::create([
+                'user_id' => $friendRequest->sender_id,
+                'friend_id' => $friendRequest->receiver_id,
+            ]);
 
             $friendRequest->delete();
 

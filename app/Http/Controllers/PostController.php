@@ -6,6 +6,7 @@ use App\Enums\PostStatus;
 use App\Models\Post;
 use App\Models\User;
 use App\Models\Love;
+use App\Models\Friend;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -17,22 +18,20 @@ class PostController extends Controller
     public function index(Request $request)
     {
         $posts = Post::orderBy('created_at','desc')
-        ->where('user_id','!=',auth()->user()->id)
-        ->where(function ($query) {
-            $query->where('status', PostStatus::PUBLIC->value)
-                  ->orWhere(function ($query) {
-                      $query->where('status', PostStatus::FRIENDS->value)
-                            ->whereHas('user', function ($query) {
-                                $query->whereHas('friends', function ($query) {
-                                    $query->where('friend_id', auth()->user()->id)
-                                          ->orWhere('user_id', auth()->user()->id);
-                                });
-                            });
-                  })
-                  ->orWhere('user_id', auth()->user()->id);
-        })
-        ->orderBy('created_at', 'desc')
-        ->get();
+            ->where('user_id','!=',auth()->user()->id)
+            ->where(function ($query) {
+                $query->where('status', PostStatus::PUBLIC->value)
+                    ->orWhere(function ($query) {
+                        $query->where('status', PostStatus::FRIENDS->value)
+                            ->whereHas('user.friends', function ($query) {
+                                $query->where('friend_id', auth()->user()->id)
+                                      ->orWhere('user_id', auth()->user()->id);
+                        });
+                })
+                ->orWhere('user_id', auth()->user()->id);
+            })
+            ->orderBy('created_at', 'desc')
+            ->get();
 
         foreach ($posts as $post) {
             $post->hasLoved = $post->loves()->where('user_id', auth()->id())->exists();

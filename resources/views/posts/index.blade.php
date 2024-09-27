@@ -243,6 +243,7 @@
             {{-- posts section start --}}
             @if (!isset($keyword))
                 @foreach ($posts as $post)
+                
                     @php
                         $postProfile = $post->user->profile;
                         $hasLoved = $post->loves()->where('user_id', auth()->id())->exists();
