@@ -307,7 +307,10 @@
                     <li class="content">
                         <a href="{{ route('friendRequests.index') }}" data-tooltip="Friends"
                             class=" friends d-flex align-items-center nav-link{{ Request::routeIs('friendRequests.index') ? ' active' : '' }}">
-                            <span class="badge">1</span>
+                            
+                                <span class="badge" id="friend-request-count">
+                                    {{ $friendRequestCount }}
+                                </span>
                             @if (Request::routeIs('friendRequests.index'))
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                     fill="currentColor" class="bi bi-people-fill" viewBox="0 0 16 16">
@@ -510,6 +513,38 @@
     <script src="{{ asset('js/app.js') }}"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     @yield('script')
+    {{-- logout button confirmation --}}
+    {{-- <script>
+        if (confirm('Are you sure you want to logout?')) {
+            document.getElementById('logout-form').submit();
+        }
+    </script> --}}
+    <script>
+        function fetchFriendRequestCount() {
+            $.ajax({
+                url: "{{ route('friendRequests.count') }}",
+                method: "GET",
+                success: function(response) {
+                    const count = response.count;
+                    $('#friend-request-count').text(count);
+
+                    if (count > 0) {
+                        $('#friend-request-count').show(); // Show badge
+                    } else {
+                        $('#friend-request-count').hide(); // Hide badge
+                    }
+                }
+            });
+        }
+
+        // Fetch friend request count every 5 seconds (5000 milliseconds)
+        setInterval(fetchFriendRequestCount, 2000);
+
+        // Optionally call it immediately on page load
+        $(document).ready(function() {
+            fetchFriendRequestCount();
+        });
+    </script>
 </body>
 
 </html>

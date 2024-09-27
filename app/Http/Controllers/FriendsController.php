@@ -18,7 +18,11 @@ class FriendsController extends Controller
             $friends = Friend::with(['user', 'friend'])
                              ->where('user_id', $viewingUser->id)
                              ->orWhere('friend_id', $viewingUser->id)
-                             ->get();
+                             ->get()
+                             ->unique(function ($friend) use ($viewingUser) {
+                                // Group by the friend user, ignoring the direction of the friendship
+                                return $friend->user_id == $viewingUser->id ? $friend->friend_id : $friend->user_id;
+                            });
 
             $friendRequests = FriendRequest::with('sender')
                                            ->where('receiver_id', $viewingUser->id)
@@ -60,19 +64,22 @@ class FriendsController extends Controller
     {
         try {
             $userId = auth()->user()->id;
+
             $friendship = Friend::where(function ($query) use ($userId, $friendId) {
                 $query->where('user_id', $userId)
                       ->where('friend_id', $friendId);
             })->orWhere(function ($query) use ($userId, $friendId) {
                 $query->where('user_id', $friendId)
                       ->where('friend_id', $userId);
-            })->first();
+            })->get();
 
-            if (!$friendship) {
+            if ($friendship->isEmpty()) {
                 return back()->with('error', 'Friendship not found.');
             }
 
-            $friendship->delete();
+            foreach ($friendship as $record) {
+                $record->delete();
+            }
 
             return back()->with('success', 'Unfriend successfully');
         } catch (\Exception $e) {
@@ -89,7 +96,11 @@ class FriendsController extends Controller
                              ->where('user_id', $viewingUser->id )
                              ->orWhere('friend_id', $viewingUser->id )
                              ->orderBy('created_at', 'desc')
-                             ->get();
+                             ->get()
+                             ->unique(function ($friend) use ($viewingUser) {
+                                // Group by the friend user, ignoring the direction of the friendship
+                                return $friend->user_id == $viewingUser->id ? $friend->friend_id : $friend->user_id;
+                            });
 
             return view('friends.index', compact('viewingUser', 'friends'));
         } catch (Exception $e) {

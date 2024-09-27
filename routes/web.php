@@ -75,7 +75,8 @@ Route::group(['middleware' => ['auth']], function () {
           Route::delete('/decline/{id}', 'declineRequest')->name('friendRequests.decline');
           Route::delete('/cancel/{id}', 'cancelRequest')->name('friendRequests.cancel');
           Route::get('suggestions', 'suggestions')->name('friendRequests.suggestions');
-
+          Route::get('/count', 'count')->name('friendRequests.count');
+         
       });
    });
 

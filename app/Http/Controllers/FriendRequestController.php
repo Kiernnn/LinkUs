@@ -67,6 +67,10 @@ class FriendRequestController extends Controller
         ]);
 
         try {
+            // if ($request->receiverId == auth()->user()->id) {
+            //     return response()->json(['message' => 'You cannot send a friend request to yourself.'], 400);
+            // }
+
             $existingRequest = FriendRequest::where('sender_id', auth()->user()->id)
                 ->where('receiver_id', $request->receiverId)
                 ->where('status', 'pending')
@@ -193,4 +197,14 @@ class FriendRequestController extends Controller
         
         return view('friend-requests.suggestions', compact('suggestions'));
     }
+
+    public function count()
+    {
+        $friendRequestCount = FriendRequest::where('receiver_id', Auth::id())
+            ->where('status', 'pending')
+            ->count();
+
+        return response()->json(['count' => $friendRequestCount]);
+    }
+
 }
