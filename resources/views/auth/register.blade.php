@@ -345,8 +345,8 @@
                     <div class="input-wrapper">
                         <div data-mdb-input-init class="form-outline mb-0">
                             <input type="password" id="password" placeholder="{{ __('Password') }}"
-                                class="form-control @error('password') is-invalid @enderror" name="password" required
-                                autocomplete="current-password" autofocus />
+                                class="form-control @error('password') is-invalid @enderror" name="password" value="{{ session('password') ?? old('password') }}" required autocomplete="current-password" autofocus />
+
                             <label class="toggle-password" onclick="togglePasswordVisibility()">
                                 <input type="checkbox" checked="checked">
                                 <svg class="eye-slash" xmlns="http://www.w3.org/2000/svg" height="24px"

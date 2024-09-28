@@ -108,29 +108,4 @@ class FriendsController extends Controller
             return back()->with('error', 'An error occurred while retrieving the friends list: ' . $e->getMessage());
         }
     }
-
-    public function search(Request $request)
-    {
-        $query = $request->input('query');
-        $viewingUser = auth()->user();
-
-        $searchResults = User::where('userName', 'LIKE', "%{$query}%")
-                             ->where('id', '!=', $viewingUser->id)
-                             ->get();
-
-        $friends = Friend::with(['user', 'friend'])
-                         ->where('user_id', $viewingUser->id)
-                         ->orWhere('friend_id', $viewingUser->id)
-                         ->get();
-
-        $friendRequests = FriendRequest::with('sender')
-                                       ->where('receiver_id', $viewingUser->id)
-                                       ->get();
-
-        $sentRequests = FriendRequest::where('sender_id', $viewingUser->id)
-                                     ->pluck('receiver_id')
-                                     ->toArray();
-
-        return view('friends.index', compact('viewingUser', 'searchResults', 'friends', 'friendRequests', 'sentRequests'));
-    }
 }

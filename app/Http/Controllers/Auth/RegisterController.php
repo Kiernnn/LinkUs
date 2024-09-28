@@ -40,14 +40,8 @@ class RegisterController extends Controller
             'firstName' => 'required|string|max:255',
             'lastName' => 'required|string|max:255',
             'userName' => 'required|string|max:255',
-            'birthDate' => ['required', 'date', function($attribute, $value, $fail){
-                $birthDate = Carbon::parse($value);
-                $age = $birthDate->age;
+            'birthDate' => 'required|date|before_or_equal:'.Carbon::now()->subYears(16)->format('Y-m-d'),
 
-                if($age < 16){
-                    $fail('You must be at least 16 years old to create an account.');
-                }
-            }],
             'gender' => 'required|string',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8',
