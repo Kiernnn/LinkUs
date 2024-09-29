@@ -139,3 +139,101 @@
 .friend-list{
     text-decoration: none;
 }
+
+/* Responsive for max-width: 1024px */
+@media (max-width: 1024px) {
+    .fri-form-container {
+       width: 500px;
+       padding: 15px;
+    }
+
+    .friends-content {
+       margin-left: 40px;
+    }
+
+    .friends {
+       font-size: 14px;
+    }
+
+    .profile-pic {
+       width: 35px;
+       height: 35px;
+    }
+
+    .unfriend {
+       width: 90px;
+       height: 35px;
+       font-size: 14px;
+    }
+ }
+
+ /* Responsive for max-width: 768px */
+ @media (max-width: 768px) {
+    .fri-form-container {
+       width: 400px;
+       padding: 10px;
+    }
+
+    .friends-content {
+       margin-left: 20px;
+    }
+
+    .friends {
+       font-size: 12px;
+    }
+
+    .profile-pic {
+       width: 30px;
+       height: 30px;
+    }
+
+    .unfriend {
+       width: 80px;
+       height: 30px;
+       font-size: 12px;
+    }
+ }
+
+ /* Responsive for max-width: 480px */
+ @media (max-width: 480px) {
+    .fri-form-container {
+       width: 100%;
+       padding: 10px;
+    }
+
+    .friends-content {
+       margin-left: 0;
+       padding-bottom: 5%;
+    }
+
+    .friends {
+       font-size: 10px;
+       margin-bottom: 5px;
+    }
+
+    .friends-info {
+       flex-direction: column;
+       align-items: flex-start;
+    }
+
+    .profile-pic {
+       width: 25px;
+       height: 25px;
+    }
+
+    .profile {
+       flex-direction: column;
+       align-items: flex-start;
+    }
+
+    .buttons {
+       flex-direction: column;
+       gap: 5px;
+    }
+
+    .unfriend {
+       width: 70px;
+       height: 25px;
+       font-size: 10px;
+    }
+ }

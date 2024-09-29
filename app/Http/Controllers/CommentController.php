@@ -21,24 +21,31 @@ class CommentController extends Controller
         }
     }
 
-    public function store(Request $request, Post $post)
+    public function store(Request $request, $postId)
     {
-        try {
-            $request->validate([
-                'content' => 'required|string',
-            ]);
+        // Validate the request...
+        $comment = new Comment();
+        $comment->content = $request->input('content');
+        $comment->post_id = $postId;
+        $comment->user_id = auth()->id();
+        $comment->save();
 
-            $comment = new Comment();
-            $comment->content = $request->input('content');
-            $comment->post_id = $post->id;
-            $comment->user_id = auth()->id();
-            $comment->save();
-
-            return response()->json(['success' => true, 'comment' => $comment]);
-        } catch (Exception $e) {
-            return response()->json(['success' => false, 'error' => 'Write something to comment!']);
-        }
+        // Return a JSON response with necessary data
+        return response()->json([
+            'success' => true,
+            'commentUserName' => $comment->user->userName,
+            'commentUserId' => $comment->user->id,
+            'commentUserProfileImage' => $comment->user->profile->image
+                ? asset('profiles/' . $comment->user->profile->image)
+                : asset('images/user_default.png'),
+            'commentContent' => $comment->content,
+            'commentTimeAgo' => timeDiffInHours($comment->created_at),
+            'commentId' => $comment->id,
+            'csrfToken' => csrf_token(),  // Return CSRF token for deletion
+        ]);
     }
+
+
 
     public function edit(Comment $comment)
     {

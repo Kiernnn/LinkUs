@@ -16,7 +16,7 @@ body {
     justify-content: space-between;
     flex-direction: row;
     width: 900px;
-    height: 620px;
+    height: auto;
     background-color: white;
     border-radius: 20px;
     overflow: hidden;
@@ -51,6 +51,13 @@ body {
 .right h1 {
     font-size: 40px;
     font-weight: bold;
+}
+
+.logo {
+    width: 40px;
+    height: auto;
+    margin-left: 5px;
+    vertical-align: middle;
 }
 
 .right form {

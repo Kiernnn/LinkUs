@@ -203,7 +203,9 @@
 
         <!-- Register Section Start -->
         <div class="right">
-            <h1 class="mb-3 mt-0">{{ __('Sign Up') }}</h1>
+            <h1 class="mb-3 mt-0">{{ __('Sign Up') }}
+                <img class="logo text-center mb-1" src="images/icon.png" alt="">
+            </h1>
             <div>
                 @if (Session::has('success'))
                     <div class="alert alert-success">
@@ -345,7 +347,9 @@
                     <div class="input-wrapper">
                         <div data-mdb-input-init class="form-outline mb-0">
                             <input type="password" id="password" placeholder="{{ __('Password') }}"
-                                class="form-control @error('password') is-invalid @enderror" name="password" value="{{ session('password') ?? old('password') }}" required autocomplete="current-password" autofocus />
+                                class="form-control @error('password') is-invalid @enderror" name="password"
+                                value="{{ session('password') ?? old('password') }}" required
+                                autocomplete="current-password" autofocus />
 
                             <label class="toggle-password" onclick="togglePasswordVisibility()">
                                 <input type="checkbox" checked="checked">

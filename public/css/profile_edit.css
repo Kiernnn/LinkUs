@@ -143,3 +143,99 @@
     background-color: #35dc98;
     color: #fff;
 }
+
+/* Responsive for max-width: 1024px */
+@media (max-width: 1024px) {
+    .post-form-container {
+       width: 500px;
+       padding: 15px;
+    }
+
+    .profile-wrapper {
+       margin-left: 15px;
+    }
+
+    .upload_svg {
+        bottom: 560px;
+        margin-left: 44px;
+    }
+
+    .edit-wrapper {
+       width: 300px;
+    }
+ }
+
+ /* Responsive for max-width: 768px */
+ @media (max-width: 768px) {
+    .profile {
+       margin-right: 10%;
+    }
+
+    .post-form-container {
+       width: 400px;
+       padding: 10px;
+       margin-right: 10%;
+    }
+
+    .profile-wrapper {
+       margin-left: 10px;
+    }
+
+    .upload_svg {
+        bottom: 570px;
+        margin-left: 44px;
+    }
+
+    .edit-wrapper {
+       width: 250px;
+       margin: 0 5px;
+    }
+
+    .post-btn {
+       font-size: 14px;
+       height: 30px;
+       padding: 10px 20px;
+    }
+ }
+
+ /* Responsive for max-width: 480px */
+ @media (max-width: 480px) {
+    .profile {
+        margin-right: 20%;
+    }
+
+    .post-form-container {
+       width: 100%;
+       margin-right: 20%;
+    }
+
+    .profile-wrapper {
+       margin-left: 0;
+    }
+
+    .upload_svg {
+       bottom: 580px;
+       margin-left: 35px;
+    }
+
+    .edit-wrapper {
+       width: 100%;
+       margin: 0;
+    }
+
+    .post-btn {
+       font-size: 12px;
+       height: 30px;
+       padding: 8px 16px;
+    }
+
+    .form-control {
+       font-size: 12px;
+       height: 25px;
+    }
+
+    .profile-pic {
+       width: 50px;
+       height: 50px;
+    }
+ }

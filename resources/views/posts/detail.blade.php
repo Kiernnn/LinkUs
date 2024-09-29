@@ -138,12 +138,12 @@
 
                     <!-- Add comment -->
                     <div class="post-footer">
-                        <form id="commentForm" action="{{ route('comments.store', $post->id) }}" method="POST">
+                        <form action="{{ route('comments.store', $post->id) }}" id="commentForm" method="POST">
                             @csrf
                             <div class="comment-box">
-                                <input type="text" name="content" id="commentContent" placeholder="Write a comment..."
+                                <input type="text" name="content" placeholder="Write a comment..."
                                     class="comment-input" />
-                                <button class="send-btn" type="submit" id="submitComment">
+                                <button class="send-btn" type="submit">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 664 663">
                                         <path fill="none"
                                             d="M646.293 331.888L17.7538 17.6187L155.245 331.888M646.293 331.888L17.753 646.157L155.245 331.888M646.293 331.888L318.735 330.228L155.245 331.888">
@@ -172,40 +172,56 @@
         </div>
     @endsection
 
-    @section('scripts')
+    @section('script')
         <script>
-            document.getElementById('commentForm').addEventListener('submit', function(e) {
-                e.preventDefault(); // Prevent form from reloading the page
+            $(document).ready(function() {
+                $('#commentForm').on('submit', function(e) {
+                    e.preventDefault(); // Prevent the form from submitting the traditional way
 
-                let content = document.getElementById('commentContent').value;
-                let postId = "{{ $post->id }}"; // Get the post ID from the view
-                let token = document.querySelector('input[name="_token"]').value; // Get CSRF token
-
-                fetch(`/comments/store/${postId}`, {
+                    $.ajax({
+                        url: $(this).attr('action'), // The URL of your form action
                         method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'X-CSRF-TOKEN': token
-                        },
-                        body: JSON.stringify({
-                            content: content
-                        })
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            // Append the new comment to the comments section
-                            let commentSection = document.getElementById('commentsSection');
-                            let newComment = `<div class="comment">${data.comment.content}</div>`;
-                            commentSection.innerHTML += newComment;
+                        data: $(this).serialize(), // Serialize form data
+                        success: function(response) {
+                            if (response.success) {
+                                // Append the new comment to the comment section
+                                let newComment = `
+                        <div id="commentsSection" class="comment-header d-flex mb-1">
+                            <img src="${response.commentUserProfileImage}" alt="Profile Picture" class="profile-pic mr-2">
+                            <div class="comment-content">
+                                <a href="/profile/${response.commentUserId}" class="profile-name mb-1">${response.commentUserName}</a>
+                                <p class="content mb-1">${response.commentContent}</p>
+                            </div>
+                            <div class="comment-sub small">
+                                <div class="post-sub mb-2 small">
+                                    <div class="post-subtitle small">
+                                        ${response.commentTimeAgo}
+                                    </div>
+                                    <form action="/comments/${response.commentId}" method="POST">
+                                        <input type="hidden" name="_token" value="${response.csrfToken}">
+                                        <input type="hidden" name="_method" value="DELETE">
+                                        <button type="submit" class="delete-btn">Delete</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>`;
 
-                            // Clear the input field
-                            document.getElementById('commentContent').value = '';
-                        } else {
-                            alert('Error adding comment');
+                                // Append the new comment to the comment section
+                                $('#commentsSection').append(newComment);
+
+                                // Reset the comment input field
+                                $('#commentForm').find('.comment-input').val('');
+                            } else {
+                                // Handle error case (e.g., show a validation message)
+                                alert('Error adding comment.');
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            // Handle AJAX error
+                            alert('Something went wrong. Please try again.');
                         }
-                    })
-                    .catch(error => console.error('Error:', error));
+                    });
+                });
             });
         </script>
     @endsection
