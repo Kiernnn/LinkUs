@@ -91,10 +91,9 @@
                 </div>
                 <hr class="hr">
 
-                <!-- Existing comments -->
                 <div class="comment-sec">
                     @forelse ($post->comments as $comment)
-                        <div id="commentsSection" class="comment-header d-flex mb-1">
+                        <div class="comment-header d-flex mb-1">
                             @php
                                 $commentProfile = $comment->user->profile;
                             @endphp
@@ -116,11 +115,17 @@
                                         {{ timeDiffInHours($comment->created_at) }}
                                     </div>
                                     @if (auth()->id() === $post->user->id || auth()->user()->can('delete', $comment))
-                                        <form action="{{ route('comments.destroy', $comment->id) }}" method="POST">
+                                        {{-- <form action="{{ route('comments.destroy', $comment->id) }}" method="POST">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="delete-btn">{{ __('Delete') }}</button>
+                                        </form> --}}
+                                        <form class="delete-comment-form" data-id="{{ $comment->id }}" action="{{ route('comments.destroy', $comment->id) }}" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="button" class="delete-btn">{{ __('Delete') }}</button>
                                         </form>
+    
                                     @endif
                                 </div>
                             </div>
@@ -138,7 +143,7 @@
 
                     <!-- Add comment -->
                     <div class="post-footer">
-                        <form action="{{ route('comments.store', $post->id) }}" id="commentForm" method="POST">
+                        <form action="{{ route('comments.store', $post->id) }}" method="POST">
                             @csrf
                             <div class="comment-box">
                                 <input type="text" name="content" placeholder="Write a comment..."
@@ -174,54 +179,53 @@
 
     @section('script')
         <script>
-            $(document).ready(function() {
-                $('#commentForm').on('submit', function(e) {
-                    e.preventDefault(); // Prevent the form from submitting the traditional way
+            $(document).on('click', '.love-button', function(e) {
+                e.preventDefault();
+                var form = $(this).closest('form');
+                $.ajax({
+                    url: form.attr('action'),
+                    method: form.attr('method'),
+                    data: form.serialize(),
+                    success: function(response) {
+                        // Handle successful response, maybe update the love icon dynamically
+                    },
+                    error: function(response) {
+                        // Handle error
+                    }
+                });
+            });
 
+            $(document).on('click', '.delete-btn', function () {
+                var form = $(this).closest('.delete-comment-form');
+                var commentId = form.data('id');
+                var url = form.attr('action');
+
+                // if (confirm('Are you sure you want to delete this comment?')) {
                     $.ajax({
-                        url: $(this).attr('action'), // The URL of your form action
-                        method: 'POST',
-                        data: $(this).serialize(), // Serialize form data
-                        success: function(response) {
-                            if (response.success) {
-                                // Append the new comment to the comment section
-                                let newComment = `
-                        <div id="commentsSection" class="comment-header d-flex mb-1">
-                            <img src="${response.commentUserProfileImage}" alt="Profile Picture" class="profile-pic mr-2">
-                            <div class="comment-content">
-                                <a href="/profile/${response.commentUserId}" class="profile-name mb-1">${response.commentUserName}</a>
-                                <p class="content mb-1">${response.commentContent}</p>
-                            </div>
-                            <div class="comment-sub small">
-                                <div class="post-sub mb-2 small">
-                                    <div class="post-subtitle small">
-                                        ${response.commentTimeAgo}
-                                    </div>
-                                    <form action="/comments/${response.commentId}" method="POST">
-                                        <input type="hidden" name="_token" value="${response.csrfToken}">
-                                        <input type="hidden" name="_method" value="DELETE">
-                                        <button type="submit" class="delete-btn">Delete</button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>`;
-
-                                // Append the new comment to the comment section
-                                $('#commentsSection').append(newComment);
-
-                                // Reset the comment input field
-                                $('#commentForm').find('.comment-input').val('');
-                            } else {
-                                // Handle error case (e.g., show a validation message)
-                                alert('Error adding comment.');
-                            }
+                        type: 'POST',
+                        url: url,
+                        data: {
+                            _token: '{{ csrf_token() }}',
+                            _method: 'DELETE'
                         },
-                        error: function(xhr, status, error) {
-                            // Handle AJAX error
-                            alert('Something went wrong. Please try again.');
+                        success: function (response) {
+                            // Optionally show a success message
+                            // alert(response.success);
+
+                            // Delay the removal of the comment for 1 second (1000 ms)
+                            setTimeout(function () {
+                                form.closest('.comment-header').remove(); // Adjust the selector as needed
+                                
+                            }, 1000);
+
+                            // form.closest('.comment-yet').show();
+                        },
+                        error: function (xhr) {
+                            // Optionally show an error message
+                            alert('Failed to delete comment: ' + xhr.responseJSON.message);
                         }
                     });
-                });
+                // }
             });
         </script>
     @endsection

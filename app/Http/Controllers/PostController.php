@@ -182,9 +182,11 @@ class PostController extends Controller
                     ->get();
 
         $users = User::where('userName', 'like', '%' .$keyword. '%')
-                        ->orderBy('created_at', 'desc')
-                        ->limit(5)
-                        ->get();
+            ->orWhere('firstName', 'like', '%' . $keyword . '%')
+            ->orWhere('lastName', 'like', '%' . $keyword . '%')
+            ->orderBy('created_at', 'desc')
+            ->limit(5)
+            ->get();
 
         return view('posts.index', compact('posts', 'users', 'keyword'));
     }
@@ -192,8 +194,10 @@ class PostController extends Controller
     public function searchUsers($keyword)
     {
         $users = User::where('userName', 'like', '%' .$keyword. '%')
-        ->orderBy('created_at', 'desc')
-        ->get();
+            ->orWhere('firstName', 'like', '%' . $keyword . '%')
+            ->orWhere('lastName', 'like', '%' . $keyword . '%')
+            ->orderBy('created_at', 'desc')
+            ->get();
 
         return view('posts.search-users', compact('users', 'keyword'));
     }
@@ -222,6 +226,8 @@ class PostController extends Controller
 
     public function toggleLove(Request $request, Post $post)
     {
+
+
         $love = $post->loves()->where('user_id', auth()->id())->first();
         $hasLoved = false;
 

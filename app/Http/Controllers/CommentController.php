@@ -21,57 +21,22 @@ class CommentController extends Controller
         }
     }
 
-    public function store(Request $request, $postId)
-    {
-        // Validate the request...
-        $comment = new Comment();
-        $comment->content = $request->input('content');
-        $comment->post_id = $postId;
-        $comment->user_id = auth()->id();
-        $comment->save();
-
-        // Return a JSON response with necessary data
-        return response()->json([
-            'success' => true,
-            'commentUserName' => $comment->user->userName,
-            'commentUserId' => $comment->user->id,
-            'commentUserProfileImage' => $comment->user->profile->image
-                ? asset('profiles/' . $comment->user->profile->image)
-                : asset('images/user_default.png'),
-            'commentContent' => $comment->content,
-            'commentTimeAgo' => timeDiffInHours($comment->created_at),
-            'commentId' => $comment->id,
-            'csrfToken' => csrf_token(),  // Return CSRF token for deletion
-        ]);
-    }
-
-
-
-    public function edit(Comment $comment)
-    {
-        try {
-            $postId = $comment->post_id;
-            return view('posts.cmDetail', compact('comment', 'postId'));
-        } catch (Exception $e) {
-            return redirect()->route('posts.detail', $comment->post_id)->with('error', 'Failed to retrieve comment: ' . $e->getMessage());
-        }
-    }
-
-    public function update(Request $request, Comment $comment)
+    public function store(Request $request, Post $post)
     {
         try {
             $request->validate([
-                'content' => 'required|string|max:255',
+                'content' => 'required|string',
             ]);
 
-            if (auth()->id() === $comment->user_id) {
-                $comment->update($request->only('content'));
-                return redirect()->route('posts.detail', $comment->post_id)->with('success', 'Comment edited successfully.');
-            }
+            $comment = new Comment();
+            $comment->content = $request->input('content');
+            $comment->post_id = $post->id;
+            $comment->user_id = auth()->id();
+            $comment->save();
 
-            return redirect()->route('posts.detail', $comment->post_id)->with('success', 'Comment edited successfully.');
+            return redirect()->route('posts.detail', $post->id)->with('success', 'Comment added successfully.');
         } catch (Exception $e) {
-            return redirect()->route('posts.detail', $comment->post_id)->with('error', 'Failed to edit comment: ' . $e->getMessage());
+            return redirect()->route('posts.detail', $post->id)->with('error', 'Write something to comment!');
         }
     }
 
@@ -82,9 +47,9 @@ class CommentController extends Controller
 
             $comment->delete();
 
-            return redirect()->back()->with('success', 'Comment deleted successfully.');
+            return response()->json(['success' => 'Comment deleted successfully.']);
         } catch (Exception $e) {
-            return redirect()->back()->with('error', 'Failed to delete comment: ' . $e->getMessage());
+            return response()->json(['error' => 'Failed to delete comment: ' . $e->getMessage()], 400);
         }
     }
 }

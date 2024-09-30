@@ -309,7 +309,11 @@
                             class=" friends d-flex align-items-center nav-link{{ Request::routeIs('friendRequests.index') ? ' active' : '' }}">
 
                             <span class="badge" id="friend-request-count">
-                                {{ $friendRequestCount }}
+                                @if ($friendRequestCount > 9)
+                                    9+
+                                @else
+                                    {{ $friendRequestCount }}
+                                @endif
                             </span>
                             @if (Request::routeIs('friendRequests.index'))
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
@@ -330,7 +334,7 @@
 
                     <!-- Post Create Page Start -->
                     <li class="content">
-                        <a href="{{ route('posts.create') }}" data-tooltip="Create"
+                        <a href="{{ route('posts.create') }}" data-tooltip="Create Post"
                             class="d-flex align-items-center nav-link{{ Request::routeIs('posts.create') ? ' active' : '' }}">
                             @if (Request::routeIs('posts.create'))
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#fff"
@@ -447,7 +451,7 @@
 
             <!-- Post Create Page Start -->
             <li class="content">
-                <a href="{{ route('posts.create') }}" data-tooltip="Create"
+                <a href="{{ route('posts.create') }}" data-tooltip="Create Post"
                     class="d-flex align-items-center nav-link{{ Request::routeIs('posts.create') ? ' active' : '' }}">
                     @if (Request::routeIs('posts.create'))
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#fff"
@@ -527,7 +531,9 @@
                 method: "GET",
                 success: function(response) {
                     const count = response.count;
-                    $('#friend-request-count').text(count);
+
+                    let displayCount = count > 9 ? '9+' : count;
+                    $('#friend-request-count').text(displayCount);
 
                     if (count > 0) {
                         $('#friend-request-count').show();
