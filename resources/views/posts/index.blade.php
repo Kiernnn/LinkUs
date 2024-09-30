@@ -86,7 +86,7 @@
                                     </div>
                                     <div class="seeMore">
                                         <a href="{{ route('posts.searchUsers', $keyword) }}"
-                                            class="links {{ Request::is('posts/search-users') ? 'active' : '' }}">{{ __('See More') }}</a>
+                                            class="decline {{ Request::is('posts/search-users') ? 'active' : '' }}">{{ __('See More') }}</a>
                                     </div>
                                     <hr class="hr">
                                 @endif
@@ -243,7 +243,7 @@
                                     </div>
                                     <div class="seeMore">
                                         <a href="{{ route('posts.searchPosts', $keyword) }}"
-                                            class="links {{ Request::is('posts/search-posts') ? 'active' : '' }}">{{ __('See More') }}</a>
+                                            class="decline {{ Request::is('posts/search-posts') ? 'active' : '' }}">{{ __('See More') }}</a>
                                     </div>
                                 </div>
                             @endif
