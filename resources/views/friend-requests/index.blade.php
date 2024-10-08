@@ -38,8 +38,7 @@
                             </a>
 
                             <div class="buttons mb-2">
-                                <button class="accept btn" id="acceptBtn{{ $data->id }}"
-                                    onclick="handleFriendRequest('accept', {{ $data->id }})">{{ __('Accept') }}</button>
+                                <button class="accept btn" id="acceptBtn{{ $data->id }}"onclick="handleFriendRequest('accept', {{ $data->id }})">{{ __('Accept') }}</button>
                                 <form action="{{ route('friendRequests.decline', $data->id) }}" method="POST"
                                     style="display:inline;">
                                     @csrf

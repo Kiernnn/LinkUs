@@ -37,10 +37,11 @@
                         <p class="post-text">{{ $viewingUser->posts->count() }}</p>
                         <p class="post-sub">{{ __('posts') }}</p>
                     </div>
-                    <a href="{{ route('friends.list', $viewingUser->id) }}" class="all-fri">
-                        <p class="fri-text">{{ $viewingUser->totalFriends() }}</p>
+                    <div  class="all-fri">
+                        {{-- <p class="fri-text">{{ $viewingUser->totalFriends() }}</p> --}}
+                        <p class="fri-text">{{ $friends->count() }}</p>
                         <p class="fri-sub">{{ __('friends') }}</p>
-                    </a>
+                    </div>
                 </div>
                 <div class="bio mt-0 mb-0">
                     <p class="bio-text">
@@ -60,46 +61,29 @@
 
                     <div class="buttons">
                         @if (auth()->check() && auth()->user()->id !== $viewingUser->id)
-                            @if (auth()->user()->isFriendWith($viewingUser))
-                                <form action="{{ route('friends.unfriend', $viewingUser->id) }}" method="POST"
-                                    style="display: inline;">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button class="unfriend btn" type="submit">{{ __('Unfriend') }}</button>
-                                </form>
-                            @elseif (auth()->user()->sentFriendRequests()->where('receiver_id', $viewingUser->id)->exists())
-                                <form action="{{ route('friendRequests.cancel', $viewingUser->id) }}" method="POST"
-                                    style="display: inline;">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button class="decline btn" type="submit">{{ __('Cancel') }}</button>
-                                </form>
-                            @elseif ($friendRequests->where('sender_id', $viewingUser->id)->isNotEmpty() && auth()->user()->id !== $viewingUser->id)
-                                @foreach ($friendRequests as $request)
-                                    <!-- Iterate over friend requests -->
-                                    <form action="{{ route('friendRequests.accept') }}" method="POST"
-                                        style="display: inline;">
-                                        @csrf
-                                        <input type="hidden" name="reqId" value="{{ $request->id }}">
-                                        <!-- Now this is defined -->
-                                        <button class="accept btn" type="submit">{{ __('Accept') }}</button>
-                                    </form>
-                                    <form action="{{ route('friendRequests.decline', $request->id) }}" method="POST"
-                                        style="display: inline;">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button class="decline btn" type="submit">{{ __('Decline') }}</button>
-                                    </form>
-                                @endforeach
+                            {{-- If already friends --}}
+                            @if ($isFriend)
+                                <button class="unfriend btn" id="unfriendBtn" onclick="handleFriendRequest('unfriend', {{ $viewingUser->id }})">{{ __('Unfriend') }}</button>
+                            {{-- Friend request received --}}
+                            @elseif ($friendRequestFromViewingUser)
+                                <button class="accept btn" id="acceptBtn" onclick="handleFriendRequest('accept', {{ $friendRequestFromViewingUser->id }})">{{ __('Accept') }}</button>
+                                <button class="decline btn" id="declineBtn" onclick="handleFriendRequest('decline', {{ $friendRequestFromViewingUser->id }})">{{ __('Decline') }}</button>
+
+                            {{-- Friend request sent --}}
+                            @elseif ($friendRequestFromAuthUser)
+                                <button class="decline btn" id="cancelBtn" onclick="handleFriendRequest('cancel', {{ $viewingUser->id }})">{{ __('Cancel') }}</button>
+
+                            {{-- No friend request, show Add Friend --}}
                             @else
-                                <form action="{{ route('friendRequests.send') }}" method="POST" style="display: inline;">
-                                    @csrf
-                                    <input type="hidden" name="receiverId" value="{{ $viewingUser->id }}">
-                                    <button class="accept btn" type="submit">{{ __('Add Friend') }}</button>
-                                </form>
+                                <button class="accept btn" id="addFriendBtn" onclick="handleFriendRequest('send', {{ $viewingUser->id }})">{{ __('Add Friend') }}</button>
                             @endif
                         @endif
                     </div>
+
+                    <div id="friendRequestMessage" style="display: none;">
+                        <p class="success-message"></p>
+                    </div>
+
                 </div>
             </div>
             <!-- Profile container End -->
@@ -167,8 +151,11 @@
 
                                         <a href="{{ route('friends.list', $viewingUser->id) }}" class="friend-text mt-2">
                                             {{ __('Friends') }}</a>
+                                        {{-- <p class="sub-text text-secondary">
+                                            {{ $viewingUser->totalFriends() }}{{ __(' friends') }}</p> --}}
                                         <p class="sub-text text-secondary">
-                                            {{ $viewingUser->totalFriends() }}{{ __(' friends') }}</p>
+                                            {{ $friends->count() }}{{ __(' friends') }}
+                                        </p>
 
                                         <div class="buttons" style="display:flex;">
                                             <a href="{{ route('friends.list', $viewingUser->id) }}"
@@ -350,4 +337,72 @@
             <!-- Post container End -->
         </div>
     </div>
+@endsection
+
+@section('script')
+    <script>
+        function handleFriendRequest(action, userId) {
+            let url = '';
+
+            switch(action) {
+                case 'send':
+                    url = "{{ route('friendRequests.send') }}";
+                    break;
+                case 'accept':
+                    url = "{{ route('friendRequests.accept') }}";
+                    break;
+                case 'decline':
+                    url = "{{ route('friendRequests.decline', ':id') }}".replace(':id', userId);
+                    break;
+                case 'cancel':
+                    url = "{{ route('friendRequests.cancel', ':id') }}".replace(':id', userId);
+                    break;
+                case 'unfriend':
+                    url = "{{ route('friends.unfriend', ':id') }}".replace(':id', userId);
+                    break;
+            }
+
+            $.ajax({
+                url: url,
+                type: action === 'send' || action === 'accept' ? 'POST' : 'DELETE',
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    receiverId: userId,
+                    reqId: userId
+                },
+                success: function(response) {
+                    // $('#friendRequestMessage').fadeIn().find('.success-message').text(response.message);
+                    // setTimeout(function() {
+                    //     $('#friendRequestMessage').fadeOut();
+                    // }, 3000);
+                    // Reload or change button text based on the action
+                    updateFriendshipButtons(action);
+                },
+                error: function(xhr) {
+                    console.log(xhr.responseText);
+                    // alert('An error occurred.');
+                }
+            });
+        }
+
+        function updateFriendshipButtons(action) {
+            let buttonContainer = $('.buttons');
+
+            switch(action) {
+                case 'send':
+                    buttonContainer.html('<button class="decline btn" id="cancelBtn" onclick="handleFriendRequest(\'cancel\', {{ $viewingUser->id }})">{{ __("Cancel") }}</button>');
+                    break;
+                case 'accept':
+                    buttonContainer.html('<button class="unfriend btn" id="unfriendBtn" onclick="handleFriendRequest(\'unfriend\', {{ $viewingUser->id }})">{{ __("Unfriend") }}</button>');
+                    break;
+                case 'cancel':
+                case 'decline':
+                    buttonContainer.html('<button class="accept btn" id="addFriendBtn" onclick="handleFriendRequest(\'send\', {{ $viewingUser->id }})">{{ __("Add Friend") }}</button>');
+                    break;
+                case 'unfriend':
+                    buttonContainer.html('<button class="accept btn" id="addFriendBtn" onclick="handleFriendRequest(\'send\', {{ $viewingUser->id }})">{{ __("Add Friend") }}</button>');
+                    break;
+            }
+        }
+    </script>
 @endsection

@@ -69,13 +69,12 @@ Route::group(['middleware' => ['auth']], function () {
       Route::controller(FriendRequestController::class)->group(function () {
          Route::get('/', 'index')->name('friendRequests.index');
          Route::get('requests', 'requests')->name('friendRequests.requests');
-          Route::post('/send', 'sendRequest')->name('friendRequests.send');
-          Route::post('/accept', 'acceptRequest')->name('friendRequests.accept');   
-          Route::delete('/decline/{id}', 'declineRequest')->name('friendRequests.decline');
-          Route::delete('/cancel/{id}', 'cancelRequest')->name('friendRequests.cancel');
-          Route::get('suggestions', 'suggestions')->name('friendRequests.suggestions');
-          Route::get('/count', 'count')->name('friendRequests.count');
-         
+         Route::post('/send', 'sendRequest')->name('friendRequests.send');
+         Route::post('/accept', 'acceptRequest')->name('friendRequests.accept');   
+         Route::delete('/decline/{id}', 'declineRequest')->name('friendRequests.decline');
+         Route::delete('/cancel/{id}', 'cancelRequest')->name('friendRequests.cancel');
+         Route::get('suggestions', 'suggestions')->name('friendRequests.suggestions');
+         Route::get('/count', 'count')->name('friendRequests.count'); 
       });
    });
 
@@ -96,7 +95,7 @@ Route::group(['middleware' => ['auth']], function () {
          Route::post('/send', 'sendRequest')->name('friendRequests.send');
          Route::delete('/cancel{id}', 'cancelRequest')->name('friendRequests.cancel');
          Route::post('/accept', 'acceptRequest')->name('friendRequests.accept');   
-          Route::delete('/decline/{id}', 'declineRequest')->name('friendRequests.decline');
+         Route::delete('/decline/{id}', 'declineRequest')->name('friendRequests.decline');
       });
    });
 });

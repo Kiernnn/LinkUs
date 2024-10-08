@@ -308,13 +308,15 @@
                         <a href="{{ route('friendRequests.index') }}" data-tooltip="Friends"
                             class=" friends d-flex align-items-center nav-link{{ Request::routeIs('friendRequests.index') ? ' active' : '' }}">
 
-                            <span class="badge" id="friend-request-count">
-                                @if ($friendRequestCount > 9)
-                                    9+
-                                @else
-                                    {{ $friendRequestCount }}
-                                @endif
-                            </span>
+                            @if ($friendRequestCount > 0)
+                                <span class="badge" id="friend-request-count">
+                                    @if ($friendRequestCount > 9)
+                                        9+
+                                    @else
+                                        {{ $friendRequestCount }}
+                                    @endif
+                                </span>
+                            @endif
                             @if (Request::routeIs('friendRequests.index'))
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                     fill="currentColor" class="bi bi-people-fill" viewBox="0 0 16 16">

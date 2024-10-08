@@ -226,8 +226,6 @@ class PostController extends Controller
 
     public function toggleLove(Request $request, Post $post)
     {
-
-
         $love = $post->loves()->where('user_id', auth()->id())->first();
         $hasLoved = false;
 

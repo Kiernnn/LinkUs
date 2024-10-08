@@ -74,6 +74,12 @@
     font-size: 14px;
 }
 
+.buttons {
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+}
+
 .accept, .decline {
     /* display: flex; */
     justify-content: center;

@@ -16,14 +16,24 @@ class FriendsController extends Controller
         try {
             $viewingUser = auth()->user();
 
+            // $friends = Friend::with(['user', 'friend'])
+            //                  ->where('user_id', $viewingUser->id)
+            //                  ->orWhere('friend_id', $viewingUser->id)
+            //                  ->get()
+            //                  ->unique(function ($friend) use ($viewingUser) {
+            //                     // Group by the friend user, ignoring the direction of the friendship
+            //                     return $friend->user_id == $viewingUser->id ? $friend->friend_id : $friend->user_id;
+            //                 });
             $friends = Friend::with(['user', 'friend'])
-                             ->where('user_id', $viewingUser->id)
-                             ->orWhere('friend_id', $viewingUser->id)
-                             ->get()
-                             ->unique(function ($friend) use ($viewingUser) {
-                                // Group by the friend user, ignoring the direction of the friendship
-                                return $friend->user_id == $viewingUser->id ? $friend->friend_id : $friend->user_id;
-                            });
+             ->where(function ($query) use ($viewingUser) {
+                 $query->where('user_id', $viewingUser->id)
+                       ->orWhere('friend_id', $viewingUser->id);
+             })
+             ->get()
+             ->unique(function ($friend) use ($viewingUser) {
+                 // Ensure the friendship is only counted once regardless of direction
+                 return $friend->user_id == $viewingUser->id ? $friend->friend_id : $friend->user_id;
+             });
 
             $friendRequests = FriendRequest::with('sender')
                                            ->where('receiver_id', $viewingUser->id)
@@ -82,9 +92,9 @@ class FriendsController extends Controller
                 $record->delete();
             }
 
-            return back()->with('success', 'Unfriend successfully');
+            return response()->json(['message' => 'Unfriended successfully.']);
         } catch (\Exception $e) {
-            return back()->with('error', 'An error occurred while removing the friend: ' . $e->getMessage());
+            return response()->json(['message' => 'An error occurred while removing the friend: ' . $e->getMessage()], 500);
         }
     }
 

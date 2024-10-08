@@ -27,10 +27,10 @@
                         $friendUser = $friend->user_id == $viewingUser->id ? $friend->friend : $friend->user;
                     @endphp
                     <div class="post-header mb-3">
-                        <div class="friends-container mb-2">
+                        <div class="friends-container mb-2" id="friendContainer{{ $friendUser->id }}">
                             <a href="{{ route('profile.show', $friendUser->id) }}" class="profile mb-0">
                                 <img src="{{ asset($friendUser->profile && $friendUser->profile->image ? 'profiles/' . $friendUser->profile->image : 'images/user_default.png') }}"
-                                    alt="Profile Picture" class="profile-pic">
+                                     alt="Profile Picture" class="profile-pic">
                                 <div class="profile-info mb-0">
                                     <div class="profile-name">{{ $friendUser->userName }}</div>
                                 </div>
@@ -38,10 +38,12 @@
                             <div class="buttons">
                                 @if ($viewingUser->id === auth()->id())
                                     <form action="{{ route('friends.unfriend', ['friendId' => $friendUser->id]) }}"
-                                        method="POST">
+                                          method="POST" class="unfriend-form">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="unfriend btn">{{ __('Unfriend') }}</button>
+                                        <button class="unfriend btn" id="unfriendBtn{{ $friendUser->id }}"
+                                            onclick="handleUnfriend(event, {{ $friendUser->id }});">{{ __('Unfriend') }}</button>
+    
                                     </form>
                                 @endif
                             </div>
@@ -50,7 +52,36 @@
                 @empty
                     <p style="color: #808080;">{{ __('You have no friends.') }}</p>
                 @endforelse
+
             </div>
         </div>
     </div>
+@endsection
+
+@section('scripts')
+<script>
+    function handleUnfriend(event, friendId) {
+        event.preventDefault(); 
+
+        var requestContainer = document.getElementById('friendContainer' + friendId);
+        const url = "{{ route('friends.unfriend', '') }}/" + friendId;
+
+        $.ajax({
+            url: url,
+            type: 'DELETE',
+            data: {
+                _token: "{{ csrf_token() }}",
+            },
+            success: function(response) {
+                if (response.message) {
+                    console.log(response.message); 
+                }
+                requestContainer.remove();
+            },
+            error: function(xhr, status, error) {
+                console.error("Error: " + error);
+            }
+        });
+    }
+</script>
 @endsection
