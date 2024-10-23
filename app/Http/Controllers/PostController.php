@@ -226,20 +226,35 @@ class PostController extends Controller
 
     public function toggleLove(Request $request, Post $post)
     {
-        $love = $post->loves()->where('user_id', auth()->id())->first();
-        $hasLoved = false;
+        $user = auth()->user();
+    
+        // Check if the user has already loved the post
+        $hasLoved = $post->loves()->where('user_id', $user->id)->exists();
 
-        if ($love) {
-            $love->delete();
-        }   else {
-            $post->loves()->create(['user_id' => auth()->id()]);
+        if ($hasLoved) {
+            // If loved, remove the love
+            $post->loves()->where('user_id', $user->id)->delete();
+            $hasLoved = false;
+        } else {
+            // If not loved, add the love
+            $post->loves()->create(['user_id' => $user->id]);
             $hasLoved = true;
         }
-
         return response()->json([
             'success' => true,
             'hasLoved' => $hasLoved,
             'loveCount' => $post->loves()->count(),
+        ]);
+    }
+
+    public function getLovers(Post $post)
+    {
+        // Fetch the users who loved the post
+        $lovers = $post->loves()->with('user')->get();
+
+        return response()->json([
+            'success' => true,
+            'lovers' => $lovers,
         ]);
     }
 }

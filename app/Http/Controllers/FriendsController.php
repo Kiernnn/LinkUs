@@ -82,15 +82,16 @@ class FriendsController extends Controller
             })->orWhere(function ($query) use ($userId, $friendId) {
                 $query->where('user_id', $friendId)
                       ->where('friend_id', $userId);
-            })->get();
+            })->first();
 
-            if ($friendship->isEmpty()) {
-                return back()->with('error', 'Friendship not found.');
+            if (!$friendship) {
+                return response()->json(['message' => 'Friendship not found.'], 404);
             }
 
-            foreach ($friendship as $record) {
-                $record->delete();
-            }
+            // foreach ($friendship as $record) {
+            //     $record->delete();
+            // }
+            $friendship->delete();
 
             return response()->json(['message' => 'Unfriended successfully.']);
         } catch (\Exception $e) {

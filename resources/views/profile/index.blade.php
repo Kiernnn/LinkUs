@@ -21,13 +21,35 @@
                             <p class="lastName">{{ $viewingUser->lastName }}</p>
                         </div>
                     </div>
+                    <!-- Profile Image -->
                     @if ($viewingUser->profile && $viewingUser->profile->image)
                         <img src="{{ asset('profiles/' . $viewingUser->profile->image) }}"
-                            class="profile-pic rounded-circle ms-auto" alt="Profile image">
+                             class="profile-pic rounded-circle ms-auto"
+                             alt="Profile image"
+                             data-bs-toggle="modal" data-bs-target="#profileImageModal" style="cursor: pointer;">
                     @else
-                        <img src="{{ asset('images/user_default.png') }}" class="profile-pic rounded-circle ms-auto"
-                            alt="Profile image">
+                        <img src="{{ asset('images/user_default.png') }}"
+                             class="profile-pic rounded-circle ms-auto"
+                             alt="Profile image"
+                             data-bs-toggle="modal" data-bs-target="#profileImageModal" style="cursor: pointer;">
                     @endif
+
+                    <!-- Bootstrap Modal for Image Popup -->
+                    <div class="modal fade" id="profileImageModal" tabindex="-1" aria-labelledby="profileImageModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-body text-center">
+                                    <button style="margin-left:450px;" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    @if ($viewingUser->profile && $viewingUser->profile->image)
+                                        <img src="{{ asset('profiles/' . $viewingUser->profile->image) }}" class="img-fluid" alt="Profile image">
+                                    @else
+                                        <img src="{{ asset('images/user_default.png') }}" class="img-fluid" alt="Profile image">
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
 
 
@@ -208,7 +230,6 @@
                                 <a href="{{ route('profile.index', $post->user->id) }}"
                                     style="text-decoration: none; color:white;">{{ $post->user->userName }}
                                 </a>
-                                {{-- <div style="text-decoration: none; color:white;">{{ $post->user->userName }}</div> --}}
                             </div>
                             <div class="post-subtitle mb-2 small text-secondary">
                                 {{ timeDiffInHours($post->created_at) }}
@@ -255,14 +276,30 @@
                                             </svg>
                                             {{ __('Edit post') }}
                                         </a>
-                                        <a href="#" class="dropdown-item">
+                                        {{-- <a href="#" class="dropdown-item">
                                             <svg xmlns="http://www.w3.org/2000/svg" height="18px"
                                                 viewBox="0 -960 960 960" width="18px" fill="#fff">
                                                 <path
                                                     d="M480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm-40-82v-78q-33 0-56.5-23.5T360-320v-40L168-552q-3 18-5.5 36t-2.5 36q0 121 79.5 212T440-162Zm276-102q20-22 36-47.5t26.5-53q10.5-27.5 16-56.5t5.5-59q0-98-54.5-179T600-776v16q0 33-23.5 56.5T520-680h-80v80q0 17-11.5 28.5T400-560h-80v80h240q17 0 28.5 11.5T600-440v120h40q26 0 47 15.5t29 40.5Z" />
                                             </svg>
                                             {{ __('Edit privacy') }}
-                                        </a>
+                                        </a> --}}
+                                        <div class="dropdown-divider"></div> <!-- Divider for separation -->
+                                        <div class="privacy-options">
+                                            <a href="#" class="dropdown-item" data-bs-toggle="dropdown">
+                                                <svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 -960 960 960" width="18px" fill="#fff">
+                                                    <path d="M480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm-40-82v-78q-33 0-56.5-23.5T360-320v-40L168-552q-3 18-5.5 36t-2.5 36q0 121 79.5 212T440-162Zm276-102q20-22 36-47.5t26.5-53q10.5-27.5 16-56.5t5.5-59q0-98-54.5-179T600-776v16q0 33-23.5 56.5T520-680h-80v80q0 17-11.5 28.5T400-560h-80v80h240q17 0 28.5 11.5T600-440v120h40q26 0 47 15.5t29 40.5Z" />
+                                                </svg>
+                                                {{ __('Edit privacy') }}
+                                            </a>
+                                            <div class="dropdown-menu">
+                                                @foreach (\App\Enums\PostStatus::cases() as $status)
+                                                    <a class="dropdown-item" href="{{ route('posts.updatePrivacy', [$post->id, $status->value]) }}">
+                                                        {{ $status->name }}
+                                                    </a>
+                                                @endforeach
+                                            </div>
+                                        </div>
 
                                         <!-- Form to delete post -->
                                         <form method="POST" action="{{ route('posts.destroy', $post->id) }}">
@@ -288,32 +325,65 @@
                         <!-- Post Content Section Start -->
                         <div class="post-content mt-1">
                             <p class="content">{{ $post->content }}</p>
+                            <!-- Post Image -->
                             @if ($post->image)
-                                <img src="{{ asset('posts/' . $post->image) }}" class="post-image rounded-3 mt-2"
-                                    alt="Post image">
+                                <img src="{{ asset('posts/' . $post->image) }}" 
+                                     class="post-image rounded-3 mt-2" 
+                                     alt="Post image" 
+                                     data-bs-toggle="modal" 
+                                     data-bs-target="#postImageModal" style="cursor: pointer;">
                             @endif
+
+                            <!-- Bootstrap Modal for Post Image Popup -->
+                            <div class="modal fade" id="postImageModal" tabindex="-1" aria-labelledby="postImageModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-body text-center">
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            @if ($post->image)
+                                                <img src="{{ asset('posts/' . $post->image) }}" class="img-fluid" alt="Post image">
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                             <div class="post-footer d-flex mt-1">
-                                @if (auth()->id() !== $post->user_id) 
-                                    <form action="{{ route('posts.toggleLove', $post->id) }}" method="POST" class="me-0"
-                                        style="display:inline;">
+                                {{-- love reaction --}}
+                                @if (auth()->id() !== $post->user_id)
+                                    <form id="loveForm-{{ $post->id }}" action="{{ route('posts.toggleLove', $post->id) }}" method="POST" class="love-form" style="display:inline;">
                                         @csrf
-                                        <button class="btn">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px"
-                                                fill="{{ $hasLoved ? '#dc3545' : '#fff' }}"
-                                                class="bi {{ $hasLoved ? 'bi-heart-fill' : 'bi-heart' }}"
+                                        <button type="button" class="btn love-btn" data-post-id="{{ $post->id }}">
+                                            @php
+                                                $userLoved = $post->loves()->where('user_id', auth()->id())->exists();
+                                            @endphp
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" 
+                                                fill="{{ $userLoved ? '#ff0000' : '#fff' }}"
+                                                class="bi {{ $userLoved ? 'bi-heart-fill' : 'bi-heart' }}" 
                                                 viewBox="0 0 16 16">
-                                                <path fill-rule="evenodd"
-                                                    d="{{ $hasLoved ? 'M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314' : 'm8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15' }}" />
+                                                <path fill-rule="evenodd" 
+                                                    d="{{ $userLoved ? 'M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314' : 'm8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15' }}" />
                                             </svg>
                                         </button>
                                     </form>
-                                
-                                    @if ($post->loves->count())
-                                        <p class="love-count">{{ $post->loves->count() }}</p>
-                                    @else
-                                        <p hidden></p>
-                                    @endif
-                                @endif
+
+                                    <!-- Love count display -->
+                                    <p id="loveCount-{{ $post->id }}" class="love-count" style="{{ $post->loves->count() > 0 ? '' : 'display:none;' }}">
+                                        {{ $post->loves->count() }}
+                                    </p>
+                                @endif 
+
+                                {{-- <!-- Button to show lovers -->
+                                <button class="btn" id="showLoversButton">
+                                    {{ $post->loves()->count() }} <span class="heart-icon"></span>
+                                </button>
+
+                                <!-- Popup Div -->
+                                <div id="loversPopup" style="display: none; position: absolute; background-color: rgba(0, 0, 0, 0.8); color: white; width: auto; height: auto; padding: 10px; border-radius: 5px;">
+                                    <div id="loversList"></div>
+                                </div> --}}
+
+
                                 <button class="btn">
                                     <a href="{{ route('posts.detail', $post->id) }}" class="card-link">
                                         <svg class="cmt-svg" xmlns="http://www.w3.org/2000/svg" width="16"
@@ -404,5 +474,93 @@
                     break;
             }
         }
+
+        document.querySelectorAll('.love-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                let postId = this.getAttribute('data-post-id');
+                let form = document.getElementById(`loveForm-${postId}`);
+                let formData = new FormData(form);
+
+                fetch(form.action, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Update the heart icon based on whether the user has loved or unloved
+                        let svg = this.querySelector('svg');
+                        if (data.hasLoved) {
+                            svg.classList.remove('bi-heart');
+                            svg.classList.add('bi-heart-fill');
+                            svg.setAttribute('fill', '#ff0000'); // Set fill color for loved
+                            svg.querySelector('path').setAttribute('d', 'M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314');
+                        } else {
+                            svg.classList.remove('bi-heart-fill');
+                            svg.classList.add('bi-heart');
+                            svg.setAttribute('fill', '#fff'); // Set fill color for unloved
+                            svg.querySelector('path').setAttribute('d', 'm8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15');
+                        }
+
+                        // Update the love count dynamically
+                        let loveCountElement = document.querySelector(`#loveCount-${postId}`);
+                        if (data.loveCount > 0) {
+                            loveCountElement.textContent = data.loveCount;
+                            loveCountElement.style.display = 'inline';
+                        } else {
+                            loveCountElement.style.display = 'none';
+                        }
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+            });
+        });
+
+        // document.getElementById('showLoversButton').addEventListener('click', function() {
+        //     const postId = {{ $post->id }};
+        //     const loversPopup = document.getElementById('loversPopup');
+        //     const loversList = document.getElementById('loversList');
+    
+        //     // Fetch lovers from the backend
+        //     fetch(`/posts/${postId}/lovers`)
+        //         .then(response => response.json())
+        //         .then(data => {
+        //             if (data.success) {
+        //                 loversList.innerHTML = ''; // Clear previous list
+                
+        //                 // Append each lover's profile image and username
+        //                 data.lovers.forEach(love => {
+        //                     const profileImage = love.user.profile && love.user.profile.image ? 'profiles/' + love.user.profile.image : 'images/user_default.png';
+        //                     const loverHtml = `
+        //                         <div class="lover-item">
+        //                             <img src="${profileImage}" alt="Profile Picture" class="post-profile rounded-circle">
+        //                             <div class="post-pf-name ms-0">
+        //                                 <a href="/profile/${love.user.id}" style="text-decoration: none; color:white;">${love.user.userName}</a>
+        //                             </div>
+        //                         </div>
+        //                     `;
+        //                     loversList.innerHTML += loverHtml;
+        //                 });
+
+        //                 // Show the popup
+        //                 loversPopup.style.display = 'block';
+        //             }
+        //         })
+        //         .catch(error => {
+        //             console.error('Error fetching lovers:', error);
+        //         });
+        // });
+
+        // // Close the popup if clicked outside
+        // window.addEventListener('click', function(event) {
+        //     const loversPopup = document.getElementById('loversPopup');
+        //     if (event.target !== loversPopup && event.target.id !== 'showLoversButton') {
+        //         loversPopup.style.display = 'none';
+        //     }
+        // });
+
     </script>
 @endsection

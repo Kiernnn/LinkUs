@@ -472,6 +472,31 @@
     background-color: #141414;
 }
 
+.nav-item {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin-left: auto;
+}
+
+.dropdown-menu {
+    color: #fff;
+    background-color: #141414;
+    border: 1px solid #fff;
+}
+
+.dropdown-item {
+    color: #fff;
+    background-color: #141414;
+    font-size: 13px;
+}
+
+.dropdown-item:hover {
+    color: #fff;
+    background-color: #141414;
+}
+
+
 .post-content {
     display: flex;
     justify-content: flex-start;
@@ -504,6 +529,21 @@
     margin-top: 0;
     margin-bottom: 0;
 }
+
+/* pop up start */
+/* .lover-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.post-profile {
+    width: 30px; 
+    height: 30px; 
+    margin-right: 10px; 
+} */
+/* pop up end */
+
 
 .post-footer .btn {
     background: none;

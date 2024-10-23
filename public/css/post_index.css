@@ -94,9 +94,10 @@
     border: white;
 }
 
-.text-danger {
-    color: red; /* Change text color to red */
-}
+
+/* .text-danger {
+    color: red; 
+} */
 
 /* .search-box {
     position: sticky;

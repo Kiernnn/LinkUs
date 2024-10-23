@@ -3,6 +3,7 @@
 
 @section('style')
     <link href="{{ asset('css/post_create.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/post_edit.css') }}" rel="stylesheet">
 @endsection
 
 @section('content')
@@ -60,8 +61,9 @@
                     </div>
                     <div class="buttons" style="display:flex;">
                         <!-- Cancel button -->
-                        <a href="{{ route('posts.index') }}" class="post-btn btn"
-                            style="margin-right: 10px;">{{ __('Cancel') }}</a>
+                        <a href="javascript:history.back()" class="post-btn btn" style="margin-right: 10px;">
+                            {{ __('Cancel') }}
+                        </a>
 
                         <!-- Update button -->
                         <button class="post-btn btn" type="submit">{{ __('Update') }}</button>

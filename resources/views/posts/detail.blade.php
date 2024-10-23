@@ -9,8 +9,14 @@
 @section('content')
     <div class="scrollable-container p-4">
 
+        
+
         <!-- Display post detail -->
         <div class="detail-content container">
+            <!-- Back button -->
+            <a href="javascript:history.back()" class="post-btn btn" style="margin-right: 10px;">
+                {{ __('Back') }}
+            </a>
             @php
                 $postProfile = $post->user->profile;
                 $hasLoved = $post->loves()->where('user_id', auth()->id())->exists();
@@ -59,6 +65,7 @@
 
                 <!-- like and comment Section -->
                 <div class="footer-info">
+                    {{-- love reaction --}}
                     <form action="{{ route('posts.toggleLove', $post->id) }}" method="POST" class="me-0"
                         style="display:inline;">
                         @csrf
@@ -91,44 +98,46 @@
                 </div>
                 <hr class="hr">
 
-                <!-- Existing comments -->
+                
+                {{-- Comment Section --}}
                 <div class="comment-sec">
+                    <!-- Existing comments -->
                     @forelse ($post->comments as $comment)
-                        <div id="commentsSection" class="comment-header d-flex mb-1">
+                        <div id="commentsSection-{{ $comment->id }}" class="comment-header d-flex mb-1" data-comment-id="{{ $comment->id }}">
                             @php
                                 $commentProfile = $comment->user->profile;
                             @endphp
                             @if ($commentProfile && $commentProfile->image && file_exists(public_path('profiles/' . $commentProfile->image)))
-                                <img src="{{ asset('profiles/' . $commentProfile->image) }}" alt="Profile Picture"
-                                    class="profile-pic mr-2">
+                                <img src="{{ asset('profiles/' . $commentProfile->image) }}" alt="Profile Picture" class="profile-pic mr-2">
                             @else
-                                <img src="{{ asset('images/user_default.png') }}" alt="Profile Picture"
-                                    class="profile-pic mr-2">
+                                <img src="{{ asset('images/user_default.png') }}" alt="Profile Picture" class="profile-pic mr-2">
                             @endif
+
                             <div class="comment-content">
-                                <a href="{{ route('profile.show', $comment->user->id) }}"
-                                    class="profile-name mb-1">{{ $comment->user->userName }}</a>
+                                <a href="{{ route('profile.show', $comment->user->id) }}" class="profile-name mb-1">{{ $comment->user->userName }}</a>
                                 <p class="content mb-1">{{ $comment->content }}</p>
                             </div>
+
                             <div class="comment-sub small">
                                 <div class="post-sub mb-2 small">
                                     <div class="post-subtitle small">
                                         {{ timeDiffInHours($comment->created_at) }}
                                     </div>
                                     @if (auth()->id() === $post->user->id || auth()->user()->can('delete', $comment))
-                                        <form action="{{ route('comments.destroy', $comment->id) }}" method="POST">
+                                        <form action="{{ route('comments.destroy', $comment->id) }}" method="POST" style="display:inline;">
                                             @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="delete-btn">{{ __('Delete') }}</button>
+                                            @method('DELETE') <!-- Specify the DELETE method -->
+                                            <button type="submit" class="delete-btn">
+                                                {{ __('DELETE')}}
+                                            </button>
                                         </form>
                                     @endif
                                 </div>
                             </div>
                         </div>
                     @empty
-                        <p class=" comment-yet">
-                            <svg xmlns="http://www.w3.org/2000/svg" height="22px" viewBox="0 -960 960 960" width="22px"
-                                fill="#fff">
+                        <p class="comment-yet" id="commentYet">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="22px" viewBox="0 -960 960 960" width="22px" fill="#fff">
                                 <path
                                     d="M880-80 720-240H320q-33 0-56.5-23.5T240-320v-40h440q33 0 56.5-23.5T760-440v-280h40q33 0 56.5 23.5T880-640v560ZM160-473l47-47h393v-280H160v327ZM80-280v-520q0-33 23.5-56.5T160-880h440q33 0 56.5 23.5T680-800v280q0 33-23.5 56.5T600-440H240L80-280Zm80-240v-280 280Z" />
                             </svg>
@@ -141,8 +150,7 @@
                         <form action="{{ route('comments.store', $post->id) }}" id="commentForm" method="POST">
                             @csrf
                             <div class="comment-box">
-                                <input type="text" name="content" placeholder="Write a comment..."
-                                    class="comment-input" />
+                                <input type="text" name="content" placeholder="Write a comment..." class="comment-input" />
                                 <button class="send-btn" type="submit">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 664 663">
                                         <path fill="none"
@@ -156,6 +164,7 @@
                                 </button>
                             </div>
                         </form>
+
                         @if (session('error'))
                             <div class="alert alert-danger mt-2">
                                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960"
@@ -168,6 +177,7 @@
                         @endif
                     </div>
                 </div>
+
             </div>
         </div>
     @endsection
@@ -175,53 +185,49 @@
     @section('script')
         <script>
             $(document).ready(function() {
+                // Handle comment submission
                 $('#commentForm').on('submit', function(e) {
-                    e.preventDefault(); // Prevent the form from submitting the traditional way
-
+                    e.preventDefault();
+                    // AJAX call for adding comment
                     $.ajax({
-                        url: $(this).attr('action'), // The URL of your form action
+                        url: $(this).attr('action'),
                         method: 'POST',
-                        data: $(this).serialize(), // Serialize form data
+                        data: $(this).serialize(),
                         success: function(response) {
                             if (response.success) {
-                                // Append the new comment to the comment section
+                                // Construct new comment HTML
                                 let newComment = `
-                        <div id="commentsSection" class="comment-header d-flex mb-1">
-                            <img src="${response.commentUserProfileImage}" alt="Profile Picture" class="profile-pic mr-2">
-                            <div class="comment-content">
-                                <a href="/profile/${response.commentUserId}" class="profile-name mb-1">${response.commentUserName}</a>
-                                <p class="content mb-1">${response.commentContent}</p>
-                            </div>
-                            <div class="comment-sub small">
-                                <div class="post-sub mb-2 small">
-                                    <div class="post-subtitle small">
-                                        ${response.commentTimeAgo}
-                                    </div>
-                                    <form action="/comments/${response.commentId}" method="POST">
-                                        <input type="hidden" name="_token" value="${response.csrfToken}">
-                                        <input type="hidden" name="_method" value="DELETE">
-                                        <button type="submit" class="delete-btn">Delete</button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>`;
+                                    <div id="commentsSection-${response.commentId}" class="comment-header d-flex mb-1">
+                                        <img src="${response.commentUserProfileImage}" alt="Profile Picture" class="profile-pic mr-2">
+                                        <div class="comment-content">
+                                            <a href="/profile/${response.commentUserId}" class="profile-name mb-1">${response.commentUserName}</a>
+                                            <p class="content mb-1">${response.commentContent}</p>
+                                        </div>
+                                        <div class="comment-sub small">
+                                            <div class="post-sub mb-2 small">
+                                                <div class="post-subtitle small">
+                                                    ${response.commentTimeAgo}
+                                                </div>
+                                                <button type="button" class="delete-btn btn btn-danger" data-comment-id="${response.commentId}">
+                                                    Delete
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>`;
 
-                                // Append the new comment to the comment section
-                                $('#commentsSection').append(newComment);
-
-                                // Reset the comment input field
+                                $('.comment-sec').prepend(newComment);
+                                $('.comment-yet').hide();
                                 $('#commentForm').find('.comment-input').val('');
                             } else {
-                                // Handle error case (e.g., show a validation message)
                                 alert('Error adding comment.');
                             }
                         },
                         error: function(xhr, status, error) {
-                            // Handle AJAX error
                             alert('Something went wrong. Please try again.');
                         }
                     });
                 });
             });
+
         </script>
     @endsection

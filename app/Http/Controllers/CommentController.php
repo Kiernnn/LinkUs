@@ -14,8 +14,12 @@ class CommentController extends Controller
 {
     public function index($id) {
         try {
-            $data = Post::findOrFail($id);
-            return view('posts.detail', ['post' => $data]);
+            // $data = Post::findOrFail($id);
+            $post = Post::with(['comments' => function ($query) {
+                $query->orderBy('created_at', 'desc');
+            }])->findOrFail($id);
+            
+            return view('posts.detail', ['post' => $post]);
         } catch (Exception $e) {
             return redirect()->route('posts.index')->with('error', 'Write something to comment!');
         }
@@ -49,12 +53,11 @@ class CommentController extends Controller
     {
         try {
             $this->authorize('delete', $comment);
-
             $comment->delete();
 
-            return response()->json(['success' => 'Comment deleted successfully.']);
+            return redirect()->back()->with('success', 'Comment deleted successfully.');
         } catch (Exception $e) {
-            return response()->json(['error' => 'Failed to delete comment: ' . $e->getMessage()], 400);
+            return redirect()->back()->with('error', 'Failed to delete comment: ' . $e->getMessage());
         }
     }
 }
