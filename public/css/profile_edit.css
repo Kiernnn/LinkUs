@@ -1,0 +1,241 @@
+.profile-content {
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: center;
+   margin-left: 60px;
+}
+
+.profile {
+   color: #fff;
+   font-weight: bold;
+   margin-bottom: 20px;
+}
+
+.post-form-container {
+   background-color: #141414;
+   border: 1px solid #333;
+   border-radius: 20px;
+   padding: 20px;
+   width: 500px;
+   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.form-wrapper {
+   display: flex;
+   justify-content: space-between;
+   width: 100%;
+}
+
+.edit-wrapper {
+   display: flex;
+   flex-direction: column;
+   justify-content: flex-start;
+   color: #fff;
+   position: relative;
+   width: 350px;
+   margin: 0 5px;
+   align-self: flex-start;
+}
+
+.label-name {
+   color: #fff;
+   font-weight: bold;
+   margin-bottom: 10px;
+}
+
+.subname {
+   display: flex;
+   align-items: center;
+}
+
+.subname svg {
+   margin-right: 5px;
+   display: block;
+}
+
+.firstName, .lastName, .profile-name {
+   font-size: 14px;
+   margin: 0 5px 0 0;
+   line-height: 1;
+}
+
+.underline {
+   margin-top: 5px;
+}
+
+.form-control {
+   color: #fff;
+   background-color: #141414;
+   border: 1px solid #3e3e3e;
+   border-radius: 8px;
+   height: 30px;
+   font-size: 14px;
+}
+
+.form-control:focus {
+   color: #fff;
+   background-color: #141414;
+   border: 1px solid #fff;
+   border-radius: 8px;
+}
+
+.profile-wrapper {
+   display: flex;
+   margin-left: 30px;
+}
+
+.profile-pic {
+   background-size: cover;
+   border-radius: 50%;
+   width: 60px;
+   height: 60px;
+   margin-left: auto;
+   z-index: 0;
+}
+
+.upload_svg {
+   z-index: 1;
+   position: fixed;
+   background-color: #3e3e3e;
+   border-radius: 50%;
+   bottom: 560px;
+   margin-left: 44px;
+   cursor: pointer;
+}
+
+.post-btn {
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   background-color: #f0f0f0;
+   border: 1px solid #3e3e3e;
+   border-radius: 8px;
+   color: #000;
+   width: 100%;
+   height: 35px;
+   padding: 14px 24px;
+   text-decoration: none;
+   font-size: 16px;
+   font-weight: bold;
+   margin: 14px 0;
+   cursor: pointer;
+}
+
+.post-btn:hover {
+   color: #000;
+   background-color: #cccccc;
+   border: 1px solid #3e3e3e;
+}
+
+.alert {
+   margin-top: 10px;
+   padding: 10px;
+   border-radius: 5px;
+}
+
+.alert-danger {
+   background-color: #dc3545;
+   color: #fff;
+}
+
+.alert-success {
+    background-color: #35dc98;
+    color: #fff;
+}
+
+/* Responsive for max-width: 1024px */
+@media (max-width: 1024px) {
+    .post-form-container {
+       width: 500px;
+       padding: 15px;
+    }
+
+    .profile-wrapper {
+       margin-left: 15px;
+    }
+
+    .upload_svg {
+        bottom: 560px;
+        margin-left: 44px;
+    }
+
+    .edit-wrapper {
+       width: 300px;
+    }
+ }
+
+ /* Responsive for max-width: 768px */
+ @media (max-width: 768px) {
+    .profile {
+       margin-right: 10%;
+    }
+
+    .post-form-container {
+       width: 400px;
+       padding: 10px;
+       margin-right: 10%;
+    }
+
+    .profile-wrapper {
+       margin-left: 10px;
+    }
+
+    .upload_svg {
+        bottom: 570px;
+        margin-left: 44px;
+    }
+
+    .edit-wrapper {
+       width: 250px;
+       margin: 0 5px;
+    }
+
+    .post-btn {
+       font-size: 14px;
+       height: 30px;
+       padding: 10px 20px;
+    }
+ }
+
+ /* Responsive for max-width: 480px */
+ @media (max-width: 480px) {
+    .profile {
+        margin-right: 20%;
+    }
+
+    .post-form-container {
+       width: 100%;
+       margin-right: 20%;
+    }
+
+    .profile-wrapper {
+       margin-left: 0;
+    }
+
+    .upload_svg {
+       bottom: 580px;
+       margin-left: 35px;
+    }
+
+    .edit-wrapper {
+       width: 100%;
+       margin: 0;
+    }
+
+    .post-btn {
+       font-size: 12px;
+       height: 30px;
+       padding: 8px 16px;
+    }
+
+    .form-control {
+       font-size: 12px;
+       height: 25px;
+    }
+
+    .profile-pic {
+       width: 50px;
+       height: 50px;
+    }
+ }
