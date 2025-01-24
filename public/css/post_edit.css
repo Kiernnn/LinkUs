@@ -1,0 +1,80 @@
+.form-actions {
+    position: relative;
+}
+
+#add-image-icon {
+    cursor: pointer;
+    /* display: none;  */
+}
+
+.file-input {
+    display: none;
+    /* Hide the actual file input */
+}
+
+.image-container {
+    position: relative;
+    display: inline-block;
+}
+
+.preview-img {
+    display: block;
+    transition: opacity 0.3s ease;
+}
+
+.image-container:hover .preview-img {
+    opacity: 0.3;
+}
+
+.delete-btn {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgb(20, 20, 20);
+    border: none;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.164);
+    cursor: pointer;
+    transition-duration: 0.3s;
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 30px;
+    text-align: center;
+}
+
+.svgIcon {
+    width: 12px;
+    transition-duration: 0.3s;
+}
+
+.svgIcon path {
+    fill: white;
+}
+
+.delete-btn:hover {
+    display: flex;
+    transition-duration: 0.3s;
+    background-color: #dc3545;
+    align-items: center;
+    gap: 0;
+}
+
+.bin-top {
+    transform-origin: bottom right;
+}
+
+.delete-btn:hover .bin-top {
+    transition-duration: 0.5s;
+    transform: rotate(160deg);
+}
+
+.image-container:hover .delete-btn {
+    display: flex;
+}

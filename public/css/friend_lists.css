@@ -1,0 +1,239 @@
+.friends-content::-webkit-scrollbar {
+    display: none;
+    width: 8px;
+    background-color: #292929;
+}
+
+.friends-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    margin-left: 60px;
+    height: 100vh;
+    overflow-y: auto;
+    padding-bottom: 2%;
+}
+
+.friends {
+    display: flex;
+    color: #fff;
+    font-size: 16px;
+    font-weight: bold;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    text-decoration: none;
+}
+
+.friends {
+    color: #fff;
+    font-size: 16px;
+    font-weight: bold;
+    text-decoration: none;
+    margin-bottom: 10px;
+}
+
+.fri-form-container {
+    background-color: #141414;
+    border: 1px solid #333;
+    border-radius: 20px;
+    padding: 20px;
+    width: 600px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.friends-info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    color: #fff;
+    margin-bottom: 10px;
+}
+
+.friend-requests {
+    color: #fff;
+    font-size: 16px;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.post-header {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-bottom: 10px;
+}
+
+.friends-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: opacity 0.3s ease, height 0.3s ease;
+}
+
+.profile {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: row;
+    text-decoration: none;
+    transition: opacity 0.3s ease, height 0.3s ease;
+    overflow: hidden;
+}
+
+.profile-pic {
+    color: #fff;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+}
+
+.profile-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.profile-name {
+    color: #fff;
+    font-size: 14px;
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.unfriend {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+    width: 100px;
+    height: 40px;
+    padding: 0 16px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 16px;
+    margin: 0;
+    cursor: pointer;
+    white-space: nowrap;
+    color: #fff;
+    background-color: #292929;
+    border: 1px solid #3e3e3e;
+}
+
+.unfriend:hover {
+    color: #fff;
+    border: 1px solid #3e3e3e;
+}
+
+.friend-list{
+    text-decoration: none;
+}
+
+/* Responsive for max-width: 1024px */
+@media (max-width: 1024px) {
+    .fri-form-container {
+       width: 500px;
+       padding: 15px;
+    }
+
+    .friends-content {
+       margin-left: 40px;
+    }
+
+    .friends {
+       font-size: 14px;
+    }
+
+    .profile-pic {
+       width: 35px;
+       height: 35px;
+    }
+
+    .unfriend {
+       width: 90px;
+       height: 35px;
+       font-size: 14px;
+    }
+ }
+
+ /* Responsive for max-width: 768px */
+ @media (max-width: 768px) {
+    .fri-form-container {
+       width: 400px;
+       padding: 10px;
+    }
+
+    .friends-content {
+       margin-left: 20px;
+    }
+
+    .friends {
+       font-size: 12px;
+    }
+
+    .profile-pic {
+       width: 30px;
+       height: 30px;
+    }
+
+    .unfriend {
+       width: 80px;
+       height: 30px;
+       font-size: 12px;
+    }
+ }
+
+ /* Responsive for max-width: 480px */
+ @media (max-width: 480px) {
+    .fri-form-container {
+       width: 100%;
+       padding: 10px;
+    }
+
+    .friends-content {
+       margin-left: 0;
+       padding-bottom: 5%;
+    }
+
+    .friends {
+       font-size: 10px;
+       margin-bottom: 5px;
+    }
+
+    .friends-info {
+       flex-direction: column;
+       align-items: flex-start;
+    }
+
+    .profile-pic {
+       width: 25px;
+       height: 25px;
+    }
+
+    .profile {
+       flex-direction: column;
+       align-items: flex-start;
+    }
+
+    .buttons {
+       flex-direction: column;
+       gap: 5px;
+    }
+
+    .unfriend {
+       width: 70px;
+       height: 25px;
+       font-size: 10px;
+    }
+ }
